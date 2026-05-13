@@ -1,15 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 :root {
     --purple-grad: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%);
     --bg-light: #f8f9fe;
-    --button-gray: #cccccc; /* Cor cinza dos botões da imagem */
     --white: #ffffff;
 }
 
 * {
     margin: 0; padding: 0; box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Poppins', sans-serif; /* Aplica Poppins no projeto todo */
 }
-
 body { background-color: var(--bg-light); }
 
 .dashboard-container { display: flex; height: 100vh; padding: 15px; }
@@ -76,27 +76,44 @@ body { background-color: var(--bg-light); }
 /* LISTA DE DISCIPLINAS */
 .title-page { font-size: 32px; margin-bottom: 40px; color: #111; }
 
+/* Container que organiza os botões */
 .disciplinas-list {
     display: flex;
-    flex-direction: column;
-    gap: 25px;
-    max-width: 500px; /* Largura controlada para os botões não esticarem demais */
+    flex-wrap: wrap;      /* Faz os botões irem para o lado e pularem linha */
+    gap: 20px;            /* Espaço entre eles */
+    width: 100%;
+    max-width: 100%;      /* Libera todo o espaço em branco da direita */
 }
 
+/* O Botão Estilo "Barra Roxa" Centralizado */
 .disciplina-button {
-    background-color: var(--button-gray);
-    color: #333;
+    background: var(--purple-grad);
+    color: white;
     text-decoration: none;
     padding: 18px 30px;
-    border-radius: 15px;
-    font-size: 18px;
+    border-radius: 30px; /* Bem arredondado como na tela de exercícios */
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
     font-weight: 500;
+    
+    /* Centraliza o texto no meio do botão */
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: all 0.2s ease;
+
+    /* Define o tamanho para caberem 2 ou 3 por linha */
+    flex: 1 1 calc(45% - 20px); /* 45% faz caberem 2 colunas grandes */
+    min-width: 300px;           /* Impede que fiquem muito pequenos */
+    
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 12px rgba(109, 57, 207, 0.2);
 }
 
+/* Efeito Hover */
 .disciplina-button:hover {
-    background-color: #bbbbbb;
-    transform: translateX(5px); /* Efeito suave de movimento ao passar o mouse */
+    transform: translateY(-3px);
+    filter: brightness(1.1);
+    box-shadow: 0 6px 18px rgba(109, 57, 207, 0.4);
 }
