@@ -1,0 +1,199 @@
+/* Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    padding: 25px;
+    gap: 40px;
+}
+
+/* Estilo Sidebar */
+.sidebar-lateral {
+    width: 280px;
+    background: linear-gradient(180deg, #9d62d9 0%, #6a3eb3 100%);
+    border-radius: 35px;
+    padding: 45px 30px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    box-shadow: 0 10px 30px rgba(106, 62, 179, 0.2);
+}
+
+.cap-wrapper {
+    font-size: 45px;
+    background: rgba(255, 255, 255, 0.15);
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    margin: 0 auto 50px auto;
+}
+
+.nav-links {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: 0.2s;
+}
+
+.nav-item:hover, .nav-item.active {
+    color: white;
+    font-weight: 600;
+}
+
+.icon-box {
+    width: 14px;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.active .icon-box {
+    background: white;
+}
+
+.btn-sair {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    padding-top: 20px;
+}
+
+/* Área de Conteúdo */
+.main-content {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 45px;
+}
+
+.input-busca {
+    background: #f8f8f8;
+    border: none;
+    padding: 14px 25px;
+    border-radius: 50px;
+    width: 380px;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+    outline: none;
+}
+
+.perfil-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.texto-usuario {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+}
+
+.nome {
+    font-size: 14px;
+    color: #333;
+}
+
+.status {
+    font-size: 12px;
+    color: #4CAF50;
+}
+
+.foto-perfil {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #eee;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 5px;
+}
+
+.titulo-secao {
+    font-size: 26px;
+    color: #222;
+    margin-bottom: 30px;
+}
+
+/* Botões de Exercícios */
+.grid-exercicios {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.card-exercicio {
+    width: 100%;
+    background-color: #9d62d9;
+    color: white;
+    border: none;
+    padding: 18px 40px;
+    border-radius: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-exercicio:hover {
+    background-color: #8349c2;
+    transform: scale(1.01);
+    box-shadow: 0 5px 15px rgba(157, 98, 217, 0.3);
+}
+
+.card-exercicio:active {
+    transform: scale(0.99);
+}
+
+.tema {
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-size: 14px;
+}
+
+.valor {
+    font-size: 20px;
+    font-weight: 600;
+}

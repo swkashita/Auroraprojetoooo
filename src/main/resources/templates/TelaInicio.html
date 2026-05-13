@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora - Início</title>
+
+    <link rel="stylesheet" href="/TelaInicio.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+
+        <aside class="sidebar-main">
+
+            <div class="logo-section">
+                <div class="icon-wrapper">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="/inicio" class="nav-item active">
+                    <i class="fas fa-th-large"></i> Início
+                </a>
+
+                <a href="/disciplinas" class="nav-item">
+                    <i class="fas fa-book"></i> Disciplinas
+                </a>
+
+                <a href="/exercicios" class="nav-item">
+                    <i class="fas fa-edit"></i> Exercícios
+                </a>
+
+                <a href="/provas" class="nav-item">
+                    <i class="fas fa-file-alt"></i> Provas anteriores
+                </a>
+
+                <a href="/material" class="nav-item">
+                    <i class="fas fa-plus-circle"></i> Material extra
+                </a>
+
+                <a href="/perfil" class="nav-item">
+                    <i class="fas fa-user"></i> Perfil
+                </a>
+                </nav>
+
+            <div class="spacer"></div>
+
+            <div class="sidebar-footer-actions">
+                <a href="/login" class="footer-item">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </a>
+
+                <a href="/login-admin" class="admin-gear-btn">
+                    <i class="fas fa-cog"></i>
+                </a>
+            </div>
+
+        </aside>
+
+        <main class="main-layout">
+
+            <header class="header-top">
+                <div class="search-global">
+                    <input type="text" placeholder="Pesquisar">
+                </div>
+
+                <div class="user-header-mini">
+                    <img src="https://via.placeholder.com/30" alt="Avatar" class="mini-avatar">
+
+                    <div class="mini-text">
+                        <span class="mini-name" th:text="${usuario.nome}">Eduardo Costa</span>
+                        <span class="mini-status">Online</span>
+                    </div>
+
+                    <i class="far fa-bell"></i>
+                    <a href="/login-admin" style="color: inherit; text-decoration: none;">
+                        <i class="fas fa-cog"></i>
+                    </a>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <div class="left-column">
+                    <div class="banner-welcome">
+                        <div class="banner-text">
+                            <h2>Transforme seu futuro com o Cursinho Aurora 100% gratuito!</h2>
+                            <p>Luminando Futuro</p>
+                        </div>
+                        <img src="https://via.placeholder.com/150" alt="Estudante" class="banner-img">
+                    </div>
+
+                    <div class="info-card">
+                        <p>
+                            Aurora oferece uma preparação focada e de alto nível, ideal para quem busca o domínio absoluto das duas áreas mais cruciais para o ENEM, vestibulares e concursos: Português e Matemática. Nosso programa garante apoio máximo com teoria aprofundada, exercícios resolvidos e orientação especializada para você construir uma base firme, rápida e confiável.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="right-column">
+                    <div class="profile-card">
+                        <div class="profile-main">
+                            <div class="avatar-large">
+                                <img src="https://via.placeholder.com/100" alt="Avatar do usuário">
+                                <button class="btn-add-photo">+</button>
+                            </div>
+                            <h3 th:text="${usuario.nome}">Eduardo Costa</h3>
+                            <span class="badge">Estudante</span>
+                        </div>
+                    </div>
+
+                    <div class="location-card">
+                        <h4>Localização <i class="fas fa-map-marker-alt"></i></h4>
+                        <div class="location-input">Piracicaba - SP</div>
+                    </div>
+
+                    <div class="calendar-card">
+                        <h4>Calendário</h4>
+                        <ul class="event-list">
+                            <li><strong>01/10</strong> - Inscrições ENEM-UNICAMP</li>
+                            <li><strong>23/10</strong> - 2ª Fase IME</li>
+                            <li><strong>27/10</strong> - 2ª Fase UEL</li>
+                            <li><strong>02/11</strong> - 1ª Fase UNESP</li>
+                            <li><strong>09/11</strong> - ENEM</li>
+                            <li><strong>16/11</strong> - ENEM</li>
+                            <li><strong>23/11</strong> - 1ª Fase FUVEST</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora - Cadastro</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Lily+Script+One&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main class="container">
+        <section class="form-side">
+            <div class="form-box">
+                <h1 class="title">Cadastrar</h1>
+                <p class="subtitle">Informe seus dados</p>
+
+                <form th:action="@{/cadastro}" th:object="${usuario}" method="post">
+                
+                    <div th:if="${param.erro == 'email_existente'}" style="color: #ff4d4d; margin-bottom: 15px; font-weight: bold;">
+                        Este e-mail já está em uso!
+                    </div>
+
+                    <div class="input-group">
+                        <label>Nome</label>
+                        <input type="text" th:field="*{nome}" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" th:field="*{email}" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Telefone</label>
+                        <input type="tel" th:field="*{telefone}" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Senha</label>
+                        <input type="password" th:field="*{senha}" required>
+                    </div>
+                    <button type="submit" class="btn-cadastrar">Cadastrar</button>
+                    
+                    <p class="subtitle" style="margin-top: 15px;">
+                        Já tem conta? <a th:href="@{/login}" style="color: #6a5acd; font-weight: bold;">Faça Login</a>
+                    </p>
+                </form>
+            </div>
+        </section>
+
+        <section class="logo-side">
+            <div class="brand-container">
+                <span class="star star-top">✦</span>
+                <div class="logo-main">
+                    <h2 class="brand-text">Aurora</h2>
+                    <span class="cap-icon">🎓</span>
+                </div>
+                <p class="slogan">Iluminando Futuro</p>
+                <span class="star star-bottom">✦</span>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

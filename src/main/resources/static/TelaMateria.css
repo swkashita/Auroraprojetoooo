@@ -1,0 +1,143 @@
+:root {
+    --purple-grad: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%);
+    --bg-light: #f8f9fe;
+    --text-main: #2d2d2d;
+    --text-muted: #9e9e9e;
+    --white: #ffffff;
+}
+
+* {
+    margin: 0; padding: 0; box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body { background-color: var(--bg-light); color: var(--text-main); }
+
+.dashboard-container { display: flex; height: 100vh; padding: 15px; }
+
+/* BARRA LATERAL */
+.sidebar-materia {
+    width: 260px;
+    background: var(--purple-grad);
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 20px;
+    box-shadow: 0 10px 30px rgba(109, 57, 207, 0.2);
+}
+
+.logo-section { text-align: center; margin-bottom: 50px; }
+.icon-wrapper {
+    background: rgba(255, 255, 255, 0.2);
+    width: 90px; height: 90px;
+    border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto; color: white; font-size: 45px;
+}
+
+.nav-menu { display: flex; flex-direction: column; height: 100%; }
+.nav-item {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    padding: 14px 18px;
+    margin-bottom: 5px;
+    font-size: 15px;
+    display: flex; align-items: center;
+    transition: 0.3s;
+}
+
+.nav-item i { margin-right: 15px; width: 20px; text-align: center; }
+.nav-item.active {
+    background: rgba(255, 255, 255, 0.15);
+    color: white; border-radius: 12px; font-weight: 600;
+}
+.spacer { flex-grow: 1; }
+
+/* CONTEÚDO PRINCIPAL */
+.main-layout { flex: 1; padding: 10px 40px; overflow-y: auto; }
+
+.header-top {
+    display: flex; justify-content: center; align-items: center;
+    margin-bottom: 40px; position: relative;
+}
+
+.search-global input {
+    width: 450px; padding: 12px 25px;
+    border-radius: 30px; border: none;
+    background: var(--white);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+}
+
+.top-icons { position: absolute; right: 0; font-size: 20px; color: #444; }
+.top-icons i { margin-left: 20px; cursor: pointer; }
+
+/* TABELA E FILTROS */
+.title-materia { font-size: 32px; margin-bottom: 25px; font-weight: 700; }
+
+.filter-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px;
+}
+
+.filter-row h2 { font-size: 18px; color: #444; }
+
+.controls { display: flex; gap: 15px; }
+
+.dropdown-filter, .search-inner {
+    background: white; padding: 10px 20px;
+    border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    display: flex; align-items: center; font-size: 14px;
+}
+
+.search-inner input { border: none; outline: none; margin-left: 10px; }
+.search-inner i { color: var(--text-muted); }
+
+/* ITENS DA LISTA */
+.list-header {
+    display: grid; grid-template-columns: 60px 1fr 100px;
+    padding: 10px 30px; color: var(--text-muted); font-size: 13px;
+}
+
+.list-item {
+    background: white;
+    margin-bottom: 15px;
+    padding: 15px 30px;
+    border-radius: 40px;
+    display: grid;
+    grid-template-columns: 60px 1fr 100px;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    transition: transform 0.2s;
+}
+
+.list-item:hover { transform: translateY(-2px); }
+
+.badge {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-right: 15px; font-weight: bold; font-size: 12px; color: white;
+}
+
+/* Cores dos Badges (Simulando a imagem) */
+.b1 { background: #E8E1FF; color: #8a64eb; }
+.b2 { background: #D6E4FF; color: #5a8dee; }
+.b3 { background: #C8B2FF; color: #7b42f5; }
+.b4, .b5 { background: #6d39cf; }
+.b6 { background: #5544a0; }
+.b7 { background: #40337a; }
+.b8 { background: #2a2252; }
+
+/* PAGINAÇÃO */
+.paginacao {
+    display: flex; justify-content: flex-end;
+    gap: 8px; margin-top: 30px; padding-bottom: 40px;
+}
+
+.pg-num {
+    width: 35px; height: 35px; display: flex;
+    align-items: center; justify-content: center;
+    border-radius: 10px; cursor: pointer; font-size: 14px;
+}
+
+.pg-num.active { background: #8a64eb; color: white; }
+.pg-dots { align-self: flex-end; padding-bottom: 5px; color: var(--text-muted); }

@@ -1,0 +1,119 @@
+:root {
+    --purple-grad: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%);
+    --bg-light: #f8f9fe;
+    --white: #ffffff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+body { background-color: var(--bg-light); color: #333; }
+
+/* Container Principal em 3 colunas */
+.dashboard-container { 
+    display: flex; 
+    height: 100vh; 
+    padding: 15px; 
+    gap: 20px; 
+}
+
+/* 1. SIDEBAR ESQUERDA  */
+.sidebar-main {
+    width: 260px;
+    min-width: 260px;
+    background: var(--purple-grad);
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 20px;
+}
+
+.logo-section .icon-wrapper {
+    background: rgba(255, 255, 255, 0.2);
+    width: 80px; height: 80px; border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 50px; color: white; font-size: 40px;
+}
+
+.nav-menu { display: flex; flex-direction: column; height: 100%; }
+
+.nav-item {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    padding: 15px 20px;
+    display: flex; align-items: center;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.nav-item.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: white; border-radius: 12px; font-weight: 600;
+}
+
+.nav-item i { margin-right: 15px; width: 20px; text-align: center; }
+.spacer { flex-grow: 1; }
+
+/* 2. CONTEÚDO CENTRAL (FORMULÁRIO) */
+.main-layout { 
+    flex: 1; 
+    padding: 0 10px; 
+    overflow-y: auto; 
+    display: flex;
+    flex-direction: column;
+}
+
+.header-top { display: flex; justify-content: flex-start; margin: 10px 0 30px; }
+.search-global input {
+    width: 300px; padding: 10px 20px; border-radius: 20px;
+    border: none; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.dashboard-content { display: flex; flex-direction: column; gap: 20px; }
+
+/* Cartões Brancos do Perfil */
+.info-card-perfil {
+    background: white; 
+    border-radius: 25px; 
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+.card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; }
+.btn-save {
+    background: #000; color: #fff; border: none;
+    padding: 10px 30px; border-radius: 20px; font-weight: bold; cursor: pointer;
+}
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.input-wrap { display: flex; flex-direction: column; gap: 8px; }
+.input-wrap label { font-size: 13px; font-weight: 600; color: #888; }
+.input-wrap input {
+    padding: 12px; border-radius: 12px; border: 1px solid #f0f0f0; background: #f9f9f9;
+}
+
+/* Box de Resumo (Visualização) */
+.display-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px; }
+.info-cell strong { font-size: 12px; color: #bbb; text-transform: uppercase; }
+.info-cell p { font-size: 16px; font-weight: 500; margin-top: 5px; }
+
+/* 3. COLUNA DIREITA (IDENTICA À HOME) */
+.right-column { width: 300px; display: flex; flex-direction: column; gap: 20px; }
+
+.profile-card, .location-card, .calendar-card {
+    background: white; border-radius: 25px; padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center;
+}
+
+.avatar-large { position: relative; width: 100px; margin: 0 auto 15px; }
+.avatar-large img { width: 100px; height: 100px; border-radius: 50%; background: #eee; object-fit: cover; }
+.btn-add-photo {
+    position: absolute; bottom: 0; right: 0; width: 30px; height: 30px;
+    background: #000; color: #fff; border: none; border-radius: 50%; cursor: pointer;
+}
+
+.badge { background: #f0f0f0; padding: 5px 15px; border-radius: 15px; font-size: 12px; display: inline-block; margin-top: 10px; }
+
+.location-card h4, .calendar-card h4 { margin-bottom: 15px; font-size: 15px; text-align: left; }
+.location-input { background: #f8f8f8; padding: 12px; border-radius: 15px; font-size: 14px; text-align: left; }
+
+.event-list { list-style: none; text-align: left; }
+.event-list li { font-size: 13px; padding: 8px 0; border-bottom: 1px solid #f5f5f5; }

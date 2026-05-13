@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora - Assistindo Aula</title>
+    <link rel="stylesheet" href="/TelaAssistir.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <aside class="sidebar-main">
+            <div class="logo-section">
+                <div class="icon-wrapper"><i class="fas fa-graduation-cap"></i></div>
+            </div>
+            <nav class="nav-menu">
+                <a href="/inicio" class="nav-item"><i class="fas fa-th-large"></i> Início</a>
+                <a href="/disciplinas" class="nav-item active"><i class="fas fa-book"></i> Disciplinas</a>
+                <a href="/exercicios" class="nav-item"><i class="fas fa-edit"></i> Exercícios</a>
+                <a href="/provas" class="nav-item"><i class="fas fa-file-alt"></i> Provas anteriores</a>
+                <a href="/material" class="nav-item"><i class="fas fa-plus-circle"></i> Material extra</a>
+                <a href="/perfil" class="nav-item"><i class="fas fa-user"></i> Perfil</a>
+                <div class="spacer"></div>
+                <a href="/logout" class="nav-item logout"><i class="fas fa-sign-out-alt"></i> Sair</a>
+            </nav>
+        </aside>
+
+        <main class="main-layout">
+            <div style="margin-bottom: 20px;">
+                <a href="javascript:history.back()" style="text-decoration: none; color: #9b6bff; font-weight: 600;">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </a>
+            </div>
+
+            <div class="video-wrapper">
+                <iframe th:src="${aula.urlLink}" allowfullscreen></iframe>
+            </div>
+            
+            <div class="video-info-box">
+                <h1 th:text="${aula.titulo}">Título da Aula</h1>
+                <p th:text="${aula.descricao}" style="color: #666; margin-top: 10px;">
+                    Descrição da aula...
+                </p>
+            </div>
+        </main>
+
+        <aside class="right-column">
+            <h3 style="margin-bottom: 20px; color: #333;">Outras aulas</h3>
+            <div class="playlist-items">
+                <div class="playlist-item" th:each="outra : ${aulas}" 
+                     th:classappend="${outra.id == aula.id} ? 'active-item' : ''">
+                    <a th:href="@{'/assistir/' + ${outra.id}}" style="text-decoration: none; color: inherit;">
+                        <strong th:text="${outra.titulo}">Título</strong>
+                        <span th:if="${outra.id == aula.id}" style="display:block; font-size: 12px; color: #9b6bff;">Assistindo agora</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+</body>
+</html>

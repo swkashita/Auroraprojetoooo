@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TelaMateria - Matemática</title>
+    <link rel="stylesheet" href="TelaMateria.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar-materia">
+            <div class="logo-section">
+                <div class="icon-wrapper">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active"><i class="fas fa-th-large"></i> Início</a>
+                <a href="#" class="nav-item"><i class="fas fa-book"></i> Disciplinas</a>
+                <a href="#" class="nav-item"><i class="fas fa-edit"></i> Exercícios</a>
+                <a href="#" class="nav-item"><i class="fas fa-file-alt"></i> Provas anteriores</a>
+                <a href="#" class="nav-item"><i class="fas fa-plus-circle"></i> Material extra</a>
+                <a href="#" class="nav-item"><i class="fas fa-user"></i> Perfil</a>
+                <div class="spacer"></div>
+                <a href="#" class="nav-item logout"><i class="fas fa-sign-out-alt"></i> Sair</a>
+            </nav>
+        </aside>
+
+        <main class="main-layout">
+            <header class="header-top">
+                <div class="search-global">
+                    <input type="text" placeholder="Pesquisar">
+                </div>
+                <div class="top-icons">
+                    <i class="far fa-bell"></i>
+                    <i class="fas fa-cog"></i>
+                </div>
+            </header>
+
+            <section class="content-body">
+                <h1 class="title-materia">Matemática</h1>
+
+                <div class="filter-row">
+                    <h2>Material encontrado:</h2>
+                    <div class="controls">
+                        <div class="dropdown-filter">
+                            <span>All</span> <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="search-inner">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Pesquisar">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-container">
+                    <div class="list-header">
+                        <span class="col-id">#</span>
+                        <span class="col-subject">Assunto</span>
+                        <span class="col-lessons">Aulas</span>
+                    </div>
+
+                    <div class="list-item">
+                        <span class="col-id">1.</span>
+                        <div class="col-subject"><span class="badge b1">E</span> Estatística</div>
+                        <span class="col-lessons">4</span>
+                    </div>
+                    <div class="list-item">
+                        <span class="col-id">2.</span>
+                        <div class="col-subject"><span class="badge b2">A</span> Análise combinatória</div>
+                        <span class="col-lessons">3</span>
+                    </div>
+                    <div class="list-item">
+                        <span class="col-id">3.</span>
+                        <div class="col-subject"><span class="badge b3">P</span> Probabilidade</div>
+                        <span class="col-lessons">2</span>
+                    </div>
+                    <div class="list-item">
+                        <span class="col-id">4.</span>
+                        <div class="col-subject"><span class="badge b4">F</span> Funções</div>
+                        <span class="col-lessons">5</span>
+                    </div>
+                    <div class="list-item">
+                        <span class="col-id">5.</span>
+                        <div class="col-subject"><span class="badge b5">F</span> Fração</div>
+                        <span class="col-lessons">3</span>
+                    </div>
+                    <div class="list-item">
+                        <span class="col-id">6.</span>
+                        <div class="col-subject"><span class="badge b6">RP</span> Razão e proporção</div>
+                        <span class="col-lessons">4</span>
+                    </div>
+                    <div class="list-item">
+                        <span class="col-id">7.</span>
+                        <div class="col-subject"><span class="badge b7">GP</span> Geometria Plana</div>
+                        <span class="col-lessons">5</span>
+                    </div>
+                    <div class="list-item">
+                        <span class="col-id">8.</span>
+                        <div class="col-subject"><span class="badge b8">GA</span> Geometria Analítica</div>
+                        <span class="col-lessons">5</span>
+                    </div>
+                </div>
+
+                <div class="paginacao">
+                    <span class="pg-num active">1</span>
+                    <span class="pg-num">2</span>
+                    <span class="pg-num">3</span>
+                    <span class="pg-dots">...</span>
+                    <span class="pg-num">8</span>
+                    <span class="pg-num">9</span>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

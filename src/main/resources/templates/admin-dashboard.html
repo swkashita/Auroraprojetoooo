@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Admin - Painel Geral</title>
+
+    <link rel="stylesheet" href="/AdminStyle.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <aside class="sidebar-main">
+
+        <div class="logo-section">
+            <div class="icon-wrapper">
+                <i class="fas fa-user-shield"></i>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+
+            <a href="/admin" class="nav-item active">
+                <i class="fas fa-chart-line"></i>
+                Painel Geral
+            </a>
+
+            <a href="/admin/conteudo" class="nav-item">
+                <i class="fas fa-video"></i>
+                Gerenciar Aulas
+            </a>
+
+            <a href="/admin/provas" class="nav-item">
+                <i class="fas fa-file-upload"></i>
+                Upload Provas
+            </a>
+
+            <a href="/admin/materiais" class="nav-item">
+                <i class="fas fa-folder-plus"></i>
+                Materiais Extras
+            </a>
+
+        </nav>
+
+        <div class="spacer"></div>
+
+        <div class="sidebar-footer-actions">
+
+            <a href="/logout" class="footer-item">
+                <i class="fas fa-sign-out-alt"></i>
+                Sair
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <main class="main-layout">
+
+        <header class="header-top">
+
+            <h1>Painel de Controle</h1>
+
+            <p>Olá, Admin! O que vamos gerenciar hoje?</p>
+
+        </header>
+
+
+        <section class="admin-form-section">
+
+            <div class="video-info-box">
+
+                <h3>
+                    <i class="fas fa-plus-circle"></i>
+                    Adicionar Novo Conteúdo
+                </h3>
+
+
+                <form action="/salvarconteudo"
+                      method="post"
+                      class="admin-form">
+
+                    <div class="form-group">
+
+                        <label>Título do Conteúdo</label>
+
+                        <input type="text"
+                               name="titulo"
+                               placeholder="Ex: Interpretação de Texto"
+                               required>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label>Link do YouTube / PDF</label>
+
+                            <input type="text"
+                                   name="urlLink"
+                                   placeholder="https://youtube.com/embed/...">
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Disciplina</label>
+
+                            <select name="disciplina" required>
+
+                                <option value="">
+                                    Selecione
+                                </option>
+
+                                <option value="MATEMATICA">
+                                    Matemática
+                                </option>
+
+                                <option value="PORTUGUES">
+                                    Português
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label>Nível</label>
+
+                            <select name="nivel" required>
+
+                                <option value="">
+                                    Selecione
+                                </option>
+
+                                <option value="Básico">
+                                    Básico
+                                </option>
+
+                                <option value="Vestibular">
+                                    Vestibular
+                                </option>
+
+                                <option value="Ensino Médio">
+                                    Ensino Médio
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Tipo de Conteúdo</label>
+
+                            <select name="tipo" required>
+
+                                <option value="">
+                                    Selecione
+                                </option>
+
+                                <option value="VIDEO">
+                                    Vídeo
+                                </option>
+
+                                <option value="PROVA">
+                                    Prova
+                                </option>
+
+                                <option value="GABARITO">
+                                    Gabarito
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Descrição</label>
+
+                        <textarea name="descricao"
+                                  rows="4"
+                                  placeholder="O que o aluno aprenderá?"></textarea>
+
+                    </div>
+
+
+                    <button type="submit"
+                            class="btn-primary">
+
+                        Publicar Conteúdo
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <aside class="right-column">
+
+        <div class="profile-card">
+
+            <div class="avatar-large">
+
+                <img src="https://via.placeholder.com/100"
+                     alt="Admin">
+
+            </div>
+
+            <h3>Super Admin</h3>
+
+            <span class="badge">
+                Acesso Total
+            </span>
+
+        </div>
+
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <strong>124</strong>
+                <span>Vídeos</span>
+            </div>
+
+            <div class="stat-card">
+                <strong>45</strong>
+                <span>Provas</span>
+            </div>
+
+        </div>
+
+
+        <div class="calendar-card"
+             style="margin-top: 20px;">
+
+            <h4>Últimas Ações</h4>
+
+            <ul class="admin-list">
+
+                <li>
+                    <i class="fas fa-check-circle"></i>
+                    Aula adicionada
+                </li>
+
+                <li>
+                    <i class="fas fa-check-circle"></i>
+                    Simulado atualizado
+                </li>
+
+                <li>
+                    <i class="fas fa-check-circle"></i>
+                    Perfil alterado
+                </li>
+
+            </ul>
+
+        </div>
+
+    </aside>
+
+</div>
+
+</body>
+</html>

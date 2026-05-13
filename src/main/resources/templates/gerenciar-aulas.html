@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Aurora Admin - Gerenciar Aulas</title>
+
+    <link rel="stylesheet" href="/AdminStyle.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <aside class="sidebar-main">
+
+        <div class="logo-section">
+
+            <div class="icon-wrapper">
+                <i class="fas fa-user-shield"></i>
+            </div>
+
+        </div>
+
+
+        <nav class="nav-menu">
+
+            <a href="/admin"
+               class="nav-item">
+
+                <i class="fas fa-chart-line"></i>
+                Painel Geral
+
+            </a>
+
+
+            <a href="/admin/conteudo"
+               class="nav-item active">
+
+                <i class="fas fa-video"></i>
+                Gerenciar Aulas
+
+            </a>
+
+
+            <a href="/admin/provas"
+               class="nav-item">
+
+                <i class="fas fa-file-upload"></i>
+                Upload Provas
+
+            </a>
+
+
+            <a href="/admin/materiais"
+               class="nav-item">
+
+                <i class="fas fa-folder-plus"></i>
+                Materiais Extras
+
+            </a>
+
+        </nav>
+
+
+        <div class="spacer"></div>
+
+
+        <div class="sidebar-footer-actions">
+
+            <a href="/logout"
+               class="footer-item">
+
+                <i class="fas fa-sign-out-alt"></i>
+                Sair
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <main class="main-layout">
+
+        <header class="header-top">
+
+            <h1>Gerenciar Aulas</h1>
+
+            <p>
+                Visualize ou remova aulas cadastradas
+            </p>
+
+        </header>
+
+
+
+        <section class="admin-form-section">
+
+            <div class="video-info-box">
+
+                <div class="table-header"
+                     style="display: flex;
+                            justify-content: space-between;
+                            margin-bottom: 20px;">
+
+                    <h3>Aulas Publicadas</h3>
+
+                </div>
+
+
+
+                <div class="lesson-list">
+
+                    <div class="lesson-item"
+                         th:each="aula : ${aulas}"
+                         style="display: flex;
+                                align-items: center;
+                                justify-content: space-between;
+                                padding: 15px;
+                                border-bottom: 1px solid #eee;">
+
+                        <div style="display: flex;
+                                    align-items: center;
+                                    gap: 15px;">
+
+
+                            <div style="background: #f0ebff;
+                                        color: #9b6bff;
+                                        width: 40px;
+                                        height: 40px;
+                                        border-radius: 10px;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;">
+
+                                <i class="fas fa-play"></i>
+
+                            </div>
+
+
+
+                            <div>
+
+                                <strong style="display: block;"
+                                        th:text="${aula.titulo}">
+
+                                    Título
+
+                                </strong>
+
+
+                                <span style="font-size: 12px;
+                                             color: #999;">
+
+                                    Disciplina:
+
+                                    <span th:text="${aula.disciplina}">
+                                    </span>
+
+                                    |
+
+                                    Nível:
+
+                                    <span th:text="${aula.nivel}">
+                                    </span>
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="actions">
+
+                            <a th:href="@{'/admin/excluir/' + ${aula.id}}">
+
+                                <button class="btn-action delete"
+                                        title="Excluir">
+
+                                    <i class="fas fa-trash"></i>
+
+                                </button>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <aside class="right-column">
+
+        <div class="profile-card">
+
+            <div class="avatar-large">
+
+                <img src="https://via.placeholder.com/100"
+                     alt="Admin">
+
+            </div>
+
+            <h3>Controle de Aulas</h3>
+
+            <span class="badge">
+                Sistema Online
+            </span>
+
+        </div>
+
+    </aside>
+
+</div>
+
+</body>
+
+</html>

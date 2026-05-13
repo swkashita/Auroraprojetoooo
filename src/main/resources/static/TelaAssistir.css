@@ -1,0 +1,103 @@
+:root {
+    --purple-grad: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%);
+    --bg-light: #f8f9fe;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+body { background-color: var(--bg-light); height: 100vh; overflow: hidden; }
+
+/* CONTAINER PRINCIPAL (GRID DE 3 COLUNAS) */
+.dashboard-container { 
+    display: grid;
+    grid-template-columns: 260px 1fr 320px; 
+    gap: 20px;
+    height: 100vh;
+    padding: 15px;
+}
+
+/* --- SIDEBAR --- */
+.sidebar-main {
+    width: 260px;
+    min-width: 260px;
+    background: var(--purple-grad);
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 20px;
+    height: 100%;
+}
+
+.logo-section .icon-wrapper {
+    background: rgba(255, 255, 255, 0.2);
+    width: 80px; height: 80px; border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 50px; color: white; font-size: 40px;
+}
+
+.nav-menu { display: flex; flex-direction: column; height: 100%; }
+
+.nav-item {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    padding: 15px 20px;
+    display: flex; align-items: center;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.nav-item.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: white; border-radius: 12px; font-weight: 600;
+}
+
+.nav-item i { margin-right: 15px; width: 20px; text-align: center; }
+.spacer { flex-grow: 1; }
+
+/* --- CONTEÚDO CENTRAL --- */
+.main-layout { overflow-y: auto; padding-right: 5px; }
+
+.video-wrapper {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #000;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.video-wrapper iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Mantém o formato de cinema */
+    border: none;
+    border-radius: 15px;
+}
+
+.video-info-box {
+    background: white;
+    margin-top: 20px;
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+/* --- PLAYLIST DIREITA --- */
+.right-column {
+    background: white;
+    border-radius: 30px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    overflow-y: auto;
+}
+
+.playlist-item {
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    background: #f9f9f9;
+}
+
+.active-item {
+    background: #f0ebff;
+    border-left: 4px solid #9b6bff;
+}

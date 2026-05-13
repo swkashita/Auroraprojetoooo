@@ -1,0 +1,95 @@
+:root {
+    --purple-grad: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%);
+    --bg-light: #f8f9fe;
+    --gray-btn: #cccccc; /* Padronizado com Tela Disciplinas */
+    --white: #ffffff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+body { background-color: var(--bg-light); }
+
+.dashboard-container { display: flex; height: 100vh; padding: 15px; }
+
+/* 1. SIDEBAR ESQUERDA  */
+.sidebar-main {
+    width: 260px;
+    min-width: 260px;
+    background: var(--purple-grad);
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 20px;
+}
+
+.logo-section .icon-wrapper {
+    background: rgba(255, 255, 255, 0.2);
+    width: 80px; height: 80px; border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 50px; color: white; font-size: 40px;
+}
+
+.nav-menu { display: flex; flex-direction: column; height: 100%; }
+
+.nav-item {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    padding: 15px 20px;
+    display: flex; align-items: center;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.nav-item.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: white; border-radius: 12px; font-weight: 600;
+}
+
+.nav-item i { margin-right: 15px; width: 20px; text-align: center; }
+.spacer { flex-grow: 1; }
+
+
+/* MAIN CONTENT */
+.main-layout { flex: 1; padding: 10px 40px; }
+
+.header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+
+.search-global input {
+    width: 400px; padding: 12px 25px; border-radius: 25px;
+    border: none; background: var(--white); box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.user-info-header { display: flex; align-items: center; gap: 30px; }
+.avatar { width: 40px; height: 40px; border-radius: 50%; }
+
+/* CATEGORIAS */
+.categorias-extras { display: flex; gap: 15px; margin-bottom: 40px; flex-wrap: wrap; }
+
+.cat-button {
+    background: var(--gray-btn); border: none; padding: 12px 25px;
+    border-radius: 12px; font-weight: 600; color: #444; cursor: pointer;
+    transition: 0.3s;
+}
+
+.cat-button:hover { background: #bbb; transform: translateY(-2px); }
+
+/* GRID DE MATERIAIS */
+.sub-title { font-size: 18px; color: #666; margin-bottom: 20px; }
+
+.material-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+.book-card {
+    background: white; padding: 20px; border-radius: 20px;
+    display: flex; align-items: center; gap: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+.book-cover {
+    width: 50px; height: 50px; background: #f0ebff;
+    color: #6d39cf; display: flex; align-items: center;
+    justify-content: center; border-radius: 12px; font-size: 20px;
+}
+
+.book-info h4 { font-size: 14px; color: #333; }
+.book-info span { font-size: 12px; color: #999; }
+

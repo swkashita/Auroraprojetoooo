@@ -1,0 +1,144 @@
+/* --- CONFIGURAÇÕES GERAIS --- */
+:root {
+    --purple-main: #8b5cf6;
+    --purple-grad: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%);
+    --bg-light: #f8f9fe;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+body { background-color: var(--bg-light); color: #333; height: 100vh; overflow: hidden; }
+
+/* CONTAINER PRINCIPAL (GRID DE 3 COLUNAS) */
+.dashboard-container { 
+    display: grid;
+    grid-template-columns: 260px 1fr 320px; /* Alinhamento fixo conforme seu layout */
+    gap: 20px;
+    height: 100vh;
+    padding: 15px;
+}
+
+/* --- SIDEBAR (COLUNA 1) --- */
+.sidebar-main {
+    background: var(--purple-grad);
+    border-radius: 35px;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 20px;
+    height: 100%;
+}
+
+.logo-section .icon-wrapper {
+    background: rgba(255, 255, 255, 0.2);
+    width: 80px; height: 80px; border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 50px; color: white; font-size: 40px;
+}
+
+.nav-menu { display: flex; flex-direction: column; }
+
+.nav-item {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    padding: 15px 20px;
+    display: flex; align-items: center;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.nav-item.active { background: rgba(255, 255, 255, 0.2); color: white; border-radius: 12px; font-weight: 600; }
+.nav-item i { margin-right: 15px; width: 20px; text-align: center; }
+
+/* Rodapé da Sidebar */
+.spacer { flex-grow: 1; }
+.sidebar-footer-actions {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 10px 10px 10px; margin-top: 20px;
+}
+.footer-item { color: rgba(255, 255, 255, 0.7); text-decoration: none; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+.footer-item:hover { color: white; }
+
+/* --- ÁREA CENTRAL (COLUNA 2) --- */
+.main-layout { flex: 1; overflow-y: auto; padding: 10px 30px; }
+.header-top { margin-bottom: 30px; }
+
+/* Cards arredondados centrais */
+.video-info-box {
+    background: white;
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+/* Formulário Administrativo */
+.admin-form { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+.form-group { display: flex; flex-direction: column; gap: 8px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+input, textarea { padding: 12px 15px; border: 1px solid #eee; border-radius: 10px; background: #fcfcfc; outline: none; }
+textarea { resize: none; }
+
+.btn-primary { background: var(--purple-main); color: white; padding: 15px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; }
+.btn-primary:hover { opacity: 0.9; }
+
+/* Área de Upload simulada */
+.upload-area { border: 2px dashed #ddd; padding: 40px; border-radius: 20px; text-align: center; margin-top: 20px; }
+.upload-area i { font-size: 40px; color: var(--purple-main); margin-bottom: 10px; }
+.btn-secondary { background: #eee; color: #666; padding: 10px 20px; border-radius: 10px; cursor: pointer; display: inline-block; margin-top: 15px; }
+
+/* --- COLUNA DIREITA (COLUNA 3) --- */
+.right-column { background: white; border-radius: 35px; padding: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+
+/* Perfil e Resumo */
+.profile-card { text-align: center; }
+.avatar-large img { width: 100px; height: 100px; border-radius: 50%; background: #eee; margin-bottom: 15px; }
+.badge { background: #f0f0f0; padding: 5px 15px; border-radius: 15px; font-size: 12px; color: #666; }
+
+/* Cards de Estatísticas */
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; }
+.stat-card { background: #f8f9fe; padding: 20px; border-radius: 15px; text-align: center; border: 1px solid #eee; }
+.stat-card strong { display: block; font-size: 24px; color: var(--purple-main); }
+.stat-card span { font-size: 14px; color: #999; }
+
+/* Listas Administrativas */
+.calendar-card { margin-top: 20px; }
+.calendar-card h4 { margin-bottom: 15px; font-size: 16px; color: #333; }
+.admin-list { list-style: none; font-size: 14px; }
+.admin-list li { padding: 10px 0; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; }
+.admin-list i { color: #10b981; margin-right: 10px; }
+
+
+/* TELA GERENCIAR AULAS*/
+
+/* Botões de Ação na Lista */
+.btn-action {
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-left: 5px;
+}
+
+.btn-action.edit {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.btn-action.edit:hover {
+    background-color: #ffe8a1;
+}
+
+.btn-action.delete {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.btn-action.delete:hover {
+    background-color: #f5bcbf;
+}
+
+.lesson-item:hover {
+    background-color: #fafafa;
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Admin - Novo Conteúdo</title>
+    <link rel="stylesheet" href="/AdminStyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <aside class="sidebar-main">
+            <div class="logo-section">
+                <div class="icon-wrapper"><i class="fas fa-user-shield"></i></div>
+            </div>
+            <nav class="nav-menu">
+                <a href="/admin" class="nav-item"><i class="fas fa-chart-line"></i> Painel Geral</a>
+                <a href="/admin/conteudo" class="nav-item"><i class="fas fa-video"></i> Gerenciar Aulas</a>
+                <a href="/admin/upload" class="nav-item active"><i class="fas fa-plus-circle"></i> Novo Conteúdo</a>
+            </nav>
+            <div class="spacer"></div>
+            <div class="sidebar-footer-actions">
+                <a href="/logout" class="footer-item"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                <a href="/admin" class="admin-gear-btn"><i class="fas fa-cog"></i></a>
+            </div>
+        </aside>
+
+        <main class="main-layout">
+            <header class="header-top">
+                <h1>Cadastrar Novo Conteúdo</h1>
+                <p>Preencha os campos para publicar no portal do aluno.</p>
+            </header>
+
+            <section class="admin-form-section">
+                <div class="video-info-box">
+                    <form th:action="@{/salvarconteudo}" method="POST" class="admin-form">
+                        
+                        <div class="form-group">
+    <label>Link (YouTube ou PDF)</label>
+    <input type="text" name="urlLink" placeholder="URL do conteúdo..." required>
+</div>
+                        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+                            <div class="form-group">
+                                <label>Disciplina</label>
+                                <select name="disciplina">
+                                    <option value="MATEMATICA">Matemática</option>
+                                    <option value="PORTUGUES">Português</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Tipo de Conteúdo</label>
+                                <select name="tipo">
+                                    <option value="VIDEO">Vídeo (Aula)</option>
+                                    <option value="PROVA">Prova Anterior</option>
+                                    <option value="MATERIAL">Material Extra</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+                            <div class="form-group">
+                                <label>Nível / Categoria</label>
+                                <select name="nivel">
+                                    <option value="Básico">Básico</option>
+                                    <option value="Vestibular">Vestibular</option>
+                                    <option value="Ensino Médio">Ensino Médio</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Link (YouTube ou PDF)</label>
+                                <input type="text" name="url" placeholder="URL do conteúdo..." required>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label>Descrição Curta</label>
+                            <textarea name="descricao" rows="3" placeholder="Resumo do que o aluno vai encontrar..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-primary" style="margin-top: 25px; width: 100%;">
+                            <i class="fas fa-save"></i> Salvar e Publicar
+                        </button>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <aside class="right-column">
+            <div class="profile-card">
+                <i class="fas fa-lightbulb" style="font-size: 40px; color: #9b6bff;"></i>
+                <h3 style="margin-top: 10px;">Dica de Admin</h3>
+                <p style="font-size: 13px; color: #666; margin-top: 10px;">
+                    Certifique-se de que o nível selecionado corresponde ao link da barra lateral do aluno para que o conteúdo apareça no lugar certo.
+                </p>
+            </div>
+        </aside>
+    </div>
+
+</body>
+</html>

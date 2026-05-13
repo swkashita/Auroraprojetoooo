@@ -1,0 +1,167 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    background-color: #e6d8ff; /* Cor exata das imagens para evitar contraste */
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* LADO ESQUERDO (AZUL) */
+.form-side {
+    background-color: #2b4ba8;
+    width: 38%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.form-box {
+    width: 100%;
+    max-width: 340px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.title {
+    color: white;
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 5px;
+    letter-spacing: -1px;
+}
+
+.subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 40px;
+}
+
+.input-group {
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.input-group label {
+    display: block;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+}
+
+.input-group input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 8px 0;
+    font-size: 1rem;
+}
+
+.btn-cadastrar {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    border: none;
+    background-color: #e6d8ff;
+    color: #2b4ba8;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+
+.btn-cadastrar:hover {
+    background-color: #d1bfff;
+}
+
+/* LADO DIREITO (LOGO EM CÓDIGO) */
+.logo-side {
+    width: 62%;
+    background-color: #e6d8ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.brand-container {
+    text-align: center;
+    color: #2b4ba8;
+    position: relative;
+}
+
+.logo-main {
+    position: relative;
+    display: inline-block;
+}
+
+.brand-text {
+    font-family: 'Lily Script One', cursive;
+    font-size: 7rem;
+    line-height: 1;
+}
+
+.cap-icon {
+    position: absolute;
+    top: -15px;
+    right: -25px;
+    font-size: 3.5rem;
+    transform: rotate(15deg);
+}
+
+.slogan {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 5px;
+    text-transform: capitalize;
+    margin-top: -10px;
+}
+
+.star {
+    position: absolute;
+    font-size: 2.5rem;
+}
+
+.star-top {
+    top: -40px;
+    left: -50px;
+}
+
+.star-bottom {
+    bottom: -10px;
+    right: -60px;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 900px) {
+    .container { flex-direction: column; overflow-y: auto; }
+    .form-side { width: 100%; padding: 60px 20px; order: 2; }
+    .logo-side { width: 100%; height: 400px; order: 1; }
+    .brand-text { font-size: 5rem; }
+}
+.link-footer {
+    margin-top: 15px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff; /* Texto branco */
+    font-size: 14px;
+}
+
+.link-footer a {
+    color: #CCCCFF; /* Cor lilás do seu design no Figma */
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.link-footer a:hover {
+    text-decoration: underline; /* Dá um efeito ao passar o mouse */
+}

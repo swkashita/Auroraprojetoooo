@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora - Login</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Lily+Script+One&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main class="container">
+        <section class="form-side">
+            <div class="form-box">
+                <h1 class="title">Login</h1>
+                <p class="subtitle">Informe seus dados</p>
+
+                <form action="/login" method="post">
+
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" name="email" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Senha</label>
+                        <input type="password" name="senha" required>
+                    </div>
+                    <button type="submit" class="btn-cadastrar">Login</button>
+                </form>
+                <form action="/login" method="post">
+    <button type="submit" class="btn-cadastrar">Login</button>
+</form>
+
+<div class="link-footer">
+    Ainda não tem conta? <a th:href="@{/cadastro}">Cadastre-se</a>
+</div>
+            </div>
+        </section>
+
+        <section class="logo-side">
+            <div class="brand-container">
+                <span class="star star-top">✦</span>
+                <div class="logo-main">
+                    <h2 class="brand-text">Aurora</h2>
+                    <span class="cap-icon">🎓</span>
+                </div>
+                <p class="slogan">Iluminando Futuro</p>
+                <span class="star star-bottom">✦</span>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

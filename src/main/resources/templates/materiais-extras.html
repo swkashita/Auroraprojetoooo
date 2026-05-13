@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Admin - Materiais Extras</title>
+    <link rel="stylesheet" href="/AdminStyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <aside class="sidebar-main">
+            <div class="logo-section">
+                <div class="icon-wrapper"><i class="fas fa-user-shield"></i></div>
+            </div>
+            <nav class="nav-menu">
+                <a href="/admin" class="nav-item"><i class="fas fa-chart-line"></i> Painel Geral</a>
+                <a href="/admin/conteudo" class="nav-item"><i class="fas fa-video"></i> Gerenciar Aulas</a>
+                <a href="/admin/provas" class="nav-item"><i class="fas fa-file-upload"></i> Upload Provas</a>
+                <a href="/admin/materiais" class="nav-item active"><i class="fas fa-folder-plus"></i> Materiais Extras</a>
+            </nav>
+            <div class="spacer"></div>
+            <div class="sidebar-footer-actions">
+                <a href="/login" class="footer-item"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                <a href="/admin" class="admin-gear-btn"><i class="fas fa-cog"></i></a>
+            </div>
+        </aside>
+
+        <main class="main-layout">
+            <header class="header-top">
+                <h1>Materiais Extras</h1>
+                <p>Adicione ou remova apostilas e complementos de estudo.</p>
+            </header>
+
+            <section class="admin-form-section">
+                <div class="video-info-box">
+                    <h3><i class="fas fa-plus-circle"></i> Novo Material</h3>
+                    <form class="admin-form">
+                        <div class="form-group">
+                            <label>Nome do Material (Ex: Apostila de Crase)</label>
+                            <input type="text" placeholder="Digite o nome do arquivo...">
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label>Link do Arquivo (Drive / PDF Online)</label>
+                            <input type="text" placeholder="https://link-do-material.com/arquivo.pdf">
+                        </div>
+                        <button type="submit" class="btn-primary" style="margin-top: 20px;">
+                            Disponibilizar para Alunos
+                        </button>
+                    </form>
+                </div>
+
+                <div class="video-info-box" style="margin-top: 20px;">
+                    <h3>Materiais Ativos</h3>
+                    <div class="material-list" style="margin-top: 15px;">
+                        <div class="material-item" style="display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #eee;">
+                            <span><i class="fas fa-file-pdf" style="color: #e74c3c; margin-right: 10px;"></i> Lista de Exercícios - Álgebra</span>
+                            <button class="btn-action delete"><i class="fas fa-trash"></i></button>
+                        </div>
+                        <div class="material-item" style="display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #eee;">
+                            <span><i class="fas fa-book" style="color: #9b6bff; margin-right: 10px;"></i> Guia de Redação Nota 1000</span>
+                            <button class="btn-action delete"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <aside class="right-column">
+            <div class="profile-card">
+                <div class="icon-circle" style="font-size: 40px; color: #9b6bff; margin-bottom: 10px;">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h3>Armazenamento</h3>
+                <p style="font-size: 13px; color: #666; margin-top: 10px;">
+                    Dê preferência a links do <strong>Google Drive</strong> para economizar espaço no seu servidor local.
+                </p>
+            </div>
+
+            <div class="calendar-card" style="margin-top: 20px;">
+                <h4>Estatísticas</h4>
+                <ul class="admin-list" style="list-style: none; font-size: 13px;">
+                    <li style="padding: 10px 0;"><i class="fas fa-download"></i> 152 Downloads hoje</li>
+                    <li style="padding: 10px 0;"><i class="fas fa-folder"></i> 18 Arquivos totais</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+</body>
+</html>

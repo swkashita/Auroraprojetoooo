@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora - Login Admin</title>
+    <link rel="stylesheet" href="/AdminStyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .login-body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-light);
+        }
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .login-logo {
+            background: var(--purple-grad);
+            width: 70px; height: 70px;
+            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px;
+            color: white; font-size: 30px;
+        }
+        .login-card h2 { margin-bottom: 10px; color: #333; }
+        .login-card p { color: #888; font-size: 14px; margin-bottom: 30px; }
+        .input-group { text-align: left; margin-bottom: 20px; }
+        .input-group label { display: block; font-size: 13px; margin-bottom: 5px; color: #666; font-weight: 600; }
+        .input-group input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; outline: none; }
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: var(--purple-grad);
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(155, 107, 255, 0.4); }
+        .back-link { display: block; margin-top: 20px; color: #9b6bff; text-decoration: none; font-size: 13px; }
+        .error-msg { color: #ff4d4d; font-size: 13px; margin-bottom: 15px; font-weight: 600; }
+    </style>
+</head>
+<body class="login-body">
+
+    <div class="login-card">
+        <div class="login-logo">
+            <i class="fas fa-user-shield"></i>
+        </div>
+        <h2>Painel Admin</h2>
+        <p>Acesse as configurações do sistema</p>
+
+        <form th:action="@{/admin/autenticar}" method="POST">
+            
+            <div th:if="${erro}" class="error-msg" th:text="${erro}"></div>
+
+            <div class="input-group">
+                <label>Usuário Administrador</label>
+                <input type="text" name="usuario" placeholder="Ex: admin_aurora" required>
+            </div>
+            
+            <div class="input-group" style="margin-bottom: 30px;">
+                <label>Senha de Acesso</label>
+                <input type="password" name="senha" placeholder="••••••••" required>
+            </div>
+            
+            <button type="submit" class="btn-login">Entrar no Painel</button>
+        </form>
+
+        <a href="/inicio" class="back-link"><i class="fas fa-arrow-left"></i> Voltar para o Início</a>
+    </div>
+
+</body>
+</html>
