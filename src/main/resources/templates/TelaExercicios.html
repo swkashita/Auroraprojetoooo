@@ -4,17 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aurora - Exercícios</title>
-
-    <link rel="stylesheet" href="TelaExercicios.css">
+    <link rel="stylesheet" href="TelaExercicios.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
 <body>
     <div class="dashboard-container">
         <aside class="sidebar-main">
             <div class="logo-section">
                 <div class="icon-wrapper">
-                    <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                    <i class="fas fa-graduation-cap"></i>
                 </div>
             </div>
             <nav class="nav-menu">
@@ -29,47 +27,53 @@
             </nav>
         </aside>
 
-    <!-- Conteúdo principal -->
-    <main class="main-layout">
-
-       <header class="header-top">
-
-    <div class="search-global">
-        <input type="text" placeholder="Pesquisar exercícios...">
-    </div>
-
-    <div class="user-profile">
-        <img src="https://via.placeholder.com/40"
-             alt="Avatar"
-             class="avatar">
-
-        <span th:text="${usuario.nome}"></span>
-    </div>
-
-</header>
-        <section class="content-body">
-            <h1>Exercícios</h1>
-
-            <div class="exercise-list">
-                <div class="exercise-bar">
-                    <span>ENEM - Matemática</span>
-                    <span>50</span>
+        <main class="main-layout">
+            <header class="header-top">
+                <div class="search-global">
+                    <input type="text" placeholder="Pesquisar exercícios...">
                 </div>
-
-                <div class="exercise-bar">
-                    <span>ENEM - Português</span>
-                    <span>25</span>
+                <div class="top-icons">
+                    <i class="far fa-bell"></i>
+                    <i class="fas fa-cog"></i>
                 </div>
+            </header>
 
-                <div class="exercise-bar">
-                    <span>UERJ - Português</span>
-                    <span>75</span>
+            <section class="content-body">
+                <h1 class="title-page">Exercícios</h1>
+                
+                <div class="exercicios-list">
+                    
+                    <a href="/exercicio/matematica-basica" class="exercicio-button">Matemática - Básica</a>
+                    <a href="/exercicio/matematica-fracoes" class="exercicio-button">Matemática - Frações e Decimais</a>
+                    <a href="/exercicio/matematica-estatistica" class="exercicio-button">Matemática - Estatística</a>
+                    <a href="/exercicio/matematica-geometria-plana" class="exercicio-button">Matemática - Geometria Plana</a>
+                    <a href="/exercicio/matematica-geometria-espacial" class="exercicio-button">Matemática - Geometria Espacial</a>
+                    <a href="/exercicio/matematica-funcoes" class="exercicio-button">Matemática - Funções</a>
+                    <a href="/exercicio/matematica-analise" class="exercicio-button">Matemática - Combinatória e Probabilidade</a>
+                    <a href="/exercicio/matematica-matrizes" class="exercicio-button">Matemática - Matrizes</a>
+
+                    <a href="/exercicio/portugues-generos" class="exercicio-button">Português - Gêneros Textuais</a>
+                    <a href="/exercicio/portugues-morfologia" class="exercicio-button">Português - Morfologia</a>
+                    <a href="/exercicio/portugues-classes" class="exercicio-button">Português - Classes Gramaticais</a>
+                    <a href="/exercicio/portugues-sintaxe" class="exercicio-button">Português - Sintaxe</a>
+                    <a href="/exercicio/portugues-linguagem" class="exercicio-button">Português - Linguagem</a>
+                    <a href="/exercicio/portugues-interpretacao" class="exercicio-button">Português - Interpretação de Texto</a>
+                    <a href="/exercicio/portugues-literatura" class="exercicio-button">Português - Escolas Literárias</a>
+                    <a href="/exercicio/portugues-redacao" class="exercicio-button">Português - Redação</a>
+
                 </div>
+            </section>
+        </main>
+
+        <aside class="right-sidebar-padrao">
+            <div class="profile-card-mini">
+                <div class="avatar-large">
+                    <img src="https://via.placeholder.com/100" alt="Foto de Perfil">
+                </div>
+                <h3 th:text="${usuario.nome}">Estudante</h3>
+                <span class="badge">Ativo</span>
             </div>
-        </section>
-
-    </main>
-
-</div>
+        </aside>
+    </div>
 </body>
 </html>
