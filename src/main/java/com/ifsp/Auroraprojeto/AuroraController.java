@@ -77,6 +77,13 @@ public String realizarCadastro(@ModelAttribute Usuario usuario) {
     public String inicio(HttpSession session, Model model) {
         if (!usuarioLogado(session)) return "redirect:/login";
         model.addAttribute("usuario", (Usuario) session.getAttribute("usuario"));
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario != null) {
+        model.addAttribute("cidade", usuario.getCidade());
+    }
+
         return "TelaInicio";
     }
 
