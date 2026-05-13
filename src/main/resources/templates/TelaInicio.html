@@ -113,10 +113,13 @@
                         </div>
                     </div>
 
-                    <div class="location-card">
-                        <h4>Localização <i class="fas fa-map-marker-alt"></i></h4>
-                        <div class="location-input">Piracicaba - SP</div>
-                    </div>
+                   
+                 <div class="location-card">
+                   <h4>Localização <i class="fas fa-map-marker-alt"></i></h4>
+                   <div class="location-input">
+                   <h5 th:text="${cidade!= null && !cidade.isEmpty() ? cidade : 'Cidade não informada'}"></h5>
+                   </div>
+                 </div>
 
                     <div class="calendar-card">
                         <h4>Calendário</h4>
