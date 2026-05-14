@@ -142,3 +142,96 @@ textarea { resize: none; }
 .lesson-item:hover {
     background-color: #fafafa;
 }
+
+/* Tela gerenciar calendario
+ /* --- TELA GERENCIAR CALENDÁRIO --- */
+
+/* Estilo da Tabela de Eventos */
+.admin-table-container {
+    margin-top: 30px;
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.admin-table th {
+    text-align: left;
+    padding: 12px 15px;
+    background: #f8f9fe;
+    color: #666;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #eee;
+}
+
+.admin-table td {
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+    color: #444;
+}
+
+/* Badge de Data no Calendário */
+.date-badge {
+    background: rgba(139, 92, 246, 0.1);
+    color: var(--purple-main);
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-weight: 700;
+}
+
+/* Botão de Excluir Evento (Lixeira) */
+.btn-delete-event {
+    background: #fff5f5;
+    color: #ff4d4d;
+    border: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.btn-delete-event:hover {
+    background: #ff4d4d;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Feedback de Sucesso/Erro */
+.alert-msg {
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.alert-success {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+}
+
+/* Ajuste específico para os inputs de data no formulário */
+input[type="text"].input-date {
+    font-weight: 600;
+    color: var(--purple-main);
+    text-align: center;
+}
+
+/* Responsividade para o form-row em telas menores */
+@media (max-width: 1024px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}

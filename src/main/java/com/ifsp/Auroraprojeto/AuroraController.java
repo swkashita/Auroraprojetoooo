@@ -2,6 +2,7 @@ package com.ifsp.Auroraprojeto;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -20,6 +22,9 @@ public class AuroraController {
 
     @Autowired
     private ConteudoRepository conteudoRepository;
+
+    @Autowired
+    private CalendarioRepository calendarioRepository;
 
     // CREDENCIAIS DO ADMIN ÚNICO
     private final String ADMIN_USER = "admin_aurora";
@@ -83,6 +88,9 @@ public String realizarCadastro(@ModelAttribute Usuario usuario) {
         if (usuario != null) {
         model.addAttribute("cidade", usuario.getCidade());
     }
+     
+    List<Calendario> listaEventos = calendarioRepository.findAll();
+    model.addAttribute("eventos", listaEventos);
 
         return "TelaInicio";
     }
@@ -130,6 +138,10 @@ public String provas(HttpSession session, Model model) {
     List<Conteudo> provasAnteriores = conteudoRepository.findByTipo(TipoConteudo.PROVA);
     
     model.addAttribute("provas", provasAnteriores);
+
+    // 2. BUSCA AS DATAS DO CALENDÁRIO (Para aparecer na lateral ou topo desta tela)
+    List<Calendario> eventos = calendarioRepository.findAll();
+    model.addAttribute("eventos", eventos);
     model.addAttribute("usuario", (Usuario) session.getAttribute("usuario"));
     
     return "TelaProvas";
@@ -138,6 +150,10 @@ public String provas(HttpSession session, Model model) {
     @GetMapping("/material")
     public String material(HttpSession session, Model model) {
         if (!usuarioLogado(session)) return "redirect:/login";
+
+        // 2. BUSCA AS DATAS DO CALENDÁRIO (Para aparecer na lateral ou topo desta tela)
+    List<Calendario> eventos = calendarioRepository.findAll();
+    model.addAttribute("eventos", eventos);
         model.addAttribute("usuario", (Usuario) session.getAttribute("usuario"));
         return "TelaMaterialExtra";
     }
@@ -278,4 +294,34 @@ public String assistirAula(@PathVariable Long id, Model model, HttpSession sessi
     
     return "TelaAssistir"; // Nome do seu arquivo HTML
 }
+
+// ================= GERENCIAMENTO DO CALENDÁRIO =================
+
+    @GetMapping("/admin/calendario")
+    public String gerenciarCalendario(HttpSession session, Model model){
+        if (!adminLogado(session)) return "redirect:/login-admin";
+        
+        // Use a variável injetada 'calendarioRepository' (com 'c' minúsculo)
+        List<Calendario> eventos = calendarioRepository.findAll();
+        model.addAttribute("eventos", eventos);
+
+        return "gerenciar_calendario";
+    }
+
+    // 3. ROTA PARA SALVAR O EVENTO
+    @PostMapping("/admin/calendario/salvar")
+    public String salvarEvento(@ModelAttribute Calendario calendario, HttpSession session) {
+        if (!adminLogado(session)) return "redirect:/login-admin";
+        
+        calendarioRepository.save(calendario);
+        return "redirect:/admin/calendario?sucesso=true";
+    }
+    
+    // 4. ROTA PARA EXCLUIR EVENTO (OPCIONAL)
+    @GetMapping("/admin/calendario/excluir/{id}")
+    public String excluirEvento(@PathVariable Long id, HttpSession session) {
+        if (!adminLogado(session)) return "redirect:/login-admin";
+        calendarioRepository.deleteById(id);
+        return "redirect:/admin/calendario";
+    }
 }

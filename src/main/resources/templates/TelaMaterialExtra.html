@@ -90,8 +90,17 @@
             
             <div class="calendar-mini">
                 <h4>Calendário</h4>
-                <p>09/11 - ENEM</p>
-                <p>23/11 - FUVEST</p>
+                <p style="font-size: 0.85rem; border-bottom: 1px solid #eee; padding: 5px 0;"><ul class="admin-list">
+        <li th:each="ev : ${eventos}">
+            <i class="fas fa-calendar-check"></i>
+            <strong th:text="${ev.data}">00/00</strong> - 
+            <span th:text="${ev.descricao}">Descrição</span>
+        </li>
+        
+        <li th:if="${#lists.isEmpty(eventos)}">
+            <i class="fas fa-info-circle"></i> Nenhuma prova agendada.
+        </li>
+    </ul></p>
             </div>
         </aside>
     </div>
