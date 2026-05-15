@@ -12,7 +12,7 @@
         <aside class="sidebar-main">
             <div class="logo-section">
                 <div class="icon-wrapper">
-                    <i class="fas fa-graduation-cap"></i>
+                    <i class="fas fa-graduation-cap" aria-hidden="true"></i>
                 </div>
             </div>
             <nav class="nav-menu">
@@ -27,14 +27,17 @@
             </nav>
         </aside>
 
+
         <main class="main-layout">
             <header class="header-top">
                 <div class="search-global">
-                    <input type="text" placeholder="Pesquisar exercícios...">
+                    <input type="text" placeholder="Pesquisar">
                 </div>
-                <div class="top-icons">
-                    <i class="far fa-bell"></i>
-                    <i class="fas fa-cog"></i>
+                <div class="user-info-header" style="display: flex; align-items: center; gap: 15px;">
+                    <div class="top-icons">
+                        <i class="far fa-bell" title="Notificações"></i>
+                        <i class="fas fa-cog" title="Configurações"></i>
+                    </div>
                 </div>
             </header>
 
@@ -65,13 +68,13 @@
             </section>
         </main>
 
-        <aside class="right-sidebar-padrao">
-            <div class="profile-card-mini">
+         <aside class="right-sidebar-padrao" style="width: 300px; padding: 20px;">
+            <div class="profile-card-mini" style="text-align: center; background: white; border-radius: 20px; padding: 20px;">
                 <div class="avatar-large">
-                    <img src="https://via.placeholder.com/100" alt="Foto de Perfil">
+                    <img src="https://via.placeholder.com/100" alt="Foto de Eduardo Costa" style="border-radius: 50%;">
                 </div>
-                <h3 th:text="${usuario.nome}">Estudante</h3>
-                <span class="badge">Ativo</span>
+                <h3 style="margin-top: 10px;" th:text="${usuario.nome}"></h3>
+                <span class="badge" style="background: #f0f0f0; padding: 5px 10px; border-radius: 15px;">Estudante</span>
             </div>
         </aside>
     </div>

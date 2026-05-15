@@ -1,29 +1,36 @@
+/* Importação da fonte Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif; /* Aplica Poppins em tudo */
-}
 
 :root {
     --purple-grad: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%);
     --bg-light: #f8f9fe;
-    --button-gray: #cccccc; /* Cor cinza dos botões da imagem */
+    --button-gray: #cccccc;
     --white: #ffffff;
 }
 
+/* Reset básico e aplicação da Poppins */
 * {
-    margin: 0; padding: 0; box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-body { background-color: var(--bg-light); }
+body { 
+    background-color: var(--bg-light); 
+    min-height: 100vh;
+    overflow-y: auto; /* Permite a rolagem da página inteira */
+}
 
-.dashboard-container { display: flex; height: 100vh; padding: 15px; }
+/* ESTRUTURA DO DASHBOARD */
+.dashboard-container { 
+    display: flex; 
+    min-height: 100vh; /* Ocupa no mínimo a tela toda, mas cresce se houver conteúdo */
+    padding: 15px; 
+    align-items: stretch; /* ESSENCIAL: Faz a sidebar acompanhar a altura do conteúdo */
+}
 
-/* 1. SIDEBAR ESQUERDA  */
+/* 1. SIDEBAR ESQUERDA (ESTILO INFINITO) */
 .sidebar-main {
     width: 260px;
     min-width: 260px;
@@ -32,49 +39,70 @@ body { background-color: var(--bg-light); }
     display: flex;
     flex-direction: column;
     padding: 40px 20px;
+    flex-shrink: 0; /* Impede a barra de ser esmagada lateralmente */
 }
 
 .logo-section .icon-wrapper {
     background: rgba(255, 255, 255, 0.2);
-    width: 80px; height: 80px; border-radius: 20px;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 50px; color: white; font-size: 40px;
+    width: 80px; 
+    height: 80px; 
+    border-radius: 20px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    margin: 0 auto 50px; 
+    color: white; 
+    font-size: 40px;
 }
 
-.nav-menu { display: flex; flex-direction: column; height: 100%; }
+.nav-menu { 
+    display: flex; 
+    flex-direction: column; 
+    height: 100%; 
+}
 
 .nav-item {
     color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
     padding: 15px 20px;
-    display: flex; align-items: center;
+    display: flex; 
+    align-items: center;
     font-size: 15px;
     transition: 0.3s;
 }
 
 .nav-item.active {
     background: rgba(255, 255, 255, 0.2);
-    color: white; border-radius: 12px; font-weight: 600;
+    color: white; 
+    border-radius: 12px; 
+    font-weight: 600;
 }
 
 .nav-item i { margin-right: 15px; width: 20px; text-align: center; }
+
 .spacer { flex-grow: 1; }
 
-
-/* CONTEÚDO PRINCIPAL */
-.main-layout { flex: 1; padding: 10px 40px; }
+/* 2. CONTEÚDO PRINCIPAL */
+.main-layout { 
+    flex: 1; 
+    padding: 10px 40px; 
+    display: flex;
+    flex-direction: column;
+}
 
 .header-top {
     display: flex;
-    justify-content: center; /* Centraliza a barra de pesquisa como no print */
+    justify-content: center;
     align-items: center;
     margin-bottom: 40px;
     position: relative;
 }
 
 .search-global input {
-    width: 450px; padding: 12px 25px;
-    border-radius: 25px; border: none;
+    width: 450px; 
+    padding: 12px 25px;
+    border-radius: 25px; 
+    border: none;
     background: var(--white);
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
@@ -82,14 +110,19 @@ body { background-color: var(--bg-light); }
 .top-icons { position: absolute; right: 0; font-size: 18px; color: #444; }
 .top-icons i { margin-left: 20px; cursor: pointer; }
 
-/* LISTA DE DISCIPLINAS */
-.title-page { font-size: 32px; margin-bottom: 40px; color: #111; }
+/* 3. LISTA DE DISCIPLINAS (RESPONSIVA) */
+.title-page { 
+    font-size: 32px; 
+    font-weight: 700;
+    margin-bottom: 40px; 
+    color: #111; 
+}
+
 .disciplinas-list {
     display: flex;
-    flex-wrap: wrap;      /* Faz os botões ocuparem o espaço da direita */
+    flex-wrap: wrap; /* Faz os botões pularem para baixo quando não houver espaço lateral */
     gap: 20px;
     width: 100%;
-    max-width: 100%;
 }
 
 .disciplina-button {
@@ -97,21 +130,20 @@ body { background-color: var(--bg-light); }
     color: white;
     text-decoration: none;
     padding: 20px 30px;
-    border-radius: 35px; /* Bem arredondado estilo balão/pílula */
-    font-family: 'Poppins', sans-serif;
+    border-radius: 35px; /* Estilo pílula */
     font-size: 16px;
     font-weight: 500;
     
     /* CENTRALIZAÇÃO TOTAL */
     display: flex;
-    align-items: center;      /* Centraliza verticalmente */
-    justify-content: center;   /* Centraliza horizontalmente o texto */
+    align-items: center;
+    justify-content: center;
     text-align: center;
 
-    /* CONFIGURAÇÃO DE COLUNAS */
-    flex: 1 1 calc(45% - 20px); /* Ocupa o espaço branco (2 colunas) */
-    min-width: 320px;
-    min-height: 70px;          /* Altura padrão para todos os balões */
+    /* CONFIGURAÇÃO DINÂMICA DE COLUNAS */
+    flex: 1 1 calc(45% - 20px); /* Tenta manter 2 colunas */
+    min-width: 300px;           /* Se a tela diminuir, o botão pula para baixo */
+    min-height: 75px;
     
     transition: all 0.3s ease;
     border: none;
@@ -122,4 +154,26 @@ body { background-color: var(--bg-light); }
     transform: translateY(-4px);
     filter: brightness(1.1);
     box-shadow: 0 8px 20px rgba(109, 57, 207, 0.4);
+}
+
+/* RESPONSIVIDADE PARA TELAS PEQUENAS (MOBILE) */
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column; /* Sidebar fica no topo em telas muito pequenas */
+        padding: 10px;
+    }
+    
+    .sidebar-main {
+        width: 100%;
+        min-width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .disciplina-button {
+        flex: 1 1 100%; /* Botões ocupam a largura toda da tela */
+    }
+
+    .search-global input {
+        width: 100%; /* Barra de busca ocupa a tela toda */
+    }
 }

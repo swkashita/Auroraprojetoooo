@@ -2,12 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
 :root {
+    --purple-main: #8b5cf6;
     --purple-grad: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%);
     --bg-light: #f8f9fe;
     --white: #ffffff;
 }
 
-/* Reset básico para garantir que a Poppins funciona em tudo */
+/* Reset básico */
 * {
     margin: 0;
     padding: 0;
@@ -15,80 +16,190 @@
     font-family: 'Poppins', sans-serif;
 }
 
-/* Estrutura do Dashboard (Mantendo a sua sidebar intacta) */
-/* Isso garante que a sidebar fique na esquerda e o conteúdo na direita */
-.dashboard-container {
-    display: flex;
+body {
+    background-color: var(--bg-light);
+    color: #333;
     min-height: 100vh;
-    width: 100%;
-    background-color: #f8f9fe;
+    overflow-y: auto; /* Permite a rolagem da página inteira */
 }
 
-/* Ajuste para a Sidebar não sumir */
+/* CONTAINER PRINCIPAL */
+.dashboard-container { 
+    display: flex; 
+    min-height: 100vh; /* Ocupa no mínimo a altura da tela */
+    padding: 15px;
+    gap: 0; /* Ajuste conforme preferência de espaçamento entre sidebar e conteúdo */
+    align-items: stretch; /* ESSENCIAL: Faz a sidebar e o conteúdo terem a mesma altura */
+}
+
+/* --- SIDEBAR ESQUERDA --- */
 .sidebar-main {
-    width: 250px; /* Largura fixa para a barra roxa */
+    width: 260px;
+    min-width: 260px;
     background: var(--purple-grad);
+    border-radius: 30px;
     display: flex;
     flex-direction: column;
-    padding: 20px;
-    height: 100vh;
-    position: sticky;
-    top: 0;
+    padding: 40px 20px;
+    flex-shrink: 0; /* Impede que a barra seja esmagada */
 }
 
-/* Ajuste para o conteúdo não ser esmagado */
-.main-layout {
-    flex: 1;
-    padding: 40px;
+.logo-section .icon-wrapper {
+    background: rgba(255, 255, 255, 0.2);
+    width: 80px; height: 80px; border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 50px; color: white; font-size: 40px;
+}
+
+.nav-menu { 
+    display: flex; 
+    flex-direction: column; 
+    height: 100%; 
+}
+
+.nav-item {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    padding: 15px 20px;
+    display: flex; align-items: center;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.nav-item.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: white; border-radius: 12px; font-weight: 600;
+}
+
+.nav-item i { margin-right: 15px; width: 20px; text-align: center; }
+
+.spacer { flex-grow: 1; }
+
+/* RODAPÉ DA SIDEBAR */
+.sidebar-footer-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10px 10px 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 20px;
+}
+
+.footer-item {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+.footer-item:hover { color: white; }
+
+.admin-gear-btn {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.7);
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.admin-gear-btn:hover {
+    color: white;
+    transform: rotate(45deg);
+}
+
+/* --- ÁREA CENTRAL --- */
+.main-layout { 
+    flex: 1; 
+    padding: 10px 40px; 
     display: flex;
     flex-direction: column;
 }
-/* Onde os botões "voam" para o lado direito */
+
+.header-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.search-global input {
+    width: 450px; 
+    padding: 12px 25px;
+    border-radius: 25px; 
+    border: none;
+    background: var(--white);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.top-icons { position: absolute; right: 0; font-size: 18px; color: #444; }
+.top-icons i { margin-left: 20px; cursor: pointer; }
+
+.title-page {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #111;
+}
+
+/* --- LISTA DE EXERCÍCIOS RESPONSIVA --- */
 .exercicios-list {
     display: flex;
-    flex-wrap: wrap;      /* Permite que os botões ocupem o espaço vazio à direita */
-    gap: 20px;            /* Espaço entre as pílulas */
+    flex-wrap: wrap; /* Permite que os botões quebrem linha */
+    gap: 20px;
     width: 100%;
     margin-top: 20px;
 }
 
-/* O Botão Estilo Balão/Pílula Roxa */
 .exercicio-button {
     background: var(--purple-grad);
     color: white;
     text-decoration: none;
     padding: 20px 30px;
-    border-radius: 35px;  /* Bem arredondado como pediste */
+    border-radius: 35px;
     font-size: 16px;
     font-weight: 500;
-    border: none;
     
-    /* Centralização total do texto no meio do balão */
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
 
-    /* Configuração para preencher o espaço lateral em 2 colunas */
-    flex: 1 1 calc(45% - 20px); 
-    min-width: 320px;
-    min-height: 75px;
+    /* Ocupa 2 colunas no desktop, mas permite virar 1 no mobile */
+    flex: 1 1 calc(50% - 20px); 
+    min-width: 300px; /* Impede que o botão fique muito fino */
+    min-height: 85px;
     
     box-shadow: 0 4px 12px rgba(109, 57, 207, 0.2);
     transition: all 0.3s ease;
 }
 
-/* Efeito ao passar o rato (Hover) */
 .exercicio-button:hover {
     transform: translateY(-4px);
     filter: brightness(1.1);
     box-shadow: 0 8px 20px rgba(109, 57, 207, 0.4);
 }
 
-/* Título da Página */
-.title-page {
-    font-size: 32px;
-    font-weight: 700;
-    margin-bottom: 30px;
-    color: #111;
+/* AJUSTES PARA TELAS MENORES */
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column; /* Em telas muito pequenas, sidebar fica no topo */
+        padding: 10px;
+    }
+    
+    .sidebar-main {
+        width: 100%;
+        min-width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .exercicio-button {
+        flex: 1 1 100%; /* Botões ocupam a largura toda no mobile */
+    }
+
+    .search-global input {
+        width: 100%;
+    }
 }
