@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,291 +9,538 @@
     <link rel="stylesheet" href="/AdminStyle.css">
 
     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
 
-<div class="dashboard-container">
+    <div class="dashboard-container">
 
-    <aside class="sidebar-main">
+        <!-- SIDEBAR -->
+        <aside class="sidebar-main">
 
-        <div class="logo-section">
-            <div class="icon-wrapper">
-                <i class="fas fa-user-shield"></i>
+            <div class="logo-section">
+
+                <div class="icon-wrapper">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+
             </div>
-        </div>
 
-        <nav class="nav-menu">
+            <nav class="nav-menu">
 
-            <a href="/admin" class="nav-item active">
-                <i class="fas fa-chart-line"></i>
-                Painel Geral
-            </a>
+                <a href="/admin" class="nav-item active">
+                    <i class="fas fa-chart-line"></i>
+                    Painel Geral
+                </a>
 
-            <a href="/admin/conteudo" class="nav-item">
-                <i class="fas fa-video"></i>
-                Gerenciar Aulas
-            </a>
+                <a href="/admin/conteudo" class="nav-item">
+                    <i class="fas fa-video"></i>
+                    Gerenciar Aulas
+                </a>
 
-            <a href="/admin/provas" class="nav-item">
-                <i class="fas fa-file-upload"></i>
-                Upload Provas
-            </a>
+                <a href="/admin/provas" class="nav-item">
+                    <i class="fas fa-file-upload"></i>
+                    Upload Provas
+                </a>
 
-            <a href="/admin/materiais" class="nav-item">
-                <i class="fas fa-folder-plus"></i>
-                Materiais Extras
-            </a>
+                <a href="/admin/materiais" class="nav-item">
+                    <i class="fas fa-folder-plus"></i>
+                    Materiais Extras
+                </a>
 
-            
-            <a href="/admin/calendario" class="nav-item">
-                <i class="fas fa-folder-plus"></i>
-                Gerenciar Calendario
-            </a>
-            
+                <a href="/admin/calendario" class="nav-item">
+                    <i class="fas fa-folder-plus"></i>
+                    Gerenciar Calendário
+                </a>
 
-        </nav>
+            </nav>
 
-        <div class="spacer"></div>
+            <div class="spacer"></div>
 
-        <div class="sidebar-footer-actions">
+            <div class="sidebar-footer-actions">
 
-            <a href="/logout" class="footer-item">
-                <i class="fas fa-sign-out-alt"></i>
-                Sair
-            </a>
+                <a href="/logout" class="footer-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Sair
+                </a>
 
-        </div>
+            </div>
 
-    </aside>
+        </aside>
 
 
-    <main class="main-layout">
 
-        <header class="header-top">
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="main-layout">
 
-            <h1>Painel de Controle</h1>
+            <header class="header-top">
 
-            <p>Olá, Admin! O que vamos gerenciar hoje?</p>
+                <h1>Painel de Controle</h1>
 
-        </header>
+                <p>Olá, Admin! O que vamos gerenciar hoje?</p>
 
-
-        <section class="admin-form-section">
-
-            <div class="video-info-box">
-
-                <h3>
-                    <i class="fas fa-plus-circle"></i>
-                    Adicionar Novo Conteúdo
-                </h3>
+            </header>
 
 
-                <form action="/salvarconteudo"
-                      method="post"
-                      class="admin-form">
 
-                    <div class="form-group">
+            <section class="admin-form-section">
 
-                        <label>Título do Conteúdo</label>
+                <div class="video-info-box">
 
-                        <input type="text"
-                               name="titulo"
-                               placeholder="Ex: Interpretação de Texto"
-                               required>
-
-                    </div>
+                    <h3>
+                        <i class="fas fa-plus-circle"></i>
+                        Adicionar Novo Conteúdo
+                    </h3>
 
 
-                    <div class="form-row">
 
+                    <form action="/salvarconteudo"
+                        method="post"
+                        class="admin-form">
+
+                        <!-- TÍTULO -->
                         <div class="form-group">
 
-                            <label>Link do YouTube / PDF</label>
+                            <label>Título do Conteúdo</label>
 
                             <input type="text"
-                                   name="urlLink"
-                                   placeholder="https://youtube.com/embed/...">
+                                id="tituloConteudo"
+                                name="titulo"
+                                placeholder="Ex: Interpretação de Texto"
+                                required>
 
                         </div>
 
 
+
+                        <!-- LINHA -->
+                        <div class="form-row">
+
+                            <!-- LINK -->
+                            <div class="form-group">
+
+                                <label>Link do YouTube / PDF</label>
+
+                                <input type="text"
+                                    name="urlLink"
+                                    placeholder="https://youtube.com/embed/...">
+
+                            </div>
+
+
+
+                            <!-- DISCIPLINA -->
+                            <div class="form-group">
+
+                                <label>Disciplina</label>
+
+                                <select name="disciplina" required>
+
+                                    <option value="">
+                                        Selecione
+                                    </option>
+
+                                    <option value="MATEMATICA">
+                                        Matemática
+                                    </option>
+
+                                    <option value="PORTUGUES">
+                                        Português
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- LINHA -->
+                        <div class="form-row">
+
+                            <!-- NÍVEL -->
+                            <div class="form-group">
+
+                                <label>Nível</label>
+
+                                <select name="nivel" required>
+
+                                    <option value="">
+                                        Selecione
+                                    </option>
+
+                                    <option value="Básico">
+                                        Básico
+                                    </option>
+
+                                    <option value="Vestibular">
+                                        Vestibular
+                                    </option>
+
+                                    <option value="Ensino Médio">
+                                        Ensino Médio
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <!-- TIPO -->
+                            <div class="form-group">
+
+                                <label>Tipo de Conteúdo</label>
+
+                                <select name="tipo"
+                                    id="tipoConteudo"
+                                    required>
+
+                                    <option value="">
+                                        Selecione
+                                    </option>
+
+                                    <option value="VIDEO">
+                                        Vídeo
+                                    </option>
+
+                                    <option value="PROVA">
+                                        Prova
+                                    </option>
+
+                                    <option value="GABARITO">
+                                        Gabarito
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- DESCRIÇÃO -->
                         <div class="form-group">
 
-                            <label>Disciplina</label>
+                            <label>Descrição</label>
 
-                            <select name="disciplina" required>
-
-                                <option value="">
-                                    Selecione
-                                </option>
-
-                                <option value="MATEMATICA">
-                                    Matemática
-                                </option>
-
-                                <option value="PORTUGUES">
-                                    Português
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="form-row">
-
-                        <div class="form-group">
-
-                            <label>Nível</label>
-
-                            <select name="nivel" required>
-
-                                <option value="">
-                                    Selecione
-                                </option>
-
-                                <option value="Básico">
-                                    Básico
-                                </option>
-
-                                <option value="Vestibular">
-                                    Vestibular
-                                </option>
-
-                                <option value="Ensino Médio">
-                                    Ensino Médio
-                                </option>
-
-                            </select>
+                            <textarea name="descricao"
+                                rows="4"
+                                placeholder="O que o aluno aprenderá?"></textarea>
 
                         </div>
 
 
-                        <div class="form-group">
 
-                            <label>Tipo de Conteúdo</label>
-
-                            <select name="tipo" required>
-
-                                <option value="">
-                                    Selecione
-                                </option>
-
-                                <option value="VIDEO">
-                                    Vídeo
-                                </option>
-
-                                <option value="PROVA">
-                                    Prova
-                                </option>
-
-                                <option value="GABARITO">
-                                    Gabarito
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label>Descrição</label>
-
-                        <textarea name="descricao"
-                                  rows="4"
-                                  placeholder="O que o aluno aprenderá?"></textarea>
-
-                    </div>
-
-
-                    <button type="submit"
+                        <!-- BOTÃO -->
+                        <button type="submit"
                             class="btn-primary">
 
-                        Publicar Conteúdo
+                            Publicar Conteúdo
 
-                    </button>
+                        </button>
 
-                </form>
+                    </form>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+
+
+
+        <!-- COLUNA DIREITA -->
+        <aside class="right-column">
+
+            <!-- PERFIL -->
+            <div class="profile-card">
+
+                <div class="avatar-large">
+
+                    <img src="https://via.placeholder.com/100"
+                        alt="Admin">
+
+                </div>
+
+                <h3>Super Admin</h3>
+
+                <span class="badge">
+                    Acesso Total
+                </span>
 
             </div>
 
-        </section>
-
-    </main>
 
 
+            <!-- ESTATÍSTICAS -->
+            <div class="stats-grid">
 
-    <aside class="right-column">
+                <div class="stat-card">
 
-        <div class="profile-card">
+                    <strong id="totalVideos">0</strong>
 
-            <div class="avatar-large">
+                    <span>Vídeos</span>
 
-                <img src="https://via.placeholder.com/100"
-                     alt="Admin">
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <strong id="totalProvas">0</strong>
+
+                    <span>Provas</span>
+
+                </div>
 
             </div>
 
-            <h3>Super Admin</h3>
-
-            <span class="badge">
-                Acesso Total
-            </span>
-
-        </div>
 
 
-        <div class="stats-grid">
+            <!-- ÚLTIMAS AÇÕES -->
+            <div class="calendar-card"
+                style="margin-top: 20px;">
 
-            <div class="stat-card">
-                <strong>124</strong>
-                <span>Vídeos</span>
+                <h4>Últimas Ações</h4>
+
+                <ul class="admin-list"
+                    id="listaAcoes">
+
+                </ul>
+
             </div>
 
-            <div class="stat-card">
-                <strong>45</strong>
-                <span>Provas</span>
-            </div>
+        </aside>
 
-        </div>
+    </div>
 
 
-        <div class="calendar-card"
-             style="margin-top: 20px;">
 
-            <h4>Últimas Ações</h4>
 
-            <ul class="admin-list">
 
-                <li>
-                    <i class="fas fa-check-circle"></i>
-                    Aula adicionada
-                </li>
 
-                <li>
-                    <i class="fas fa-check-circle"></i>
-                    Simulado atualizado
-                </li>
+    <!-- JAVASCRIPT -->
+    <script>
 
-                <li>
-                    <i class="fas fa-check-circle"></i>
-                    Perfil alterado
-                </li>
+        // =========================
+        // ELEMENTOS HTML
+        // =========================
 
-            </ul>
+        const listaAcoes =
+            document.getElementById("listaAcoes");
 
-        </div>
+        const totalVideos =
+            document.getElementById("totalVideos");
 
-    </aside>
+        const totalProvas =
+            document.getElementById("totalProvas");
 
-</div>
+        const formulario =
+            document.querySelector(".admin-form");
+
+        const tituloConteudo =
+            document.getElementById("tituloConteudo");
+
+        const tipoConteudo =
+            document.getElementById("tipoConteudo");
+
+
+
+        // =========================
+        // CONTEÚDOS SALVOS
+        // =========================
+
+        let conteudos =
+            JSON.parse(
+                localStorage.getItem("conteudosAdmin")
+            ) || [];
+
+
+
+        // =========================
+        // AÇÕES SALVAS
+        // =========================
+
+        let acoes =
+            JSON.parse(
+                localStorage.getItem("acoesAdmin")
+            ) || [];
+
+
+
+        // =========================
+        // ATUALIZAR CARDS
+        // =========================
+
+        function atualizarCards() {
+
+            const videos = conteudos.filter(
+                item => item.tipo === "VIDEO"
+            );
+
+            const provas = conteudos.filter(
+                item => item.tipo === "PROVA"
+            );
+
+            totalVideos.textContent = videos.length;
+
+            totalProvas.textContent = provas.length;
+
+        }
+
+
+
+        // =========================
+        // RENDERIZAR AÇÕES
+        // =========================
+
+        function renderizarAcoes() {
+
+            listaAcoes.innerHTML = "";
+
+            acoes.forEach(acao => {
+
+                listaAcoes.innerHTML += `
+
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        ${acao}
+                    </li>
+
+                `;
+
+            });
+
+        }
+
+
+
+        // =========================
+        // ADICIONAR AÇÃO
+        // =========================
+
+        function adicionarAcao(texto) {
+
+            acoes.unshift(texto);
+
+            // mantém apenas 5 ações
+            if (acoes.length > 5) {
+
+                acoes.pop();
+
+            }
+
+            localStorage.setItem(
+                "acoesAdmin",
+                JSON.stringify(acoes)
+            );
+
+            renderizarAcoes();
+
+        }
+
+
+
+        // =========================
+        // PUBLICAR CONTEÚDO
+        // =========================
+
+        formulario.addEventListener("submit", function (event) {
+
+            event.preventDefault();
+
+            const titulo = tituloConteudo.value;
+
+            const tipo = tipoConteudo.value;
+
+
+
+            // adiciona conteúdo
+            conteudos.push({
+
+                titulo: titulo,
+                tipo: tipo
+
+            });
+
+
+
+            // salva no localStorage
+            localStorage.setItem(
+                "conteudosAdmin",
+                JSON.stringify(conteudos)
+            );
+
+
+
+            // adiciona ação
+            adicionarAcao(
+                `${tipo} publicado: ${titulo}`
+            );
+
+
+
+            // atualiza cards
+            atualizarCards();
+
+
+
+            // envia formulário
+            formulario.submit();
+
+        });
+
+
+
+
+        // =========================
+        // REMOVER CONTEÚDO
+        // =========================
+        // Exemplo:
+        //
+        // removerConteudo(0)
+        //
+        // remove o primeiro conteúdo
+        // =========================
+
+        function removerConteudo(index) {
+
+            const removido = conteudos[index];
+
+            conteudos.splice(index, 1);
+
+            localStorage.setItem(
+                "conteudosAdmin",
+                JSON.stringify(conteudos)
+            );
+
+            adicionarAcao(
+                `${removido.tipo} removido: ${removido.titulo}`
+            );
+
+            atualizarCards();
+
+        }
+
+
+
+
+        // =========================
+        // CARREGAR AO ABRIR
+        // =========================
+
+        atualizarCards();
+
+        renderizarAcoes();
+
+    </script>
 
 </body>
+
 </html>
