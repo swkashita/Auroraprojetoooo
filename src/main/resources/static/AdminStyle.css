@@ -235,3 +235,257 @@ input[type="text"].input-date {
         grid-template-columns: 1fr;
     }
 }
+
+
+/* --- ESTILOS DO FORMULÁRIO DO ADMIN --- */
+.video-info-box {
+    background: var(--white);
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+
+.video-info-box h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+}
+
+.form-group input {
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+    transition: 0.3s;
+}
+
+.form-group input:focus {
+    border-color: #9b6bff;
+    box-shadow: 0 0 0 3px rgba(155, 107, 255, 0.1);
+}
+
+.btn-primary {
+    background: var(--purple-grad);
+    color: white;
+    border: none;
+    padding: 14px 25px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    transition: 0.3s ease;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+}
+
+/* --- LISTA DE MATERIAIS ATIVOS COM EXCLUSÃO --- */
+.material-item {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 14px 20px; 
+    border-bottom: 1px solid #f1f1f1;
+    font-size: 14px;
+    color: #333;
+}
+
+.material-item:last-child {
+    border-bottom: none;
+}
+
+.btn-action.delete {
+    background: #fef2f2;
+    color: #ef4444;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+    text-decoration: none;
+}
+
+.btn-action.delete:hover {
+    background: #fee2e2;
+    color: #dc2626;
+    transform: scale(1.05);
+}
+
+.icon-circle {
+    background: #f0ebff;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- FORMATAÇÃO DE BLOCOS DE CONTEÚDO DO ADMIN --- */
+.video-info-box {
+    background: var(--white);
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+
+.video-info-box h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* --- CAMPOS DE INPUT --- */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+}
+
+.form-group input {
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    font-size: 14px;
+    outline: none;
+    transition: 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #9b6bff;
+    box-shadow: 0 0 0 3px rgba(155, 107, 255, 0.1);
+}
+
+/* --- BOTÕES --- */
+.btn-primary {
+    background: var(--purple-grad);
+    color: white;
+    border: none;
+    padding: 14px 25px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+}
+
+/* --- TABELA / ITENS ATIVOS DE EXCLUSÃO --- */
+.material-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    border-bottom: 1px solid #f1f1f1;
+    font-size: 14px;
+    color: #333;
+}
+
+.material-item:last-child {
+    border-bottom: none;
+}
+
+.material-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.material-meta i {
+    color: #e74c3c;
+    font-size: 16px;
+}
+
+.btn-action.delete {
+    background: #fef2f2;
+    color: #ef4444;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s ease;
+    text-decoration: none;
+}
+
+.btn-action.delete:hover {
+    background: #fee2e2;
+    color: #dc2626;
+    transform: scale(1.05);
+}
+
+/* --- ELEMENTOS DE SUPORTE --- */
+.icon-circle {
+    background: #f0ebff;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: #6d39cf;
+}
+
+.empty-state {
+    color: #888;
+    font-size: 14px;
+    text-align: center;
+    padding: 30px 0;
+}
+
+.admin-list {
+    list-style: none;
+    font-size: 14px;
+    color: #555;
+    padding: 5px 0;
+}
+
+.admin-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

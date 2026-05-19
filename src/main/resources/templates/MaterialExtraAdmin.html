@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Admin - Cadastrar Materiais Extras</title>
+    <link rel="stylesheet" th:href="@{/AdminStyle.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <aside class="sidebar-main">
+            <div class="logo-section">
+                <div class="icon-wrapper"><i class="fas fa-user-shield"></i></div>
+            </div>
+            <nav class="nav-menu">
+                <a th:href="@{/admin}" class="nav-item"><i class="fas fa-chart-line"></i> Painel Geral</a>
+                <a th:href="@{/admin/conteudo}" class="nav-item"><i class="fas fa-video"></i> Gerenciar Aulas</a>
+                <a th:href="@{/admin/provas}" class="nav-item"><i class="fas fa-file-upload"></i> Upload Provas</a>
+                <a th:href="@{/admin/materiais}" class="nav-item active"><i class="fas fa-folder-plus"></i> Materiais Extras</a>
+                <a th:href="@{/admin/calendario}" class="nav-item"><i class="fas fa-calendar-alt"></i> Gerenciar Calendário</a>
+            </nav>
+            <div class="spacer"></div>
+            <div class="sidebar-footer-actions">
+                <a th:href="@{/logout}" class="nav-item logout"><i class="fas fa-sign-out-alt"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-layout">
+            <header class="header-top">
+                <div>
+                    <h1 class="title-page">Gerenciar Materiais Extras</h1>
+                    <p style="color: #666; font-size: 14px; margin-top: -15px;">Disponibilize PDFs, Mapas Mentais ou Links de Estudos para os alunos.</p>
+                </div>
+            </header>
+
+            <section class="admin-form-section">
+                <div class="video-info-box">
+                    <h3><i class="fas fa-plus-circle"></i> Novo Material</h3>
+                    <form th:action="@{/admin/materiais/salvar}" method="POST" class="admin-form">
+                        <div class="form-group">
+                            <label for="titulo">Nome do Material (Ex: Apostila de Crase)</label>
+                            <input type="text" id="titulo" name="titulo" placeholder="Digite o nome do arquivo..." required>
+                        </div>
+       <div class="form-group">
+    <label for="nivel">Categoria do Material:</label>
+    <select name="nivel" id="nivel" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; margin-bottom: 15px;">
+        <option value="Resumo">Resumo em PDF</option>
+        <option value="Mapa Mental">Mapa Mental</option>
+        <option value="Outros">Outros</option> </select>
+</div>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label for="urlLink">Link do Arquivo (Drive / PDF Online)</label>
+                            <input type="url" id="urlLink" name="urlLink" placeholder="https://link-do-material.com/arquivo.pdf" required>
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            Disponibilizar para Alunos
+                        </button>
+                    </form>
+                </div>
+
+                <div class="video-info-box" style="margin-top: 25px;">
+                    <h3>Materiais Ativos</h3>
+                    <div class="material-list" style="margin-top: 15px;">
+                        
+                       <div th:each="mat : ${materiais}" class="material-item">
+    <span class="material-meta">
+        <i class="fas fa-file-pdf"></i>
+        <span th:text="${mat.titulo}">Lista de Exercícios - Álgebra</span>
+    </span>
+    <a th:href="@{/admin/materiais/excluir/{id}(id=${mat.id})}" class="btn-action delete" title="Excluir Material">
+        <i class="fas fa-trash"></i>
+    </a>
+</div>
+
+                        <div th:if="${#lists.isEmpty(materiais)}" class="empty-state">
+                            Nenhum material extra cadastrado ainda.
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <aside class="right-column">
+            <div class="profile-card">
+                <div class="icon-circle">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h3>Armazenamento</h3>
+                <p style="font-size: 13px; color: #666; margin-top: 10px; line-height: 1.4;">
+                    Dê preferência a links compartilháveis do <strong>Google Drive</strong> para poupar o espaço em disco do servidor principal.
+                </p>
+            </div>
+
+            <div class="calendar-card">
+                <h4>Estatísticas gerais</h4>
+                <ul class="admin-list">
+                    <li><i class="fas fa-folder"></i> <strong th:text="${#lists.size(materiais)}">0</strong> Arquivos totais</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+</body>
+</html>

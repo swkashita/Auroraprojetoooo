@@ -1,9 +1,8 @@
 package com.ifsp.Auroraprojeto;
 
 public enum TipoConteudo {
-
-    VIDEO,
     PROVA,
-    GABARITO
-
+    VIDEO,
+    EXERCICIO,
+    MATERIAL // <-- ADICIONE ESSA LINHA AQUI
 }
