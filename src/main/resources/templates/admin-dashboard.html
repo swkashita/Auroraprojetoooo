@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -16,19 +16,15 @@
 
     <div class="dashboard-container">
 
-        <!-- SIDEBAR -->
         <aside class="sidebar-main">
 
             <div class="logo-section">
-
                 <div class="icon-wrapper">
                     <i class="fas fa-user-shield"></i>
                 </div>
-
             </div>
 
             <nav class="nav-menu">
-
                 <a href="/admin" class="nav-item active">
                     <i class="fas fa-chart-line"></i>
                     Painel Geral
@@ -53,36 +49,25 @@
                     <i class="fas fa-folder-plus"></i>
                     Gerenciar Calendário
                 </a>
-
             </nav>
 
             <div class="spacer"></div>
 
             <div class="sidebar-footer-actions">
-
                 <a href="/logout" class="footer-item">
                     <i class="fas fa-sign-out-alt"></i>
                     Sair
                 </a>
-
             </div>
 
         </aside>
 
-
-
-        <!-- CONTEÚDO PRINCIPAL -->
         <main class="main-layout">
 
             <header class="header-top">
-
                 <h1>Painel de Controle</h1>
-
                 <p>Olá, Admin! O que vamos gerenciar hoje?</p>
-
             </header>
-
-
 
             <section class="admin-form-section">
 
@@ -93,154 +78,59 @@
                         Adicionar Novo Conteúdo
                     </h3>
 
+                    <form action="/salvarconteudo" method="post" class="admin-form">
 
-
-                    <form action="/salvarconteudo"
-                        method="post"
-                        class="admin-form">
-
-                        <!-- TÍTULO -->
                         <div class="form-group">
-
-                            <label>Título do Conteúdo</label>
-
-                            <input type="text"
-                                id="tituloConteudo"
-                                name="titulo"
-                                placeholder="Ex: Interpretação de Texto"
-                                required>
-
+                            <label for="tituloConteudo">Título do Conteúdo</label>
+                            <input type="text" id="tituloConteudo" name="titulo" placeholder="Ex: Interpretação de Texto" required>
                         </div>
 
-
-
-                        <!-- LINHA -->
                         <div class="form-row">
 
-                            <!-- LINK -->
                             <div class="form-group">
-
                                 <label>Link do YouTube / PDF</label>
-
-                                <input type="text"
-                                    name="urlLink"
-                                    placeholder="https://youtube.com/embed/...">
-
+                                <input type="text" name="urlLink" placeholder="https://youtube.com/embed/... / Link Drive">
                             </div>
 
-
-
-                            <!-- DISCIPLINA -->
                             <div class="form-group">
-
-                                <label>Disciplina</label>
-
-                                <select name="disciplina" required>
-
-                                    <option value="">
-                                        Selecione
-                                    </option>
-
-                                    <option value="MATEMATICA">
-                                        Matemática
-                                    </option>
-
-                                    <option value="PORTUGUES">
-                                        Português
-                                    </option>
-
+                                <label for="disciplina">Disciplina</label>
+                                <select name="disciplina" id="disciplina" required onchange="atualizarTopicos()">
+                                    <option value="">Selecione</option>
+                                    <option value="MATEMATICA">Matemática</option>
+                                    <option value="PORTUGUES">Português</option>
                                 </select>
-
                             </div>
 
                         </div>
 
-
-
-                        <!-- LINHA -->
                         <div class="form-row">
 
-                            <!-- NÍVEL -->
                             <div class="form-group">
-
-                                <label>Nível</label>
-
-                                <select name="nivel" required>
-
-                                    <option value="">
-                                        Selecione
-                                    </option>
-
-                                    <option value="Básico">
-                                        Básico
-                                    </option>
-
-                                    <option value="Vestibular">
-                                        Vestibular
-                                    </option>
-
-                                    <option value="Ensino Médio">
-                                        Ensino Médio
-                                    </option>
-
+                                <label for="nivel">Assunto / Tópico</label>
+                                <select name="nivel" id="nivel" required>
+                                    <option value="">Selecione a disciplina primeiro...</option>
                                 </select>
-
                             </div>
 
-
-
-                            <!-- TIPO -->
                             <div class="form-group">
-
-                                <label>Tipo de Conteúdo</label>
-
-                                <select name="tipo"
-                                    id="tipoConteudo"
-                                    required>
-
-                                    <option value="">
-                                        Selecione
-                                    </option>
-
-                                    <option value="VIDEO">
-                                        Vídeo
-                                    </option>
-
-                                    <option value="PROVA">
-                                        Prova
-                                    </option>
-
-                                    <option value="GABARITO">
-                                        Gabarito
-                                    </option>
-
+                                <label for="tipoConteudo">Tipo de Conteúdo</label>
+                                <select name="tipo" id="tipoConteudo" required>
+                                    <option value="">Selecione</option>
+                                    <option value="VIDEO">Vídeo</option>
+                                    <option value="PROVA">Prova</option>
+                                    <option value="GABARITO">Gabarito</option>
                                 </select>
-
                             </div>
 
                         </div>
 
-
-
-                        <!-- DESCRIÇÃO -->
                         <div class="form-group">
-
                             <label>Descrição</label>
-
-                            <textarea name="descricao"
-                                rows="4"
-                                placeholder="O que o aluno aprenderá?"></textarea>
-
+                            <textarea name="descricao" rows="4" placeholder="O que o aluno aprenderá?"></textarea>
                         </div>
 
-
-
-                        <!-- BOTÃO -->
-                        <button type="submit"
-                            class="btn-primary">
-
+                        <button type="submit" class="btn-primary">
                             Publicar Conteúdo
-
                         </button>
 
                     </form>
@@ -251,296 +141,169 @@
 
         </main>
 
-
-
-
-
-        <!-- COLUNA DIREITA -->
         <aside class="right-column">
 
-            <!-- PERFIL -->
             <div class="profile-card">
-
                 <div class="avatar-large">
-
-                    <img src="https://via.placeholder.com/100"
-                        alt="Admin">
-
+                    <img src="https://via.placeholder.com/100" alt="Admin">
                 </div>
-
                 <h3>Super Admin</h3>
-
-                <span class="badge">
-                    Acesso Total
-                </span>
-
+                <span class="badge">Acesso Total</span>
             </div>
 
-
-
-            <!-- ESTATÍSTICAS -->
             <div class="stats-grid">
-
                 <div class="stat-card">
-
                     <strong id="totalVideos">0</strong>
-
                     <span>Vídeos</span>
-
                 </div>
-
-
 
                 <div class="stat-card">
-
                     <strong id="totalProvas">0</strong>
-
                     <span>Provas</span>
-
                 </div>
-
             </div>
 
-
-
-            <!-- ÚLTIMAS AÇÕES -->
-            <div class="calendar-card"
-                style="margin-top: 20px;">
-
+            <div class="calendar-card" style="margin-top: 20px;">
                 <h4>Últimas Ações</h4>
-
-                <ul class="admin-list"
-                    id="listaAcoes">
-
-                </ul>
-
+                <ul class="admin-list" id="listaAcoes"></ul>
             </div>
 
         </aside>
 
     </div>
 
-
-
-
-
-
-    <!-- JAVASCRIPT -->
     <script>
-
         // =========================
         // ELEMENTOS HTML
         // =========================
-
-        const listaAcoes =
-            document.getElementById("listaAcoes");
-
-        const totalVideos =
-            document.getElementById("totalVideos");
-
-        const totalProvas =
-            document.getElementById("totalProvas");
-
-        const formulario =
-            document.querySelector(".admin-form");
-
-        const tituloConteudo =
-            document.getElementById("tituloConteudo");
-
-        const tipoConteudo =
-            document.getElementById("tipoConteudo");
-
-
+        const listaAcoes = document.getElementById("listaAcoes");
+        const totalVideos = document.getElementById("totalVideos");
+        const totalProvas = document.getElementById("totalProvas");
+        const formulario = document.querySelector(".admin-form");
+        const tituloConteudo = document.getElementById("tituloConteudo");
+        const tipoConteudo = document.getElementById("tipoConteudo");
 
         // =========================
-        // CONTEÚDOS SALVOS
+        // CONTEÚDOS SALVOS NO LOCALSTORAGE
         // =========================
-
-        let conteudos =
-            JSON.parse(
-                localStorage.getItem("conteudosAdmin")
-            ) || [];
-
-
+        let conteudos = JSON.parse(localStorage.getItem("conteudosAdmin")) || [];
+        let acoes = JSON.parse(localStorage.getItem("acoesAdmin")) || [];
 
         // =========================
-        // AÇÕES SALVAS
+        // ATUALIZAR FILTROS DE TÓPICOS DINAMICAMENTE
         // =========================
-
-        let acoes =
-            JSON.parse(
-                localStorage.getItem("acoesAdmin")
-            ) || [];
-
-
+        function atualizarTopicos() {
+            const disciplina = document.getElementById("disciplina").value;
+            const nivelSelect = document.getElementById("nivel");
+            
+            // Reinicia o select de tópicos
+            nivelSelect.innerHTML = '<option value="">Selecione o assunto...</option>';
+            
+            const topicosMatematica = [
+                "Matemática - Básica",
+                "Matemática - Frações e Números Decimais",
+                "Matemática - Estatística",
+                "Matemática - Geometria Plana",
+                "Matemática - Geometria Espacial",
+                "Matemática - Funções",
+                "Matemática - Analíse Combinatória e Probabilidade",
+                "Matemática - Matrizes"
+            ];
+            
+            const topicosPortugues = [
+                "Português - Gêneros Textuais",
+                "Português - Morfologia",
+                "Português - Classes Gramaticais",
+                "Português - Sintaxe",
+                "Português - Linguagem",
+                "Português - Interpretação de Texto",
+                "Português - Escolas Literárias",
+                "Português - Redação"
+            ];
+            
+            let listaSelecionada = [];
+            if (disciplina === "MATEMATICA") {
+                listaSelecionada = topicosMatematica;
+            } else if (disciplina === "PORTUGUES") {
+                listaSelecionada = topicosPortugues;
+            }
+            
+            listaSelecionada.forEach(function(topico) {
+                const option = document.createElement("option");
+                option.value = topico;
+                option.text = topico;
+                nivelSelect.appendChild(option);
+            });
+        }
 
         // =========================
         // ATUALIZAR CARDS
         // =========================
-
         function atualizarCards() {
-
-            const videos = conteudos.filter(
-                item => item.tipo === "VIDEO"
-            );
-
-            const provas = conteudos.filter(
-                item => item.tipo === "PROVA"
-            );
+            const videos = conteudos.filter(item => item.tipo === "VIDEO");
+            const provas = conteudos.filter(item => item.tipo === "PROVA");
 
             totalVideos.textContent = videos.length;
-
             totalProvas.textContent = provas.length;
-
         }
-
-
 
         // =========================
         // RENDERIZAR AÇÕES
         // =========================
-
         function renderizarAcoes() {
-
             listaAcoes.innerHTML = "";
-
             acoes.forEach(acao => {
-
                 listaAcoes.innerHTML += `
-
                     <li>
                         <i class="fas fa-check-circle"></i>
                         ${acao}
                     </li>
-
                 `;
-
             });
-
         }
-
-
 
         // =========================
         // ADICIONAR AÇÃO
         // =========================
-
         function adicionarAcao(texto) {
-
             acoes.unshift(texto);
-
-            // mantém apenas 5 ações
             if (acoes.length > 5) {
-
                 acoes.pop();
-
             }
-
-            localStorage.setItem(
-                "acoesAdmin",
-                JSON.stringify(acoes)
-            );
-
+            localStorage.setItem("acoesAdmin", JSON.stringify(acoes));
             renderizarAcoes();
-
         }
 
-
-
         // =========================
-        // PUBLICAR CONTEÚDO
+        // EVENTO SUBMIT DO FORMULÁRIO
         // =========================
-
         formulario.addEventListener("submit", function (event) {
-
-            event.preventDefault();
-
+            // Permite o envio para o Spring Boot processar o banco de dados
             const titulo = tituloConteudo.value;
-
             const tipo = tipoConteudo.value;
 
-
-
-            // adiciona conteúdo
             conteudos.push({
-
                 titulo: titulo,
                 tipo: tipo
-
             });
 
-
-
-            // salva no localStorage
-            localStorage.setItem(
-                "conteudosAdmin",
-                JSON.stringify(conteudos)
-            );
-
-
-
-            // adiciona ação
-            adicionarAcao(
-                `${tipo} publicado: ${titulo}`
-            );
-
-
-
-            // atualiza cards
+            localStorage.setItem("conteudosAdmin", JSON.stringify(conteudos));
+            adicionarAcao(`${tipo} publicado: ${titulo}`);
             atualizarCards();
-
-
-
-            // envia formulário
-            formulario.submit();
-
         });
 
-
-
-
-        // =========================
-        // REMOVER CONTEÚDO
-        // =========================
-        // Exemplo:
-        //
-        // removerConteudo(0)
-        //
-        // remove o primeiro conteúdo
-        // =========================
-
         function removerConteudo(index) {
-
             const removido = conteudos[index];
-
             conteudos.splice(index, 1);
-
-            localStorage.setItem(
-                "conteudosAdmin",
-                JSON.stringify(conteudos)
-            );
-
-            adicionarAcao(
-                `${removido.tipo} removido: ${removido.titulo}`
-            );
-
+            localStorage.setItem("conteudosAdmin", JSON.stringify(conteudos));
+            adicionarAcao(`${removido.tipo} removido: ${removido.titulo}`);
             atualizarCards();
-
         }
 
-
-
-
-        // =========================
         // CARREGAR AO ABRIR
-        // =========================
-
         atualizarCards();
-
         renderizarAcoes();
-
     </script>
 
 </body>
-
 </html>
