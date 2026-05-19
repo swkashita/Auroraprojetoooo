@@ -68,20 +68,6 @@
                 <div class="search-global">
                     <input type="text" placeholder="Pesquisar">
                 </div>
-
-                <div class="user-header-mini">
-                    <img src="https://via.placeholder.com/30" alt="Avatar" class="mini-avatar">
-
-                    <div class="mini-text">
-                        <span class="mini-name" th:text="${usuario.nome}">Eduardo Costa</span>
-                        <span class="mini-status">Online</span>
-                    </div>
-
-                    <i class="far fa-bell"></i>
-                    <a href="/login-admin" style="color: inherit; text-decoration: none;">
-                        <i class="fas fa-cog"></i>
-                    </a>
-                </div>
             </header>
 
             <div class="dashboard-content">
@@ -91,7 +77,7 @@
                             <h2>Transforme seu futuro com o Cursinho Aurora 100% gratuito!</h2>
                             <p>Luminando Futuro</p>
                         </div>
-                        <img src="https://via.placeholder.com/150" alt="Estudante" class="banner-img">
+        
                     </div>
 
                     <div class="info-card">
@@ -104,11 +90,7 @@
                 <div class="right-column">
                     <div class="profile-card">
                         <div class="profile-main">
-                            <div class="avatar-large">
-                                <img src="https://via.placeholder.com/100" alt="Avatar do usuário">
-                                <button class="btn-add-photo">+</button>
-                            </div>
-                            <h3 th:text="${usuario.nome}">Eduardo Costa</h3>
+                            <h3 style="margin-bottom: 15px;" th:text="${usuario.nome}">Eduardo Costa</h3>
                             <span class="badge">Estudante</span>
                         </div>
                     </div>

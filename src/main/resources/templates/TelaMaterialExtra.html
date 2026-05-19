@@ -32,20 +32,6 @@
                 <div class="search-global">
                     <input type="text" placeholder="Pesquisar livros, PDFs ou resumos">
                 </div>
-                
-                <div class="user-info-header">
-                    <div class="user-profile">
-                        <img src="https://via.placeholder.com/40" alt="Avatar de Eduardo Costa" class="avatar">
-                        <div class="user-text">
-                            <span th:text="${usuario.nome}"></span>
-                            <span class="user-status">Online</span>
-                        </div>
-                    </div>
-                    <div class="top-icons">
-                        <i class="far fa-bell" title="Notificações"></i>
-                        <i class="fas fa-cog" title="Configurações"></i>
-                    </div>
-                </div>
             </header>
 
             <section class="content-body">
@@ -78,18 +64,15 @@
             </section>
         </main>
 
-        <aside class="right-sidebar-padrao">
-            <div class="profile-card-mini">
-                <div class="avatar-large">
-                    <img src="https://via.placeholder.com/100" alt="Eduardo Costa">
-                    <button type="button" class="btn-add-photo">+</button>
-                </div>
-                <h3 th:text="${usuario.nome}"></h3>
-                <span class="badge">Estudante</span>
+        
+        <aside class="right-sidebar-padrao" style="width: 300px; padding: 20px;">
+            <div class="profile-card-mini" style="text-align: center; background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                <h3 style="margin-top: 10px; margin-bottom: 15px;" th:text="${usuario.nome}"></h3>
+                <span class="badge" style="background: #f0f0f0; padding: 5px 10px; border-radius: 15px; font-size: 0.8rem;">Estudante</span>
             </div>
             
-            <div class="calendar-mini">
-                <h4>Calendário</h4>
+            <div class="calendar-mini" style="margin-top: 20px; background: white; border-radius: 20px; padding: 20px;">
+                <h4 style="margin-bottom: 10px;">Calendário</h4>
                 <p style="font-size: 0.85rem; border-bottom: 1px solid #eee; padding: 5px 0;"><ul class="admin-list">
         <li th:each="ev : ${eventos}">
             <i class="fas fa-calendar-check"></i>
@@ -98,7 +81,7 @@
         </li>
         
         <li th:if="${#lists.isEmpty(eventos)}">
-            <i class="fas fa-info-circle"></i> Nenhuma prova agendada.
+            <i style="margin-top: 10px;" class="fas fa-info-circle"></i> Nenhuma prova agendada.
         </li>
     </ul></p>
             </div>
