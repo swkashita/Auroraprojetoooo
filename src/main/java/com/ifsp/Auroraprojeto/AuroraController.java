@@ -59,23 +59,21 @@ public class AuroraController {
     @GetMapping("/cadastro")
     public String telaCadastro(HttpSession session, Model model) {
         if (usuarioLogado(session)) return "redirect:/inicio";
-        // Passamos um objeto vazio para o formulário Thymeleaf preencher
         model.addAttribute("usuario", new Usuario());
         return "Cadastro"; 
     }
-@PostMapping("/cadastro")
-public String realizarCadastro(@ModelAttribute Usuario usuario) {
-    // Note que aqui usamos o método 'cadastrar' que você já tem no Service
-    // Ele retorna 'true' se salvou e 'false' se o e-mail já existe
-    boolean sucesso = usuarioService.cadastrar(usuario);
 
-    if (sucesso) {
-        return "redirect:/login?sucesso=true";
-    } else {
-        // Se o método retornar false, redireciona com erro de e-mail
-        return "redirect:/cadastro?erro=email_existente";
+    @PostMapping("/cadastro")
+    public String realizarCadastro(@ModelAttribute Usuario usuario) {
+        boolean sucesso = usuarioService.cadastrar(usuario);
+
+        if (sucesso) {
+            return "redirect:/login?sucesso=true";
+        } else {
+            return "redirect:/cadastro?erro=email_existente";
+        }
     }
-}
+
     // ================= ÁREA DO ALUNO =================
 
     @GetMapping("/inicio")
@@ -86,11 +84,11 @@ public String realizarCadastro(@ModelAttribute Usuario usuario) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
         if (usuario != null) {
-        model.addAttribute("cidade", usuario.getCidade());
-    }
+            model.addAttribute("cidade", usuario.getCidade());
+        }
      
-    List<Calendario> listaEventos = calendarioRepository.findAll();
-    model.addAttribute("eventos", listaEventos);
+        List<Calendario> listaEventos = calendarioRepository.findAll();
+        model.addAttribute("eventos", listaEventos);
 
         return "TelaInicio";
     }
@@ -123,88 +121,136 @@ public String realizarCadastro(@ModelAttribute Usuario usuario) {
         return "TelaDisciplinas";
     }
 
+    // NOVA ROTA DE EXERCÍCIOS: Totalmente dinâmica e blindada contra erro 404
     @GetMapping("/exercicios")
-    public String exercicios(HttpSession session, Model model) {
+    public String exercicios(
+            @RequestParam(value = "disc", required = false) String disc,
+            @RequestParam(value = "nivel", required = false) String nivel,
+            HttpSession session, Model model) {
+        
         if (!usuarioLogado(session)) return "redirect:/login";
+        
+        List<Conteudo> listaExercicios;
+
+        // Se o aluno escolheu uma disciplina e nível específicos (ex: Matemática Básico)
+        if (disc != null && !disc.isEmpty() && nivel != null && !nivel.isEmpty()) {
+            try {
+                Disciplina disciplinaEnum = Disciplina.valueOf(disc.toUpperCase());
+                List<Conteudo> doBanco = conteudoRepository.findByDisciplinaAndNivel(disciplinaEnum, nivel);
+                
+                if (doBanco != null) {
+                    listaExercicios = doBanco.stream()
+                        .filter(c -> TipoConteudo.EXERCICIO.equals(c.getTipo()))
+                        .toList();
+                } else {
+                    listaExercicios = new ArrayList<>();
+                }
+            } catch (IllegalArgumentException e) {
+                listaExercicios = new ArrayList<>();
+            }
+            model.addAttribute("disciplinaAtiva", disc);
+            model.addAttribute("nivelAtivo", nivel);
+        } else {
+            // Se o aluno entrou direto sem filtros, traz todas as listas do tipo EXERCICIO
+            List<Conteudo> todosExercicios = conteudoRepository.findByTipo(TipoConteudo.EXERCICIO);
+            listaExercicios = todosExercicios != null ? todosExercicios : new ArrayList<>();
+        }
+
+        model.addAttribute("exercicios", listaExercicios);
+        
+        List<Calendario> eventos = calendarioRepository.findAll();
+        model.addAttribute("eventos", eventos);
         model.addAttribute("usuario", (Usuario) session.getAttribute("usuario"));
+        
         return "TelaExercicios";
     }
 
-   @GetMapping("/provas")
-public String provas(HttpSession session, Model model) {
-    if (!usuarioLogado(session)) return "redirect:/login";
-    
-    // Busca apenas o que é do tipo PROVA no banco
-    List<Conteudo> provasAnteriores = conteudoRepository.findByTipo(TipoConteudo.PROVA);
-    
-    model.addAttribute("provas", provasAnteriores);
+    @GetMapping("/provas")
+    public String provas(HttpSession session, Model model) {
+        if (!usuarioLogado(session)) return "redirect:/login";
+        
+        List<Conteudo> provasAnteriores = conteudoRepository.findByTipo(TipoConteudo.PROVA);
+        model.addAttribute("provas", provasAnteriores);
 
-    // 2. BUSCA AS DATAS DO CALENDÁRIO (Para aparecer na lateral ou topo desta tela)
-    List<Calendario> eventos = calendarioRepository.findAll();
-    model.addAttribute("eventos", eventos);
-    model.addAttribute("usuario", (Usuario) session.getAttribute("usuario"));
-    
-    return "TelaProvas";
-}
+        List<Calendario> eventos = calendarioRepository.findAll();
+        model.addAttribute("eventos", eventos);
+        model.addAttribute("usuario", (Usuario) session.getAttribute("usuario"));
+        
+        return "TelaProvas";
+    }
 
     @GetMapping("/material")
-    public String material(HttpSession session, Model model) {
+    public String material(@RequestParam(value = "cat", required = false) String categoria, HttpSession session, Model model) {
         if (!usuarioLogado(session)) return "redirect:/login";
 
-        // 2. BUSCA AS DATAS DO CALENDÁRIO (Para aparecer na lateral ou topo desta tela)
-    List<Calendario> eventos = calendarioRepository.findAll();
-    model.addAttribute("eventos", eventos);
+        List<Conteudo> materiaisDisponiveis = conteudoRepository.findByTipo(TipoConteudo.MATERIAL);
+        
+        if (categoria != null && !categoria.isEmpty() && materiaisDisponiveis != null) {
+            materiaisDisponiveis = materiaisDisponiveis.stream()
+                .filter(m -> categoria.equalsIgnoreCase(m.getNivel()))
+                .toList();
+            model.addAttribute("categoriaAtiva", categoria);
+        }
+
+        model.addAttribute("materiais", materiaisDisponiveis != null ? materiaisDisponiveis : new ArrayList<Conteudo>());
+
+        List<Calendario> eventos = calendarioRepository.findAll();
+        model.addAttribute("eventos", eventos);
         model.addAttribute("usuario", (Usuario) session.getAttribute("usuario"));
+        
         return "TelaMaterialExtra";
     }
 
     // ================= AULAS POR MATÉRIA =================
 
-  @GetMapping("/matematica-basico")
-public String matematicaBasico(Model model, HttpSession session) {
-    // 1. Verifica login
-    if (!usuarioLogado(session)) return "redirect:/login";
+    // ================= AULAS POR MATÉRIA =================
 
-    try {
-        // 2. Tenta buscar os dados
-        List<Conteudo> aulas = conteudoRepository.findByDisciplinaAndNivel(Disciplina.MATEMATICA, "Básico");
-        
-        // 3. Garante que a lista não seja nula (evita erro 500 no Thymeleaf)
-        model.addAttribute("aulas", aulas != null ? aulas : new ArrayList<Conteudo>());
-        model.addAttribute("usuario", session.getAttribute("usuario"));
-        
-        return "TelaAulas";
-    } catch (Exception e) {
-        // Se der erro aqui, o console do seu VS Code vai mostrar o motivo real
-        System.out.println("ERRO AO BUSCAR AULAS: " + e.getMessage());
-        return "redirect:/inicio"; // Te joga de volta pra home em vez de dar tela de erro
-    }
-}
-    @GetMapping("/matematica-vestibular")
-    public String matematicaVestibular(Model model, HttpSession session) {
+    @GetMapping("/aulas/matematica")
+    public String aulasMatematica(@RequestParam("topico") String topico, Model model, HttpSession session) {
         if (!usuarioLogado(session)) return "redirect:/login";
-        List<Conteudo> aulas = conteudoRepository.findByDisciplinaAndNivel(Disciplina.MATEMATICA, "Vestibular");
-        model.addAttribute("aulas", aulas);
-        model.addAttribute("usuario", (Usuario) session.getAttribute("usuario"));
-        return "TelaAulas";
+
+        try {
+            // Busca os conteúdos de MATEMATICA. Usamos o campo 'nivel' para salvar o nome do Tópico/Assunto
+            List<Conteudo> todasAulas = conteudoRepository.findByDisciplinaAndNivel(Disciplina.MATEMATICA, topico);
+            
+            // Filtra via Stream para garantir que só exibe o tipo VIDEO
+            List<Conteudo> aulasFiltradas = todasAulas != null ? todasAulas.stream()
+                .filter(c -> TipoConteudo.VIDEO.equals(c.getTipo()))
+                .toList() : new ArrayList<>();
+
+            model.addAttribute("aulas", aulasFiltradas);
+            model.addAttribute("tituloTopico", topico); // Para exibir o nome do assunto no topo da tela
+            model.addAttribute("usuario", session.getAttribute("usuario"));
+            
+            return "TelaAulas";
+        } catch (Exception e) {
+            System.out.println("ERRO AO BUSCAR AULAS DE MATEMÁTICA: " + e.getMessage());
+            return "redirect:/disciplinas";
+        }
     }
 
-    @GetMapping("/portugues-basico")
-    public String portuguesBasico(Model model, HttpSession session) {
+    @GetMapping("/aulas/portugues")
+    public String aulasPortugues(@RequestParam("topico") String topico, Model model, HttpSession session) {
         if (!usuarioLogado(session)) return "redirect:/login";
-        List<Conteudo> aulas = conteudoRepository.findByDisciplinaAndNivel(Disciplina.PORTUGUES, "Básico");
-        model.addAttribute("aulas", aulas);
-        model.addAttribute("usuario", (Usuario) session.getAttribute("usuario"));
-        return "TelaAulas";
-    }
 
-    @GetMapping("/portugues-vestibular")
-    public String portuguesVestibular(Model model, HttpSession session) {
-        if (!usuarioLogado(session)) return "redirect:/login";
-        List<Conteudo> aulas = conteudoRepository.findByDisciplinaAndNivel(Disciplina.PORTUGUES, "Vestibular");
-        model.addAttribute("aulas", aulas);
-        model.addAttribute("usuario", (Usuario) session.getAttribute("usuario"));
-        return "TelaAulas";
+        try {
+            // Busca os conteúdos de PORTUGUES filtrando pelo Tópico/Assunto (salvo em nivel)
+            List<Conteudo> todasAulas = conteudoRepository.findByDisciplinaAndNivel(Disciplina.PORTUGUES, topico);
+            
+            // Filtra para trazer apenas os vídeos
+            List<Conteudo> aulasFiltradas = todasAulas != null ? todasAulas.stream()
+                .filter(c -> TipoConteudo.VIDEO.equals(c.getTipo()))
+                .toList() : new ArrayList<>();
+
+            model.addAttribute("aulas", aulasFiltradas);
+            model.addAttribute("tituloTopico", topico);
+            model.addAttribute("usuario", session.getAttribute("usuario"));
+            
+            return "TelaAulas";
+        } catch (Exception e) {
+            System.out.println("ERRO AO BUSCAR AULAS DE PORTUGUÊS: " + e.getMessage());
+            return "redirect:/disciplinas";
+        }
     }
 
     // ================= SISTEMA DO ADMIN =================
@@ -234,41 +280,90 @@ public String matematicaBasico(Model model, HttpSession session) {
     @GetMapping("/admin/conteudo")
     public String gerenciarAulas(HttpSession session, Model model) {
         if (!adminLogado(session)) return "redirect:/login-admin";
-        List<Conteudo> aulas = conteudoRepository.findAll(); // Busca tudo para gerenciar
+        List<Conteudo> aulas = conteudoRepository.findAll(); 
         model.addAttribute("aulas", aulas);
         return "gerenciar-aulas";
     }
 
-    // NOVA ROTA: Abre a tela de salvar conteúdo
     @GetMapping("/admin/upload")
     public String telaUpload(HttpSession session) {
         if (!adminLogado(session)) return "redirect:/login-admin";
         return "upload-conteudo";
     }
 
-    // NOVA ROTA: Processa o salvamento do conteúdo
-   @PostMapping("/salvarconteudo")
-public String salvarConteudo(@ModelAttribute Conteudo conteudo, HttpSession session) {
-    if (!adminLogado(session)) return "redirect:/login-admin";
-    
-    // O Spring agora vai encontrar o 'urlLink' vindo do formulário
-    conteudoRepository.save(conteudo); 
-    
-    return "redirect:/admin/conteudo";
-}
+    @PostMapping("/salvarconteudo")
+    public String salvarConteudo(@ModelAttribute Conteudo conteudo, HttpSession session) {
+        if (!adminLogado(session)) return "redirect:/login-admin";
+        conteudoRepository.save(conteudo); 
+        return "redirect:/admin/conteudo";
+    }
 
-    // NOVA ROTA: Excluir conteúdo
     @GetMapping("/admin/excluir/{id}")
     public String excluirConteudo(@PathVariable Long id, HttpSession session) {
         if (!adminLogado(session)) return "redirect:/login-admin";
         conteudoRepository.deleteById(id);
         return "redirect:/admin/conteudo";
     }
-    @GetMapping("/admin/provas") // Esse link deve ser o mesmo que está no seu menu lateral
-public String telaUploadProvas(HttpSession session) {
-    if (!adminLogado(session)) return "redirect:/login-admin";
-    return "upload-provas"; // Nome exato do seu arquivo HTML sem o .html
-}
+
+    @GetMapping("/admin/provas") 
+    public String telaUploadProvas(HttpSession session) {
+        if (!adminLogado(session)) return "redirect:/login-admin";
+        return "upload-provas"; 
+    }
+
+    // ================= ROTAS DO ADMIN: GERENCIAR MATERIAIS EXTRAS =================
+
+    @GetMapping("/admin/materiais")
+    public String gerenciarMateriaisAdmin(HttpSession session, Model model) {
+        if (!adminLogado(session)) return "redirect:/login-admin";
+        
+        List<Conteudo> materiais = conteudoRepository.findByTipo(TipoConteudo.MATERIAL);
+        model.addAttribute("materiais", materiais != null ? materiais : new ArrayList<Conteudo>());
+        return "MaterialExtraAdmin"; 
+    }
+
+    @PostMapping("/admin/materiais/salvar")
+    public String adminSalvarMaterial(@ModelAttribute Conteudo conteudo, HttpSession session) {
+        if (!adminLogado(session)) return "redirect:/login-admin";
+        
+        conteudo.setTipo(TipoConteudo.MATERIAL); 
+        conteudoRepository.save(conteudo);
+        return "redirect:/admin/materiais?sucesso=true";
+    }
+
+    @GetMapping("/admin/materiais/excluir/{id}")
+    public String adminExcluirMaterial(@PathVariable Long id, HttpSession session) {
+        if (!adminLogado(session)) return "redirect:/login-admin";
+        
+        conteudoRepository.deleteById(id);
+        return "redirect:/admin/materiais";
+    }
+
+    // ================= GERENCIAMENTO DO CALENDÁRIO =================
+
+    @GetMapping("/admin/calendario")
+    public String gerenciarCalendario(HttpSession session, Model model){
+        if (!adminLogado(session)) return "redirect:/login-admin";
+        
+        List<Calendario> eventos = calendarioRepository.findAll();
+        model.addAttribute("eventos", eventos);
+        return "gerenciar_calendario";
+    }
+
+    @PostMapping("/admin/calendario/salvar")
+    public String salvarEvento(@ModelAttribute Calendario calendario, HttpSession session) {
+        if (!adminLogado(session)) return "redirect:/login-admin";
+        
+        calendarioRepository.save(calendario);
+        return "redirect:/admin/calendario?sucesso=true";
+    }
+    
+    @GetMapping("/admin/calendario/excluir/{id}")
+    public String excluirEvento(@PathVariable Long id, HttpSession session) {
+        if (!adminLogado(session)) return "redirect:/login-admin";
+        calendarioRepository.deleteById(id);
+        return "redirect:/admin/calendario";
+    }
 
     // ================= MÉTODOS AUXILIARES =================
 
@@ -281,47 +376,14 @@ public String telaUploadProvas(HttpSession session) {
     }
 
     @GetMapping("/assistir/{id}")
-public String assistirAula(@PathVariable Long id, Model model, HttpSession session) {
-    if (!usuarioLogado(session)) return "redirect:/login";
-    
-    // Busca a aula no banco pelo ID que veio no clique
-    Conteudo aula = conteudoRepository.findById(id).orElse(null);
-    
-    if (aula == null) return "redirect:/inicio"; // Se não achar a aula, volta pro início
-
-    model.addAttribute("aula", aula);
-    model.addAttribute("usuario", (Usuario) session.getAttribute("usuario"));
-    
-    return "TelaAssistir"; // Nome do seu arquivo HTML
-}
-
-// ================= GERENCIAMENTO DO CALENDÁRIO =================
-
-    @GetMapping("/admin/calendario")
-    public String gerenciarCalendario(HttpSession session, Model model){
-        if (!adminLogado(session)) return "redirect:/login-admin";
+    public String assistirAula(@PathVariable Long id, Model model, HttpSession session) {
+        if (!usuarioLogado(session)) return "redirect:/login";
         
-        // Use a variável injetada 'calendarioRepository' (com 'c' minúsculo)
-        List<Calendario> eventos = calendarioRepository.findAll();
-        model.addAttribute("eventos", eventos);
+        Conteudo aula = conteudoRepository.findById(id).orElse(null);
+        if (aula == null) return "redirect:/inicio"; 
 
-        return "gerenciar_calendario";
-    }
-
-    // 3. ROTA PARA SALVAR O EVENTO
-    @PostMapping("/admin/calendario/salvar")
-    public String salvarEvento(@ModelAttribute Calendario calendario, HttpSession session) {
-        if (!adminLogado(session)) return "redirect:/login-admin";
-        
-        calendarioRepository.save(calendario);
-        return "redirect:/admin/calendario?sucesso=true";
-    }
-    
-    // 4. ROTA PARA EXCLUIR EVENTO (OPCIONAL)
-    @GetMapping("/admin/calendario/excluir/{id}")
-    public String excluirEvento(@PathVariable Long id, HttpSession session) {
-        if (!adminLogado(session)) return "redirect:/login-admin";
-        calendarioRepository.deleteById(id);
-        return "redirect:/admin/calendario";
+        model.addAttribute("aula", aula);
+        model.addAttribute("usuario", (Usuario) session.getAttribute("usuario"));
+        return "TelaAssistir"; 
     }
 }

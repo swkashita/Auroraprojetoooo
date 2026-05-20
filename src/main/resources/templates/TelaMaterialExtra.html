@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org"></html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,32 +38,41 @@
                 <h1 class="title-page">Material Extra</h1>
                 
                 <div class="categorias-extras">
-                    <button type="button" class="cat-button">Resumos em PDF</button>
-                    <button type="button" class="cat-button">Mapas Mentais</button>
-                    <button type="button" class="cat-button">E-books Recomendados</button>
-                    <button type="button" class="cat-button">Formulários</button>
-                </div>
+    <a href="/material" class="cat-button" th:style="${categoriaAtiva == null} ? 'background: #6d39cf; color: white;' : ''">Todos</a>
+    
+    <a href="/material?cat=Resumo" class="cat-button" th:style="${categoriaAtiva == 'Resumo'} ? 'background: #6d39cf; color: white;' : ''">Resumos em PDF</a>
+    
+    <a href="/material?cat=Mapa Mental" class="cat-button" th:style="${categoriaAtiva == 'Mapa Mental'} ? 'background: #6d39cf; color: white;' : ''">Mapas Mentais</a>
+    
+    <a href="/material?cat=Outros" class="cat-button" th:style="${categoriaAtiva == 'Outros'} ? 'background: #6d39cf; color: white;' : ''">Outros</a>
+</div>
 
-                <h2 class="sub-title">Adicionados recentemente</h2>
-                <div class="material-grid">
-                    <div class="book-card">
-                        <div class="book-cover"><i class="fas fa-book-open"></i></div>
-                        <div class="book-info">
-                            <h4>Fórmulas de Física</h4>
-                            <span>PDF - 12MB</span>
+                <h3 class="section-subtitle" style="margin-top: 30px; margin-bottom: 15px; color: #333;">Adicionados recentemente</h3>
+                
+                <div class="materials-grid" style="display: flex; flex-wrap: wrap; gap: 20px;">
+                    
+                    <div th:each="mat : ${materiais}" class="material-card" style="background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: flex; align-items: center; gap: 15px; min-width: 250px;">
+                        <div class="material-icon-wrapper" style="background: #f0ebff; width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-file-pdf" style="color: #6d39cf; font-size: 20px;"></i>
+                        </div>
+                        <div class="material-info" style="display: flex; flex-direction: column; gap: 4px;">
+                            <h4 th:text="${mat.titulo}" style="font-size: 15px; font-weight: 600; color: #222; margin: 0;">Título do Material</h4>
+                            
+                            <a th:href="${mat.urlLink}" target="_blank" style="font-size: 13px; color: #6d39cf; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+                                Acessar Material <i class="fas fa-external-link-alt" style="font-size: 11px;"></i>
+                            </a>
                         </div>
                     </div>
-                    <div class="book-card">
-                        <div class="book-cover"><i class="fas fa-brain"></i></div>
-                        <div class="book-info">
-                            <h4>Mapa Mental: Brasil Colônia</h4>
-                            <span>PNG - 5MB</span>
-                        </div>
+
+                    <div th:if="${#lists.isEmpty(materiais)}" style="color: #888; font-size: 14px; padding: 10px 0;">
+                        Nenhum material extra disponível no momento.
                     </div>
+
                 </div>
             </section>
         </main>
 
+<<<<<<< HEAD
         
         <aside class="right-sidebar-padrao" style="width: 300px; padding: 20px;">
             <div class="profile-card-mini" style="text-align: center; background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
@@ -84,6 +93,33 @@
             <i style="margin-top: 10px;" class="fas fa-info-circle"></i> Nenhuma prova agendada.
         </li>
     </ul></p>
+=======
+        <aside class="right-sidebar-padrao">
+            <div class="profile-card-mini">
+                <div class="avatar-large">
+                    <img src="https://via.placeholder.com/100" alt="Foto do perfil">
+                    <button type="button" class="btn-add-photo">+</button>
+                </div>
+                <h3 th:text="${usuario.nome}">Nome do Aluno</h3>
+                <span class="badge">Estudante</span>
+            </div>
+            
+            <div class="calendar-mini">
+                <h4>Calendário</h4>
+                <div style="font-size: 0.85rem; border-bottom: 1px solid #eee; padding: 5px 0;">
+                    <ul class="admin-list" style="list-style: none; padding: 0; margin: 0;">
+                        <li th:each="ev : ${eventos}" style="margin-bottom: 8px;">
+                            <i class="fas fa-calendar-check" style="color: #6d39cf; margin-right: 5px;"></i>
+                            <strong th:text="${ev.data}">00/00</strong> - 
+                            <span th:text="${ev.descricao}">Descrição</span>
+                        </li>
+                        
+                        <li th:if="${#lists.isEmpty(eventos)}">
+                            <i class="fas fa-info-circle"></i> Nenhuma prova agendada.
+                        </li>
+                    </ul>
+                </div>
+>>>>>>> 75045e12b4db360fd47e84d52747b506a8eb9d2d
             </div>
         </aside>
     </div>
