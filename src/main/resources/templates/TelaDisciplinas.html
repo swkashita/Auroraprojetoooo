@@ -1,11 +1,87 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aurora - Disciplinas</title>
-    <link rel="stylesheet" href="TelaDisciplinas.css">
+    <link rel="stylesheet" href="/TelaDisciplinas.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Pílulas superiores de filtragem */
+        .disciplinas-filtros {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+        .filter-pill {
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            background: #eaddff;
+            color: #6d39cf;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .filter-pill:hover {
+            background: #d0bcff;
+        }
+        .filter-pill.active {
+            background: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%);
+            color: white;
+        }
+
+        /* GRID SOBREPOSTO PARA SUBSTITUIR OS BOTÕES GIGANTES */
+        .disciplinas-grid-pequeno {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            width: 100%;
+        }
+        .disciplina-card-pequeno {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid #eaeaea;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .disciplina-card-pequeno:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(109, 57, 207, 0.1);
+        }
+        .icon-box-disciplina {
+            background: #f0ebff;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .info-box-disciplina h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111;
+            margin: 0;
+            line-height: 1.4;
+        }
+        .info-box-disciplina span {
+            font-size: 12px;
+            color: #6d39cf;
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-container">
@@ -24,16 +100,14 @@
                 <a href="/perfil" class="nav-item"><i class="fas fa-user"></i> Perfil</a>
                 <div class="spacer"></div>
 
-               <div class="sidebar-footer-actions">
-                <a href="/login" class="footer-item">
-                    <i class="fas fa-sign-out-alt"></i> Sair
-                </a>
-
-                <a href="/login-admin" class="admin-gear-btn">
-                    <i class="fas fa-cog"></i>
-                </a>
-            </div>
-
+                <div class="sidebar-footer-actions">
+                    <a href="/login" class="footer-item">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </a>
+                    <a href="/login-admin" class="admin-gear-btn">
+                        <i class="fas fa-cog"></i>
+                    </a>
+                </div>
             </nav>
         </aside>
 
@@ -47,72 +121,79 @@
             <section class="content-body">
                 <h1 class="title-page">Disciplinas</h1>
                 
-                <div class="disciplinas-list">
+                <div class="disciplinas-filtros">
+                    <button class="filter-pill active" onclick="filtrarMateria('todos', this)">Todas as Disciplinas</button>
+                    <button class="filter-pill" onclick="filtrarMateria('mat', this)">Matemática</button>
+                    <button class="filter-pill" onclick="filtrarMateria('port', this)">Português</button>
+                </div>
+
+                <div class="disciplinas-grid-pequeno">
                  
-<a href="/aulas/matematica?topico=Matemática - Básica" class="disciplina-button">
-   Matemática - Básica
-</a>
+                    <a href="/aulas/matematica?topico=Matemática - Básica" class="disciplina-card-pequeno" data-materia="mat">
+                        <div class="icon-box-disciplina"><i class="fas fa-calculator" style="color: #6d39cf; font-size: 18px;"></i></div>
+                        <div class="info-box-disciplina"><h4>Matemática Básica</h4><span>Acessar Aulas</span></div>
+                    </a>
+                    <a href="/aulas/matematica?topico=Matemática - Frações e Números Decimais" class="disciplina-card-pequeno" data-materia="mat">
+                        <div class="icon-box-disciplina"><i class="fas fa-pie-chart" style="color: #6d39cf; font-size: 18px;"></i></div>
+                        <div class="info-box-disciplina"><h4>Frações e Decimais</h4><span>Acessar Aulas</span></div>
+                    </a>
+                    <a href="/aulas/matematica?topico=Matemática - Estatística" class="disciplina-card-pequeno" data-materia="mat">
+                        <div class="icon-box-disciplina"><i class="fas fa-chart-bar" style="color: #6d39cf; font-size: 18px;"></i></div>
+                        <div class="info-box-disciplina"><h4>Estatística</h4><span>Acessar Aulas</span></div>
+                    </a>
+                    <a href="/aulas/matematica?topico=Matemática - Geometria Plana" class="disciplina-card-pequeno" data-materia="mat">
+                        <div class="icon-box-disciplina"><i class="fas fa-shapes" style="color: #6d39cf; font-size: 18px;"></i></div>
+                        <div class="info-box-disciplina"><h4>Geometria Plana</h4><span>Acessar Aulas</span></div>
+                    </a>
+                    <a href="/aulas/matematica?topico=Matemática - Geometria Espacial" class="disciplina-card-pequeno" data-materia="mat">
+                        <div class="icon-box-disciplina"><i class="fas fa-cube" style="color: #6d39cf; font-size: 18px;"></i></div>
+                        <div class="info-box-disciplina"><h4>Geometria Espacial</h4><span>Acessar Aulas</span></div>
+                    </a>
+                    <a href="/aulas/matematica?topico=Matemática - Funções" class="disciplina-card-pequeno" data-materia="mat">
+                        <div class="icon-box-disciplina"><i class="fas fa-project-diagram" style="color: #6d39cf; font-size: 18px;"></i></div>
+                        <div class="info-box-disciplina"><h4>Funções</h4><span>Acessar Aulas</span></div>
+                    </a>
+                    <a href="/aulas/matematica?topico=Matemática - Analíse Combinatória e Probabilidade" class="disciplina-card-pequeno" data-materia="mat">
+                        <div class="icon-box-disciplina"><i class="fas fa-dice" style="color: #6d39cf; font-size: 18px;"></i></div>
+                        <div class="info-box-disciplina"><h4>Combinatória e Probabilidade</h4><span>Acessar Aulas</span></div>
+                    </a>
+                    <a href="/aulas/matematica?topico=Matemática - Matrizes" class="disciplina-card-pequeno" data-materia="mat">
+                        <div class="icon-box-disciplina"><i class="fas fa-th" style="color: #6d39cf; font-size: 18px;"></i></div>
+                        <div class="info-box-disciplina"><h4>Matrizes</h4><span>Acessar Aulas</span></div>
+                    </a>
 
-<a href="/aulas/matematica?topico=Matemática - Frações e Números Decimais" class="disciplina-button">
-   Matemática - Frações e Números Decimais
-</a>
-
-<a href="/aulas/matematica?topico=Matemática - Estatística" class="disciplina-button">
-   Matemática - Estatística
-</a>
-
-<a href="/aulas/matematica?topico=Matemática - Geometria Plana" class="disciplina-button">
-   Matemática - Geometria Plana
-</a>
-
-<a href="/aulas/matematica?topico=Matemática - Geometria Espacial" class="disciplina-button">
-   Matemática - Geometria Espacial
-</a>
-
-<a href="/aulas/matematica?topico=Matemática - Funções" class="disciplina-button">
-   Matemática - Funções
-</a>
-
-<a href="/aulas/matematica?topico=Matemática - Analíse Combinatória e Probabilidade" class="disciplina-button">
-   Matemática - Analíse Combinatória e Probabilidade 
-</a>
-
-<a href="/aulas/matematica?topico=Matemática - Matrizes" class="disciplina-button">
-   Matemática - Matrizes
-</a>
-
-<a href="/aulas/portugues?topico=Português - Gêneros Textuais" class="disciplina-button">
-   Português - Gêneros Textuais
-</a>
-
-<a href="/aulas/portugues?topico=Português - Morfologia" class="disciplina-button">
-   Português - Morfologia
-</a>
-
-<a href="/aulas/portugues?topico=Português - Classes Gramaticais" class="disciplina-button">
-   Português - Classes Gramaticais
-</a>
-
-<a href="/aulas/portugues?topico=Português - Sintaxe" class="disciplina-button">
-   Português - Sintaxe
-</a>
-
-<a href="/aulas/portugues?topico=Português - Linguagem" class="disciplina-button">
-   Português - Linguagem
-</a>
-
-<a href="/aulas/portugues?topico=Português - Interpretação de Texto" class="disciplina-button">
-   Português - Interpretação de Texto
-</a>
-
-<a href="/aulas/portugues?topico=Português - Escolas Literárias" class="disciplina-button">
-   Português - Escolas Literárias
-</a>
-
-<a href="/aulas/portugues?topico=Português - Redação" class="disciplina-button">
-   Português - Redação
-</a>
-
+                    <a href="/aulas/portugues?topico=Português - Gêneros Textuais" class="disciplina-card-pequeno" data-materia="port">
+                        <div class="icon-box-disciplina"><i class="fas fa-book" style="color: #6d39cf; font-size: 18px;"></i></div>
+                        <div class="info-box-disciplina"><h4>Gêneros Textuais</h4><span>Acessar Aulas</span></div>
+                    </a>
+                    <a href="/aulas/portugues?topico=Português - Morfologia" class="disciplina-card-pequeno" data-materia="port">
+                        <div class="icon-box-disciplina"><i class="fas fa-dna" style="color: #6d39cf; font-size: 18px;"></i></div>
+                        <div class="info-box-disciplina"><h4>Morfologia</h4><span>Acessar Aulas</span></div>
+                    </a>
+                    <a href="/aulas/portugues?topico=Português - Classes Gramaticais" class="disciplina-card-pequeno" data-materia="port">
+                        <div class="icon-box-disciplina"><i class="fas fa-spell-check" style="color: #6d39cf; font-size: 18px;"></i></div>
+                        <div class="info-box-disciplina"><h4>Classes Gramaticais</h4><span>Acessar Aulas</span></div>
+                    </a>
+                    <a href="/aulas/portugues?topico=Português - Sintaxe" class="disciplina-card-pequeno" data-materia="port">
+                        <div class="icon-box-disciplina"><i class="fas fa-font" style="color: #6d39cf; font-size: 18px;"></i></div>
+                        <div class="info-box-disciplina"><h4>Sintaxe</h4><span>Acessar Aulas</span></div>
+                    </a>
+                    <a href="/aulas/portugues?topico=Português - Linguagem" class="disciplina-card-pequeno" data-materia="port">
+                        <div class="icon-box-disciplina"><i class="fas fa-comments" style="color: #6d39cf; font-size: 18px;"></i></div>
+                        <div class="info-box-disciplina"><h4>Linguagem</h4><span>Acessar Aulas</span></div>
+                    </a>
+                    <a href="/aulas/portugues?topico=Português - Interpretação de Texto" class="disciplina-card-pequeno" data-materia="port">
+                        <div class="icon-box-disciplina"><i class="fas fa-file-alt" style="color: #6d39cf; font-size: 18px;"></i></div>
+                        <div class="info-box-disciplina"><h4>Interpretação de Texto</h4><span>Acessar Aulas</span></div>
+                    </a>
+                    <a href="/aulas/portugues?topico=Português - Escolas Literárias" class="disciplina-card-pequeno" data-materia="port">
+                        <div class="icon-box-disciplina"><i class="fas fa-theater-masks" style="color: #6d39cf; font-size: 18px;"></i></div>
+                        <div class="info-box-disciplina"><h4>Escolas Literárias</h4><span>Acessar Aulas</span></div>
+                    </a>
+                    <a href="/aulas/portugues?topico=Português - Redação" class="disciplina-card-pequeno" data-materia="port">
+                        <div class="icon-box-disciplina"><i class="fas fa-pen-nib" style="color: #6d39cf; font-size: 18px;"></i></div>
+                        <div class="info-box-disciplina"><h4>Redação</h4><span>Acessar Aulas</span></div>
+                    </a>
 
                 </div>
             </section>
@@ -120,10 +201,31 @@
 
         <aside class="right-sidebar-padrao" style="width: 300px; padding: 20px;">
             <div class="profile-card-mini" style="text-align: center; background: white; border-radius: 20px; padding: 20px;">
-              <h3 style="margin-top: 10px; margin-bottom: 15px;" th:text="${usuario.nome}"></h3>
+                <h3 style="margin-top: 10px; margin-bottom: 15px;" th:text="${usuario != null ? usuario.nome : 'Estudante'}">Estudante</h3>
                 <span class="badge" style="background: #f0f0f0; padding: 5px 10px; border-radius: 15px;">Estudante</span>
             </div>
         </aside>
     </div>
+
+    <script>
+        function filtrarMateria(categoria, botaoClicado) {
+            const botoes = document.querySelectorAll('.filter-pill');
+            botoes.forEach(btn => btn.classList.remove('active'));
+            botaoClicado.classList.add('active');
+            
+            const cards = document.querySelectorAll('.disciplina-card-pequeno');
+            cards.forEach(card => {
+                if (categoria === 'todos') {
+                    card.style.display = 'flex';
+                } else {
+                    if (card.getAttribute('data-materia') === categoria) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        }
+    </script>
 </body>
 </html>

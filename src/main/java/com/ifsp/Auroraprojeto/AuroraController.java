@@ -378,23 +378,27 @@ public class AuroraController {
     }
     // ================= ROTAS DO ADMIN: GERENCIAR EXERCÍCIOS EM PDF =================
 
+   // ================= ROTAS DO ADMIN: GERENCIAR EXERCÍCIOS =================
+
     @GetMapping("/admin/exercicios")
     public String gerenciarExerciciosAdmin(HttpSession session, Model model) {
         if (!adminLogado(session)) return "redirect:/login-admin";
         
-        // Carrega apenas os conteúdos filtrados como EXERCICIO
+        // Busca apenas o que é do tipo EXERCICIO no banco
         List<Conteudo> exercicios = conteudoRepository.findByTipo(TipoConteudo.EXERCICIO);
         model.addAttribute("exercicios", exercicios != null ? exercicios : new ArrayList<Conteudo>());
-        return "MaterialExerciciosAdmin"; 
+        
+        return "AdminExercicios"; // Nome do novo HTML que vamos criar
     }
 
     @PostMapping("/admin/exercicios/salvar")
     public String adminSalvarExercicio(@ModelAttribute Conteudo conteudo, HttpSession session) {
         if (!adminLogado(session)) return "redirect:/login-admin";
         
-        // Força a marcação do tipo de conteúdo como EXERCICIO
+        // Força o tipo EXERCICIO antes de salvar
         conteudo.setTipo(TipoConteudo.EXERCICIO); 
         conteudoRepository.save(conteudo);
+        
         return "redirect:/admin/exercicios?sucesso=true";
     }
 
