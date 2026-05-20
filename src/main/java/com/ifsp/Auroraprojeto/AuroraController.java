@@ -123,41 +123,31 @@ public class AuroraController {
 
     // NOVA ROTA DE EXERCÍCIOS: Totalmente dinâmica e blindada contra erro 404
     @GetMapping("/exercicios")
-    public String exercicios(
-            @RequestParam(value = "disc", required = false) String disc,
-            @RequestParam(value = "nivel", required = false) String nivel,
-            HttpSession session, Model model) {
-        
+    public String exercicios(@RequestParam(value = "topico", required = false) String topico, HttpSession session, Model model) {
         if (!usuarioLogado(session)) return "redirect:/login";
         
         List<Conteudo> listaExercicios;
 
-        // Se o aluno escolheu uma disciplina e nível específicos (ex: Matemática Básico)
-        if (disc != null && !disc.isEmpty() && nivel != null && !nivel.isEmpty()) {
-            try {
-                Disciplina disciplinaEnum = Disciplina.valueOf(disc.toUpperCase());
-                List<Conteudo> doBanco = conteudoRepository.findByDisciplinaAndNivel(disciplinaEnum, nivel);
+        // Se o aluno clicou em um tópico específico (Ex: Matemática - Básica)
+        if (topico != null && !topico.isEmpty()) {
+            // Busca pelo assunto guardado na coluna 'nivel'
+            List<Conteudo> doBanco = conteudoRepository.findByNivel(topico);
+            
+            // Filtra para garantir que só exibe o tipo EXERCICIO
+            listaExercicios = doBanco != null ? doBanco.stream()
+                .filter(c -> TipoConteudo.EXERCICIO.equals(c.getTipo()))
+                .toList() : new ArrayList<>();
                 
-                if (doBanco != null) {
-                    listaExercicios = doBanco.stream()
-                        .filter(c -> TipoConteudo.EXERCICIO.equals(c.getTipo()))
-                        .toList();
-                } else {
-                    listaExercicios = new ArrayList<>();
-                }
-            } catch (IllegalArgumentException e) {
-                listaExercicios = new ArrayList<>();
-            }
-            model.addAttribute("disciplinaAtiva", disc);
-            model.addAttribute("nivelAtivo", nivel);
+            model.addAttribute("topicoAtivo", topico);
         } else {
-            // Se o aluno entrou direto sem filtros, traz todas as listas do tipo EXERCICIO
-            List<Conteudo> todosExercicios = conteudoRepository.findByTipo(TipoConteudo.EXERCICIO);
-            listaExercicios = todosExercicios != null ? todosExercicios : new ArrayList<>();
+            // Se entrou direto na tela, traz todos os exercícios cadastrados
+            List<Conteudo> todos = conteudoRepository.findByTipo(TipoConteudo.EXERCICIO);
+            listaExercicios = todos != null ? todos : new ArrayList<>();
         }
 
         model.addAttribute("exercicios", listaExercicios);
         
+        // Dados das barras laterais/topo
         List<Calendario> eventos = calendarioRepository.findAll();
         model.addAttribute("eventos", eventos);
         model.addAttribute("usuario", (Usuario) session.getAttribute("usuario"));
