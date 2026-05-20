@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Admin - Gerenciar Exercícios (PDF)</title>
+    <link rel="stylesheet" href="/AdminStyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar-main">
+            <div class="logo-section">
+                <div class="icon-wrapper">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <a href="/admin" class="nav-item"><i class="fas fa-chart-line"></i> Painel Geral</a>
+                <a href="/admin/conteudo" class="nav-item"><i class="fas fa-video"></i> Gerenciar Aulas</a>
+                <a href="/admin/exercicios" class="nav-item active"><i class="fas fa-edit"></i> Gerenciar Exercícios</a>
+                <a href="/admin/provas" class="nav-item"><i class="fas fa-file-upload"></i> Upload Provas</a>
+                <a href="/admin/materiais" class="nav-item"><i class="fas fa-folder-plus"></i> Materiais Extras</a>
+                <a href="/admin/calendario" class="nav-item"><i class="fas fa-folder-plus"></i> Gerenciar Calendário</a>
+            </nav>
+            <div class="spacer"></div>
+            <div class="sidebar-footer-actions">
+                <a href="/logout" class="footer-item"><i class="fas fa-sign-out-alt"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-layout" style="flex: 1; padding: 40px;">
+            <h1 class="title-page">Gerenciar Exercícios em PDF</h1>
+
+            <section class="form-container" style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 40px;">
+                <h2 style="margin-bottom: 20px; font-size: 20px; color: #1e1b4b;">Cadastrar Novo Exercício</h2>
+                
+                <form th:action="@{/admin/exercicios/salvar}" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+                    <div>
+                        <label style="display:block; margin-bottom: 5px; font-weight: 500;">Título do Exercício:</label>
+                        <input type="text" name="titulo" placeholder="Ex: Exercícios de Matemática Básica" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                    </div>
+
+                    <div>
+                        <label style="display:block; margin-bottom: 5px; font-weight: 500;">Caminho do Arquivo PDF:</label>
+                        <input type="text" name="url" placeholder="Ex: /pdf/matematica_basica.pdf" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                    </div>
+
+                    <div>
+                        <label style="display:block; margin-bottom: 5px; font-weight: 500;">Tópico Correspondente:</label>
+                        <input type="text" name="nivel" placeholder="Ex: Matemática - Básica" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                    </div>
+
+                    <button type="submit" style="background: #6d39cf; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s;">
+                        <i class="fas fa-save"></i> Salvar Exercício
+                    </button>
+                </form>
+            </section>
+
+            <section class="table-container" style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <h2 style="margin-bottom: 20px; font-size: 20px; color: #1e1b4b;">Exercícios Cadastrados</h2>
+                
+                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #f0f0f0; color: #6b7280;">
+                            <th style="padding: 12px;">Título</th>
+                            <th style="padding: 12px;">Tópico/Assunto</th>
+                            <th style="padding: 12px;">Caminho PDF</th>
+                            <th style="padding: 12px; text-align: center;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="ex : ${exercicios}" style="border-bottom: 1px solid #f9f9f9;">
+                            <td th:text="${ex.titulo}" style="padding: 12px; font-weight: 500;"></td>
+                            <td th:text="${ex.nivel}" style="padding: 12px; color: #6b7280;"></td>
+                            <td th:text="${ex.url}" style="padding: 12px; font-family: monospace; color: #4f46e5;"></td>
+                            <td style="padding: 12px; text-align: center;">
+                                <a th:href="@{/admin/exercicios/excluir/{id}(id=${ex.id})}" style="color: #ef4444; text-decoration: none; font-weight: 600;" onclick="return confirm('Tem certeza que deseja excluir este exercício?')">
+                                    <i class="fas fa-trash-alt"></i> Excluir
+                                </a>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(exercicios)}">
+                            <td colspan="4" style="text-align: center; padding: 20px; color: #9ca3af;">Nenhum exercício em PDF cadastrado ainda.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

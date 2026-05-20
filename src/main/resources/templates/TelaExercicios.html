@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aurora - Exercícios</title>
-    <link rel="stylesheet" href="TelaExercicios.css"> 
+    <link rel="stylesheet" href="TelaExercicios.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -27,7 +27,6 @@
             </nav>
         </aside>
 
-
         <main class="main-layout">
             <header class="header-top">
                 <div class="search-global">
@@ -38,24 +37,27 @@
             <section class="content-body">
                 <h1 class="title-page">Exercícios</h1>
                 
-               <div class="exercicios-filtros">
-    <a href="/exercicios" class="btn-filtro">Todos os Exercícios</a>
+         
+   <div class="disciplinas-list">
+    <a th:each="ex : ${exercicios}" 
+       th:href="${ex.url}" 
+       target="_blank" 
+       class="disciplina-button" 
+       th:text="${ex.titulo}">
+       Nome do Exercício
+    </a>
     
-    <a href="/exercicios?topico=Matemática - Básica" class="btn-filtro">Matemática Básica</a>
-    <a href="/exercicios?topico=Matemática - Funções" class="btn-filtro">Funções</a>
-    <a href="/exercicios?topico=Matemática - Estatística" class="btn-filtro">Estatística</a>
-
-    <a href="/exercicios?topico=Português - Gêneros Textuais" class="btn-filtro">Gêneros Textuais</a>
-    <a href="/exercicios?topico=Português - Sintaxe" class="btn-filtro">Sintaxe</a>
-    <a href="/exercicios?topico=Português - Redação" class="btn-filtro">Redação</a>
+    <p th:if="${#lists.isEmpty(exercicios)}" style="color: var(--text-muted); width: 100%; text-align: center; padding: 20px;">
+        Nenhum exercício em PDF disponível para este tópico de momento.
+    </p>
 </div>
             </section>
         </main>
 
-         <aside class="right-sidebar-padrao" style="width: 300px; padding: 20px;">
-            <div class="profile-card-mini" style="text-align: center; background: white; border-radius: 20px; padding: 20px;">
-                <h3 style="margin-top: 10px; margin-bottom: 15px;" th:text="${usuario.nome}"></h3>
-                <span class="badge" style="background: #f0f0f0; padding: 5px 10px; border-radius: 15px;">Estudante</span>
+        <aside class="right-sidebar-padrao" style="width: 300px; padding: 20px; flex-shrink: 0;">
+            <div class="profile-card-mini" style="text-align: center; background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <h3 style="margin-top: 10px; margin-bottom: 15px;" th:text="${usuario.nome}">Rebwka</h3>
+                <span class="badge" style="background: #f0f0f0; padding: 5px 10px; border-radius: 15px; font-size: 14px; font-weight: 500; color: #666;">Estudante</span>
             </div>
         </aside>
     </div>

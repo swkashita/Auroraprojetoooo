@@ -2,13 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
 :root {
-    --purple-main: #8b5cf6;
     --purple-grad: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%);
     --bg-light: #f8f9fe;
+    --button-gray: #cccccc;
     --white: #ffffff;
 }
 
-/* Reset básico */
+/* Reset básico e aplicação da Poppins */
 * {
     margin: 0;
     padding: 0;
@@ -16,23 +16,24 @@
     font-family: 'Poppins', sans-serif;
 }
 
-body {
-    background-color: var(--bg-light);
-    color: #333;
+body { 
+    background-color: var(--bg-light); 
     min-height: 100vh;
-    overflow-y: auto; /* Permite a rolagem da página inteira */
+    overflow-y: auto;
 }
 
-/* CONTAINER PRINCIPAL */
+/* ESTRUTURA DO DASHBOARD (Forçando as 3 colunas lado a lado) */
 .dashboard-container { 
     display: flex; 
-    min-height: 100vh; /* Ocupa no mínimo a altura da tela */
-    padding: 15px;
-    gap: 0; /* Ajuste conforme preferência de espaçamento entre sidebar e conteúdo */
-    align-items: stretch; /* ESSENCIAL: Faz a sidebar e o conteúdo terem a mesma altura */
+    flex-direction: row !important;
+    min-height: 100vh; 
+    padding: 15px; 
+    gap: 20px;
+    align-items: stretch;
+    width: 100%;
 }
 
-/* --- SIDEBAR ESQUERDA --- */
+/* 1. SIDEBAR ESQUERDA (ROXO GRADIENTE ORIGINAL) */
 .sidebar-main {
     width: 260px;
     min-width: 260px;
@@ -41,14 +42,20 @@ body {
     display: flex;
     flex-direction: column;
     padding: 40px 20px;
-    flex-shrink: 0; /* Impede que a barra seja esmagada */
+    flex-shrink: 0;
 }
 
 .logo-section .icon-wrapper {
     background: rgba(255, 255, 255, 0.2);
-    width: 80px; height: 80px; border-radius: 20px;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 50px; color: white; font-size: 40px;
+    width: 80px; 
+    height: 80px; 
+    border-radius: 20px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    margin: 0 auto 50px; 
+    color: white; 
+    font-size: 40px;
 }
 
 .nav-menu { 
@@ -61,57 +68,27 @@ body {
     color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
     padding: 15px 20px;
-    display: flex; align-items: center;
+    display: flex; 
+    align-items: center;
     font-size: 15px;
     transition: 0.3s;
 }
 
 .nav-item.active {
     background: rgba(255, 255, 255, 0.2);
-    color: white; border-radius: 12px; font-weight: 600;
+    color: white; 
+    border-radius: 12px; 
+    font-weight: 600;
 }
 
 .nav-item i { margin-right: 15px; width: 20px; text-align: center; }
 
 .spacer { flex-grow: 1; }
 
-/* RODAPÉ DA SIDEBAR */
-.sidebar-footer-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 10px 10px 10px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    margin-top: 20px;
-}
-
-.footer-item {
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: 0.3s;
-}
-
-.footer-item:hover { color: white; }
-
-.admin-gear-btn {
-    font-size: 18px;
-    color: rgba(255, 255, 255, 0.7);
-    transition: 0.3s;
-    text-decoration: none;
-}
-
-.admin-gear-btn:hover {
-    color: white;
-    transform: rotate(45deg);
-}
-
-/* --- ÁREA CENTRAL --- */
+/* 2. CONTEÚDO PRINCIPAL (CENTRAL) */
 .main-layout { 
     flex: 1; 
+    min-width: 400px;
     padding: 10px 40px; 
     display: flex;
     flex-direction: column;
@@ -119,46 +96,54 @@ body {
 
 .header-top {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start; /* Alinha a barra de pesquisa à esquerda */
     align-items: center;
     margin-bottom: 40px;
-    position: relative;
+    width: 100%;
+}
+
+.search-global {
+    width: 100%;
 }
 
 .search-global input {
-    width: 450px; 
+    width: 100%; /* Faz o input preencher o container de forma fluida */
+    max-width: 500px; /* Define um limite máximo elegante para não esticar demais */
     padding: 12px 25px;
     border-radius: 25px; 
     border: none;
     background: var(--white);
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    outline: none; /* Remove aquela bordinha preta padrão do navegador ao clicar */
+    transition: box-shadow 0.3s ease;
 }
 
-.top-icons { position: absolute; right: 0; font-size: 18px; color: #444; }
-.top-icons i { margin-left: 20px; cursor: pointer; }
+/* Efeito sutil quando o usuário clica para digitar */
+.search-global input:focus {
+    box-shadow: 0 4px 20px rgba(109, 57, 207, 0.15);
+}
 
-.title-page {
-    font-size: 32px;
+/* 3. LISTA DE BOTÕES (Estilo Roxo Gradiente) */
+.title-page { 
+    font-size: 32px; 
     font-weight: 700;
-    margin-bottom: 30px;
-    color: #111;
+    margin-bottom: 40px; 
+    color: #111; 
 }
 
-/* --- LISTA DE EXERCÍCIOS RESPONSIVA --- */
-.exercicios-list {
+.disciplinas-list {
     display: flex;
-    flex-wrap: wrap; /* Permite que os botões quebrem linha */
+    flex-wrap: wrap; 
     gap: 20px;
     width: 100%;
-    margin-top: 20px;
 }
 
-.exercicio-button {
+.disciplina-button {
     background: var(--purple-grad);
     color: white;
     text-decoration: none;
     padding: 20px 30px;
-    border-radius: 35px;
+    border-radius: 35px; 
     font-size: 16px;
     font-weight: 500;
     
@@ -167,39 +152,42 @@ body {
     justify-content: center;
     text-align: center;
 
-    /* Ocupa 2 colunas no desktop, mas permite virar 1 no mobile */
-    flex: 1 1 calc(50% - 20px); 
-    min-width: 300px; /* Impede que o botão fique muito fino */
-    min-height: 85px;
+    flex: 1 1 calc(45% - 20px); 
+    min-width: 300px;           
+    min-height: 75px;
     
-    box-shadow: 0 4px 12px rgba(109, 57, 207, 0.2);
     transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 12px rgba(109, 57, 207, 0.2);
 }
 
-.exercicio-button:hover {
+.disciplina-button:hover {
     transform: translateY(-4px);
     filter: brightness(1.1);
     box-shadow: 0 8px 20px rgba(109, 57, 207, 0.4);
 }
 
-/* AJUSTES PARA TELAS MENORES */
+/* 4. BARRA LATERAL DIREITA (PERFIL FIXADO) */
+.right-sidebar-padrao {
+    width: 300px;
+    min-width: 300px;
+    flex-shrink: 0;
+    padding: 20px;
+}
+
+/* RESPONSIVIDADE (Apenas para telas realmente pequenas) */
 @media (max-width: 768px) {
     .dashboard-container {
-        flex-direction: column; /* Em telas muito pequenas, sidebar fica no topo */
-        padding: 10px;
+        flex-direction: column !important;
     }
-    
-    .sidebar-main {
-        width: 100%;
-        min-width: 100%;
-        margin-bottom: 20px;
+    .sidebar-main, .right-sidebar-padrao {
+        width: 100% !important;
+        min-width: 100% !important;
     }
-
-    .exercicio-button {
-        flex: 1 1 100%; /* Botões ocupam a largura toda no mobile */
+    .right-sidebar-padrao {
+        order: -1;
     }
-
     .search-global input {
-        width: 100%;
+        width: 100% !important;
     }
 }

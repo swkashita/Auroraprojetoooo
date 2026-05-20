@@ -376,4 +376,33 @@ public class AuroraController {
         model.addAttribute("usuario", (Usuario) session.getAttribute("usuario"));
         return "TelaAssistir"; 
     }
+    // ================= ROTAS DO ADMIN: GERENCIAR EXERCÍCIOS EM PDF =================
+
+    @GetMapping("/admin/exercicios")
+    public String gerenciarExerciciosAdmin(HttpSession session, Model model) {
+        if (!adminLogado(session)) return "redirect:/login-admin";
+        
+        // Carrega apenas os conteúdos filtrados como EXERCICIO
+        List<Conteudo> exercicios = conteudoRepository.findByTipo(TipoConteudo.EXERCICIO);
+        model.addAttribute("exercicios", exercicios != null ? exercicios : new ArrayList<Conteudo>());
+        return "MaterialExerciciosAdmin"; 
+    }
+
+    @PostMapping("/admin/exercicios/salvar")
+    public String adminSalvarExercicio(@ModelAttribute Conteudo conteudo, HttpSession session) {
+        if (!adminLogado(session)) return "redirect:/login-admin";
+        
+        // Força a marcação do tipo de conteúdo como EXERCICIO
+        conteudo.setTipo(TipoConteudo.EXERCICIO); 
+        conteudoRepository.save(conteudo);
+        return "redirect:/admin/exercicios?sucesso=true";
+    }
+
+    @GetMapping("/admin/exercicios/excluir/{id}")
+    public String adminExcluirExercicio(@PathVariable Long id, HttpSession session) {
+        if (!adminLogado(session)) return "redirect:/login-admin";
+        
+        conteudoRepository.deleteById(id);
+        return "redirect:/admin/exercicios";
+    }
 }
