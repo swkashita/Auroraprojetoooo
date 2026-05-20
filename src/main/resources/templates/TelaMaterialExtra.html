@@ -72,7 +72,6 @@
             </section>
         </main>
 
-<<<<<<< HEAD
         
         <aside class="right-sidebar-padrao" style="width: 300px; padding: 20px;">
             <div class="profile-card-mini" style="text-align: center; background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
@@ -93,33 +92,6 @@
             <i style="margin-top: 10px;" class="fas fa-info-circle"></i> Nenhuma prova agendada.
         </li>
     </ul></p>
-=======
-        <aside class="right-sidebar-padrao">
-            <div class="profile-card-mini">
-                <div class="avatar-large">
-                    <img src="https://via.placeholder.com/100" alt="Foto do perfil">
-                    <button type="button" class="btn-add-photo">+</button>
-                </div>
-                <h3 th:text="${usuario.nome}">Nome do Aluno</h3>
-                <span class="badge">Estudante</span>
-            </div>
-            
-            <div class="calendar-mini">
-                <h4>Calendário</h4>
-                <div style="font-size: 0.85rem; border-bottom: 1px solid #eee; padding: 5px 0;">
-                    <ul class="admin-list" style="list-style: none; padding: 0; margin: 0;">
-                        <li th:each="ev : ${eventos}" style="margin-bottom: 8px;">
-                            <i class="fas fa-calendar-check" style="color: #6d39cf; margin-right: 5px;"></i>
-                            <strong th:text="${ev.data}">00/00</strong> - 
-                            <span th:text="${ev.descricao}">Descrição</span>
-                        </li>
-                        
-                        <li th:if="${#lists.isEmpty(eventos)}">
-                            <i class="fas fa-info-circle"></i> Nenhuma prova agendada.
-                        </li>
-                    </ul>
-                </div>
->>>>>>> 75045e12b4db360fd47e84d52747b506a8eb9d2d
             </div>
         </aside>
     </div>
