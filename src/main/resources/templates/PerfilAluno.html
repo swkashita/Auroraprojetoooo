@@ -351,25 +351,20 @@
 
 
 
-        <div class="calendar-card">
-
-            <h4>Calendário</h4>
-
-            <ul class="event-list">
-
-                <li>
-                    <strong>01/10</strong>
-                    - Inscrições ENEM
-                </li>
-
-                <li>
-                    <strong>09/11</strong>
-                    - ENEM
-                </li>
-
-            </ul>
-
-        </div>
+         <div class="calendar-card">
+    <h4>Calendário</h4>
+    <ul class="admin-list">
+        <li th:each="ev : ${eventos}">
+            <i class="fas fa-calendar-check"></i>
+            <strong th:text="${ev.data}">00/00</strong> - 
+            <span th:text="${ev.descricao}">Descrição</span>
+        </li>
+        
+        <li th:if="${#lists.isEmpty(eventos)}">
+            <i class="fas fa-info-circle"></i> Nenhuma prova agendada.
+        </li>
+    </ul>
+</div>
 
     </aside>
 
