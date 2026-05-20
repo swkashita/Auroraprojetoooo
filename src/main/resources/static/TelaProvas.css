@@ -1,3 +1,4 @@
+/* CONFIGURAÇÕES GERAIS E VARIÁVEIS */
 :root {
     --purple-grad: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%);
     --bg-light: #f8f9fe;
@@ -6,15 +7,23 @@
 }
 
 * {
-    margin: 0; padding: 0; box-sizing: border-box;
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box;
     font-family: 'Segoe UI', sans-serif;
 }
 
-body { background-color: var(--bg-light); }
+body { 
+    background-color: var(--bg-light); 
+}
 
-.dashboard-container { display: flex; height: 100vh; padding: 15px; }
+.dashboard-container { 
+    display: flex; 
+    height: 100vh; 
+    padding: 15px; 
+}
 
-/* 1. SIDEBAR ESQUERDA  */
+/* 1. SIDEBAR ESQUERDA */
 .sidebar-main {
     width: 260px;
     min-width: 260px;
@@ -27,32 +36,91 @@ body { background-color: var(--bg-light); }
 
 .logo-section .icon-wrapper {
     background: rgba(255, 255, 255, 0.2);
-    width: 80px; height: 80px; border-radius: 20px;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 50px; color: white; font-size: 40px;
+    width: 80px; 
+    height: 80px; 
+    border-radius: 20px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    margin: 0 auto 50px; 
+    color: white; 
+    font-size: 40px;
 }
 
-.nav-menu { display: flex; flex-direction: column; height: 100%; }
+.nav-menu { 
+    display: flex; 
+    flex-direction: column; 
+    height: 100%; 
+}
 
 .nav-item {
     color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
     padding: 15px 20px;
-    display: flex; align-items: center;
+    display: flex; 
+    align-items: center;
     font-size: 15px;
     transition: 0.3s;
 }
 
 .nav-item.active {
     background: rgba(255, 255, 255, 0.2);
-    color: white; border-radius: 12px; font-weight: 600;
+    color: white; 
+    border-radius: 12px; 
+    font-weight: 600;
 }
 
-.nav-item i { margin-right: 15px; width: 20px; text-align: center; }
-.spacer { flex-grow: 1; }
+.nav-item i { 
+    margin-right: 15px; 
+    width: 20px; 
+    text-align: center; 
+}
 
-/* MAIN LAYOUT */
-.main-layout { flex: 1; padding: 10px 40px; }
+.spacer { 
+    flex-grow: 1; 
+}
+
+/* INCLUSÃO: Ações do Rodapé da Sidebar */
+.sidebar-footer-actions {
+    display: flex;
+    justify-content: space-between; /* Sair na esquerda, Engrenagem na direita */
+    align-items: center;
+    padding: 20px 10px 10px 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 20px;
+}
+
+.footer-item {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+.footer-item:hover { 
+    color: white; 
+}
+
+.admin-gear-btn {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.7);
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.admin-gear-btn:hover {
+    color: white;
+    transform: rotate(45deg);
+}
+
+/* 2. CONTEÚDO PRINCIPAL (MAIN LAYOUT) */
+.main-layout { 
+    flex: 1; 
+    padding: 10px 40px; 
+}
 
 .header-top {
     display: flex;
@@ -62,22 +130,58 @@ body { background-color: var(--bg-light); }
 }
 
 .search-global input {
-    width: 400px; padding: 12px 25px;
-    border-radius: 25px; border: none;
+    width: 400px; 
+    padding: 12px 25px;
+    border-radius: 25px; 
+    border: none;
     background: var(--white);
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
-.user-info-header { display: flex; align-items: center; gap: 30px; }
-.user-profile { display: flex; align-items: center; gap: 12px; }
-.avatar { width: 40px; height: 40px; border-radius: 50%; }
-.user-name { font-weight: 600; font-size: 14px; display: block; }
-.user-status { font-size: 11px; color: #2ecc71; display: block; }
+.user-info-header { 
+    display: flex; 
+    align-items: center; 
+    gap: 30px; 
+}
 
-.top-icons { display: flex; gap: 20px; font-size: 18px; color: #444; cursor: pointer; }
+.user-profile { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+}
 
-/* GRID DE PROVAS */
-.title-page { font-size: 28px; margin-bottom: 35px; color: #333; }
+.avatar { 
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%; 
+}
+
+.user-name { 
+    font-weight: 600; 
+    font-size: 14px; 
+    display: block; 
+}
+
+.user-status { 
+    font-size: 11px; 
+    color: #2ecc71; 
+    display: block; 
+}
+
+.top-icons { 
+    display: flex; 
+    gap: 20px; 
+    font-size: 18px; 
+    color: #444; 
+    cursor: pointer; 
+}
+
+/* 3. GRID DE PROVAS */
+.title-page { 
+    font-size: 28px; 
+    margin-bottom: 35px; 
+    color: #333; 
+}
 
 .provas-grid {
     display: grid;
@@ -115,9 +219,20 @@ body { background-color: var(--bg-light); }
     border-radius: 15px;
 }
 
-.prova-info { flex: 1; }
-.prova-info h3 { font-size: 16px; margin-bottom: 4px; color: #222; }
-.prova-info span { font-size: 13px; color: #666; }
+.prova-info { 
+    flex: 1; 
+}
+
+.prova-info h3 { 
+    font-size: 16px; 
+    margin-bottom: 4px; 
+    color: #222; 
+}
+
+.prova-info span { 
+    font-size: 13px; 
+    color: #666; 
+}
 
 .btn-download {
     background: white;
