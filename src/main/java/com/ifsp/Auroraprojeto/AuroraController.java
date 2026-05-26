@@ -27,7 +27,7 @@ public class AuroraController {
     private CalendarioRepository calendarioRepository;
     
     @Autowired
-    private avisoRepository avisoRepository;
+    private AvisoRepository avisoRepository; // CORRIGIDO: Tipo alterado para começar com 'A' maiúsculo
 
     // CREDENCIAIS FIXAS DO ADMINISTRADOR ÚNICO DO SISTEMA
     private final String ADMIN_USER = "admin_aurora";
@@ -118,16 +118,17 @@ public class AuroraController {
         // -------------------------------------------------------------
         // CÁLCULO DE PROGRESSO REAL E FUNCIONAL DO ALUNO
         // -------------------------------------------------------------
-        // Busca apenas os conteúdos que são do tipo VÍDEO (Aulas)
-        long totalAulas = conteudoRepository.countByTipo(TipoConteudo.VIDEO);
+        // CORRIGIDO: Filtrando direto da lista global para não exigir o método countByTipo no Repository
+        List<Conteudo> todosConteudos = conteudoRepository.findAll();
+        long totalAulas = todosConteudos != null ? todosConteudos.stream()
+                .filter(c -> TipoConteudo.VIDEO.equals(c.getTipo()))
+                .count() : 0;
         
-        // Simulação funcional baseada no ID do Aluno para não travar o banco.
-        // Se houverem aulas cadastradas, o aluno simula ter concluído parte delas de forma dinâmica.
         long aulasConcluidas = 0;
         int porcentagemProgresso = 0;
         
         if (totalAulas > 0) {
-            // Regra matemática funcional temporária: aluno conclui cerca de 30% das aulas baseado no ID dele
+            // Regra matemática funcional temporária baseada no ID do aluno para movimentar a barra
             aulasConcluidas = Math.min((usuario != null ? usuario.getId() % 3 + 2 : 2), totalAulas);
             porcentagemProgresso = (int) ((aulasConcluidas * 100) / totalAulas);
         }
@@ -244,7 +245,8 @@ public class AuroraController {
         List<Conteudo> materiaisDisponiveis = conteudoRepository.findByTipo(TipoConteudo.MATERIAL);
         
         if (categoria != null && !categoria.isEmpty() && materiaisDisponiveis != null) {
-            materialsDisponiveis = materiaisDisponiveis.stream()
+            // CORRIGIDO: Nome da variável alterado de 'materialsDisponiveis' para 'materiaisDisponiveis'
+            materiaisDisponiveis = materiaisDisponiveis.stream()
                 .filter(m -> categoria.equalsIgnoreCase(m.getNivel()))
                 .toList();
             model.addAttribute("categoriaAtiva", categoria);
@@ -390,7 +392,6 @@ public class AuroraController {
     @PostMapping("/salvarconteudo")
     public String salvarConteudo(@ModelAttribute Conteudo conteudo, HttpSession session) {
         if (!adminLogado(session)) return "redirect:/login-admin";
-        // Garante que o tipo salvo no banco será um vídeo
         conteudo.setTipo(TipoConteudo.VIDEO);
         conteudoRepository.save(conteudo); 
         return "redirect:/admin/conteudo";
