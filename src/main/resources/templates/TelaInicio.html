@@ -5,12 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aurora - Início</title>
-
     <link rel="stylesheet" href="/TelaDisciplinas.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* Pequenos ajustes exclusivos para os cards da tela de início não quebrarem */
+        /* Estrutura de colunas da tela de início */
         .dashboard-content-inicio {
             display: flex;
             gap: 30px;
@@ -29,8 +28,9 @@
             flex-direction: column;
             gap: 20px;
         }
-        /* Garantindo o design dos cards brancos da direita */
-        .profile-card-mini, .location-card, .calendar-card {
+        
+        /* Cards Padronizados */
+        .profile-card-mini, .location-card, .calendar-card, .mural-card {
             background: white;
             border-radius: 20px;
             padding: 20px;
@@ -51,6 +51,50 @@
             color: #555;
             line-height: 1.6;
         }
+
+        /* Estilização do Mural de Avisos */
+        .mural-lista {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .mural-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #f0f0f0;
+        }
+        .mural-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .mural-badge-importante {
+            background: #fff0f0;
+            color: #e04f5f;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+        .mural-texto h5 {
+            margin: 0;
+            font-size: 13px;
+            font-weight: 600;
+            color: #222;
+        }
+        .mural-texto p {
+            margin: 3px 0 0 0;
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
     </style>
 </head>
 
@@ -61,17 +105,30 @@
         <aside class="sidebar-main">
             <div class="logo-section">
                 <div class="icon-wrapper">
-                    <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                    <i class="fas fa-graduation-cap"></i>
                 </div>
             </div>
+
             <nav class="nav-menu">
-                <a href="/inicio" class="nav-item active"><i class="fas fa-th-large"></i> Início</a>
-                <a href="/disciplinas" class="nav-item"><i class="fas fa-book"></i> Disciplinas</a>
-                <a href="/exercicios" class="nav-item"><i class="fas fa-edit"></i> Exercícios</a>
-                <a href="/provas" class="nav-item"><i class="fas fa-file-alt"></i> Provas anteriores</a>
-                <a href="/material" class="nav-item"><i class="fas fa-plus-circle"></i> Material extra</a>
-                <a href="/perfil" class="nav-item"><i class="fas fa-user"></i> Perfil</a>
-                
+                <a href="/inicio" class="nav-item active">
+                    <i class="fas fa-th-large"></i> Início
+                </a>
+                <a href="/disciplinas" class="nav-item">
+                    <i class="fas fa-book"></i> Disciplinas
+                </a>
+                <a href="/exercicios" class="nav-item">
+                    <i class="fas fa-edit"></i> Exercícios
+                </a>
+                <a href="/provas" class="nav-item">
+                    <i class="fas fa-file-alt"></i> Provas anteriores
+                </a>
+                <a href="/material" class="nav-item">
+                    <i class="fas fa-plus-circle"></i> Material extra
+                </a>
+                <a href="/perfil" class="nav-item">
+                    <i class="fas fa-user"></i> Perfil
+                </a>
+
                 <div class="spacer"></div>
 
                 <div class="sidebar-footer-actions">
@@ -107,12 +164,72 @@
                         <p style="margin: 0;">
                             Aurora oferece uma preparação focada e de alto nível, ideal para quem busca o domínio absoluto das duas áreas mais cruciais para o ENEM, vestibulares e concursos: Português e Matemática. Nosso programa garante apoio máximo com teoria aprofundada, exercícios resolvidos e orientação especializada para você construir uma base firme, rápida e confiável.
                         </p>
+                        <div class="central-foco-container" style="margin-top: 25px; display: flex; flex-direction: column; gap: 25px;">
+
+    <div style="background: white; border-radius: 20px; padding: 25px; border: 1px solid #eaeaea; box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h4 style="margin: 0; font-size: 15px; color: #333; font-weight: 600;">
+                <i class="fas fa-chart-line" style="color: #6d39cf; margin-right: 8px;"></i> Seu Progresso Regular
+            </h4>
+            <span style="font-size: 13px; font-weight: 700; color: #6d39cf; background: #f4efff; padding: 4px 10px; border-radius: 10px;">35% Concluído</span>
+        </div>
+        <div style="width: 100%; height: 10px; background: #f0f0f0; border-radius: 10px; overflow: hidden; margin-bottom: 10px;">
+            <div style="width: 35%; height: 100%; background: linear-gradient(90deg, #8C52FF 0%, #5E17EB 100%); border-radius: 10px;"></div>
+        </div>
+        <p style="margin: 0; font-size: 12px; color: #777;">Você completou 7 de 20 tópicos recomendados para este mês. Continue assim!</p>
+    </div>
+
+    <div>
+        <h4 style="margin: 0 0 15px 0; font-size: 15px; font-weight: 600; color: #333;">Acesso Rápido aos Estudos</h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            
+            <div style="background: white; border-radius: 20px; padding: 25px; border: 1px solid #eaeaea; box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: flex; flex-direction: column; justify-content: space-between; min-height: 150px;">
+                <div>
+                    <div style="width: 40px; height: 40px; background: #fff4e5; color: #ff9922; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 15px;">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h5 style="margin: 0 0 5px 0; font-size: 15px; color: #111; font-weight: 600;">Matemática</h5>
+                    <p style="margin: 0; font-size: 12px; color: #777; line-height: 1.4;">Geometria, Funções, Estatística e Álgebra.</p>
+                </div>
+                <a href="/disciplinas" style="text-decoration: none; color: #6d39cf; font-size: 13px; font-weight: 600; margin-top: 15px; display: inline-flex; align-items: center; gap: 5px;">
+                    Praticar agora <i class="fas fa-arrow-right" style="font-size: 11px;"></i>
+                </a>
+            </div>
+
+            <div style="background: white; border-radius: 20px; padding: 25px; border: 1px solid #eaeaea; box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: flex; flex-direction: column; justify-content: space-between; min-height: 150px;">
+                <div>
+                    <div style="width: 40px; height: 40px; background: #eef3ff; color: #3b76f6; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 15px;">
+                        <i class="fas fa-pen-nib"></i>
+                    </div>
+                    <h5 style="margin: 0 0 5px 0; font-size: 15px; color: #111; font-weight: 600;">Português e Redação</h5>
+                    <p style="margin: 0; font-size: 12px; color: #777; line-height: 1.4;">Interpretação textuais, Sintaxe e Redação Nota 1000.</p>
+                </div>
+                <a href="/disciplinas" style="text-decoration: none; color: #6d39cf; font-size: 13px; font-weight: 600; margin-top: 15px; display: inline-flex; align-items: center; gap: 5px;">
+                    Praticar agora <i class="fas fa-arrow-right" style="font-size: 11px;"></i>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <div style="background: #faf9fe; border-radius: 20px; padding: 20px; border: 1px dashed #d6c7ff; display: flex; align-items: center; gap: 15px;">
+        <div style="font-size: 24px; color: #6d39cf; background: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(109,57,207,0.1);">
+            <i class="fas fa-lightbulb"></i>
+        </div>
+        <div>
+            <h5 style="margin: 0 0 3px 0; font-size: 13px; color: #6d39cf; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Dica do Dia</h5>
+            <p style="margin: 0; font-size: 12px; color: #555; line-height: 1.4;">"Intercalar blocos de 25 minutos de estudo concentrado com 5 minutos de descanso (Técnica Pomodoro) ajuda a fixar melhor as fórmulas de matemática!"</p>
+        </div>
+    </div>
+
+</div>
                     </div>
                 </div>
 
                 <div class="right-column-inicio">
+                    
                     <div class="profile-card-mini" style="text-align: center;">
-                        <h3 style="margin: 0 0 10px 0; font-size: 18px;" th:text="${usuario.nome}">Eduardo Costa</h3>
+                        <h3 style="margin: 0 0 10px 0; font-size: 18px;" th:text="${usuario.nome}">Estudante</h3>
                         <span class="badge" style="background: #f0ebff; color: #6d39cf; padding: 5px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">Estudante</span>
                     </div>
 
@@ -121,6 +238,24 @@
                         <div class="location-input">
                             <h5 style="margin: 0; font-size: 15px; color: #111;" th:text="${cidade != null && !cidade.isEmpty() ? cidade : 'Cidade não informada'}"></h5>
                         </div>
+                    </div>
+
+                    <div class="mural-card">
+                        <h4 style="margin: 0 0 15px 0; font-size: 14px; color: #555;">Mural de Avisos <i class="fas fa-bullhorn" style="color: #6d39cf; margin-left: 5px;"></i></h4>
+                        <ul class="mural-lista">
+                            
+                            <li class="mural-item" th:each="aviso : ${avisos}">
+                                <div class="mural-texto">
+                                    <span class="mural-badge-importante" th:if="${aviso.importante}">Importante</span>
+                                    <h5 th:text="${aviso.titulo}">Título do Aviso</h5>
+                                    <p th:text="${aviso.conteudo}">Conteúdo do recado...</p>
+                                </div>
+                            </li>
+
+                            <li th:if="${#lists.isEmpty(avisos)}" style="font-size: 13px; color: #777;">
+                                <i class="fas fa-info-circle"></i> Nenhum aviso importante hoje.
+                            </li>
+                        </ul>
                     </div>
 
                     <div class="calendar-card">
@@ -137,8 +272,8 @@
                             </li>
                         </ul>
                     </div>
+                    
                 </div>
-
             </div>
         </main>
     </div>

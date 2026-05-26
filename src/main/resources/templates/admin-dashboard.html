@@ -51,8 +51,12 @@
                 </a>
 
                 <a href="/admin/calendario" class="nav-item">
-                    <i class="fas fa-folder-plus"></i>
-                    Gerenciar Calendário
+                    <i class="fas fa-calendar-alt"></i> Gerenciar Calendário
+                </a>
+
+                <a href="/admin/mural" class="nav-item">
+                    <i class="fas fa-bullhorn"></i>
+                    Mural de Avisos
                 </a>
             </nav>
 
@@ -117,8 +121,6 @@
                                 </select>
                             </div>
 
-                          
-
                         </div>
 
                         <div class="form-group">
@@ -175,7 +177,6 @@
         const totalProvas = document.getElementById("totalProvas");
         const formulario = document.querySelector(".admin-form");
         const tituloConteudo = document.getElementById("tituloConteudo");
-        const tipoConteudo = document.getElementById("tipoConteudo");
 
         // =========================
         // CONTEÚDOS SALVOS NO LOCALSTORAGE
@@ -272,9 +273,9 @@
         // EVENTO SUBMIT DO FORMULÁRIO
         // =========================
         formulario.addEventListener("submit", function (event) {
-            // Permite o envio para o Spring Boot processar o banco de dados
             const titulo = tituloConteudo.value;
-            const tipo = tipoConteudo.value;
+            // Como este formulário é focado no envio de VIDEO, defini estático para o localStorage
+            const tipo = "VIDEO"; 
 
             conteudos.push({
                 titulo: titulo,
@@ -285,14 +286,6 @@
             adicionarAcao(`${tipo} publicado: ${titulo}`);
             atualizarCards();
         });
-
-        function removerConteudo(index) {
-            const removido = conteudos[index];
-            conteudos.splice(index, 1);
-            localStorage.setItem("conteudosAdmin", JSON.stringify(conteudos));
-            adicionarAcao(`${removido.tipo} removido: ${removido.titulo}`);
-            atualizarCards();
-        }
 
         // CARREGAR AO ABRIR
         atualizarCards();
