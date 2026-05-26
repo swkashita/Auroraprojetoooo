@@ -27,7 +27,10 @@ public class AuroraController {
     private CalendarioRepository calendarioRepository;
     
     @Autowired
-    private AvisoRepository avisoRepository; // CORRIGIDO: Tipo alterado para começar com 'A' maiúsculo
+    private AvisoRepository avisoRepository; 
+
+    @Autowired
+    private ProgressoAulaRepository progressoAulaRepository;
 
     // CREDENCIAIS FIXAS DO ADMINISTRADOR ÚNICO DO SISTEMA
     private final String ADMIN_USER = "admin_aurora";
@@ -53,7 +56,7 @@ public class AuroraController {
     public String login(@RequestParam String email, @RequestParam String senha, HttpSession session) {
         Usuario usuario = usuarioService.login(email, senha);
         if (usuario != null) {
-            session.setAttribute("usuario", usuario); // Salva o objeto na sessão
+            session.setAttribute("usuario", usuario); 
             return "redirect:/inicio";
         }
         return "redirect:/login?erro=true";
@@ -116,28 +119,24 @@ public class AuroraController {
         }
      
         // -------------------------------------------------------------
-        // CÁLCULO DE PROGRESSO REAL E FUNCIONAL DO ALUNO
+        // CÁLCULO DE PROGRESSO REAL E 100% FUNCIONAL
         // -------------------------------------------------------------
-        // CORRIGIDO: Filtrando direto da lista global para não exigir o método countByTipo no Repository
         List<Conteudo> todosConteudos = conteudoRepository.findAll();
         long totalAulas = todosConteudos != null ? todosConteudos.stream()
                 .filter(c -> TipoConteudo.VIDEO.equals(c.getTipo()))
                 .count() : 0;
-        
-        long aulasConcluidas = 0;
+
+        // Busca a contagem direta da tabela de progresso real do aluno logado
+        long aulasConcluidas = progressoAulaRepository.countByUsuario(usuario);
         int porcentagemProgresso = 0;
-        
+
         if (totalAulas > 0) {
-            // Regra matemática funcional temporária baseada no ID do aluno para movimentar a barra
-            aulasConcluidas = Math.min((usuario != null ? usuario.getId() % 3 + 2 : 2), totalAulas);
             porcentagemProgresso = (int) ((aulasConcluidas * 100) / totalAulas);
         }
 
-        // Injeta as variáveis de progresso calculadas no motor do Thymeleaf
         model.addAttribute("progresso", porcentagemProgresso);
         model.addAttribute("concluidos", aulasConcluidas);
         model.addAttribute("totais", totalAulas);
-        // -------------------------------------------------------------
 
         // Carrega os eventos do calendário acadêmico
         List<Calendario> listaEventos = calendarioRepository.findAll();
@@ -148,6 +147,28 @@ public class AuroraController {
         model.addAttribute("avisos", listaAvisos);
 
         return "TelaInicio";
+    }
+
+    /**
+     * Post: Recebe a requisição para marcar uma vídeo-aula específica como concluída.
+     */
+    @PostMapping("/aulas/concluir/{id}")
+    public String concluirAula(@PathVariable Long id, HttpSession session) {
+        if (!usuarioLogado(session)) return "redirect:/login";
+        
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Conteudo aula = conteudoRepository.findById(id).orElse(null);
+        
+        if (usuario != null && aula != null) {
+            // Verifica se já não foi concluída antes para evitar duplicados no banco
+            boolean jaConcluido = progressoAulaRepository.existsByUsuarioAndConteudo(usuario, aula);
+            if (!jaConcluido) {
+                ProgressoAula progresso = new ProgressoAula(usuario, aula);
+                progressoAulaRepository.save(progresso);
+            }
+        }
+        
+        return "redirect:/inicio"; // Redireciona para o início para ver a barra roxa subir!
     }
 
     /**
@@ -245,7 +266,6 @@ public class AuroraController {
         List<Conteudo> materiaisDisponiveis = conteudoRepository.findByTipo(TipoConteudo.MATERIAL);
         
         if (categoria != null && !categoria.isEmpty() && materiaisDisponiveis != null) {
-            // CORRIGIDO: Nome da variável alterado de 'materialsDisponiveis' para 'materiaisDisponiveis'
             materiaisDisponiveis = materiaisDisponiveis.stream()
                 .filter(m -> categoria.equalsIgnoreCase(m.getNivel()))
                 .toList();
@@ -329,7 +349,6 @@ public class AuroraController {
         model.addAttribute("usuario", (Usuario) session.getAttribute("usuario"));
         return "TelaAssistir"; 
     }
-
 
     // =========================================================================
     // SISTEMA ADMINISTRATIVO (ADMIN / COORDENAÇÃO)
