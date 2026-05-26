@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aurora - Login</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Lily+Script+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <main class="container">
@@ -14,25 +15,32 @@
                 <h1 class="title">Login</h1>
                 <p class="subtitle">Informe seus dados</p>
 
-                <form action="/login" method="post">
+                <form th:action="@{/login}" method="post">
+
+                    <div th:if="${param.erro != null}" style="background-color: #fff0f0; border: 1px solid #ffcccc; color: #e04f5f; padding: 12px 15px; border-radius: 12px; font-size: 13px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-family: 'Poppins', sans-serif;">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>E-mail ou senha incorretos. Verifique suas credenciais! ⚠️</span>
+                    </div>
+
+                    <div th:if="${param.sucesso != null}" style="background-color: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; padding: 12px 15px; border-radius: 12px; font-size: 13px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-family: 'Poppins', sans-serif;">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Você saiu do portal com sucesso. Até logo! 👋</span>
+                    </div>
 
                     <div class="input-group">
                         <label>Email</label>
-                        <input type="email" name="email" required>
+                        <input type="email" name="email" required autocomplete="email">
                     </div>
                     <div class="input-group">
                         <label>Senha</label>
-                        <input type="password" name="senha" required>
+                        <input type="password" name="senha" required autocomplete="current-password">
                     </div>
                     <button type="submit" class="btn-cadastrar">Login</button>
                 </form>
-                <form action="/login" method="post">
-   
-</form>
 
-<div class="link-footer">
-    Ainda não tem conta? <a th:href="@{/cadastro}"style="color: #6a5acd; font-weight: bold;">Cadastre-se</a>
-</div>
+                <div class="link-footer">
+                    Ainda não tem conta? <a th:href="@{/cadastro}" style="color: #6a5acd; font-weight: bold;">Cadastre-se</a>
+                </div>
             </div>
         </section>
 

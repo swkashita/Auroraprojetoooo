@@ -37,28 +37,41 @@ public class AuroraController {
     // TOPICO 1: SERVIÇOS DE AUTENTICAÇÃO (LOGIN / LOGOUT DO ESTUDANTE)
     // =========================================================================
 
-    @GetMapping("/login")
-    public String telaLogin(HttpSession session) {
+   @GetMapping("/login")
+    public String telaLogin(HttpSession session, Model model, @ModelAttribute("erro") String erroFlash) {
+        // Se o usuário já estiver logado, manda para o início
         if (usuarioLogado(session)) return "redirect:/inicio";
+        
+        // Se o erro veio via Flash Attribute (do redirect do PostMapping), ele já injeta no modelo automaticamente.
+        // Mas se por acaso não veio e você quiser tratar parâmetros da URL (?erro=true), fazemos esta checagem:
+        if (model.getAttribute("erro") == null && erroFlash != null && !erroFlash.isEmpty()) {
+            model.addAttribute("erro", erroFlash);
+        }
+        
         return "Login";
     }
-
-    @PostMapping("/login")
-    public String login(@RequestParam String email, @RequestParam String senha, HttpSession session) {
+  @PostMapping("/login")
+    public String login(@RequestParam String email, @RequestParam String senha, HttpSession session, org.springframework.web.servlet.mvc.support.RedirectAttributes redirectAttributes) {
         Usuario usuario = usuarioService.login(email, senha);
         if (usuario != null) {
             session.setAttribute("usuario", usuario); 
             return "redirect:/inicio";
         }
-        return "redirect:/login?erro=true";
+        
+        // Define o Flash Attribute para o redirecionamento
+        redirectAttributes.addFlashAttribute("erro", "E-mail ou senha incorretos. Verifique suas credenciais! ⚠️");
+     return "redirect:/login?erro=true";
     }
 
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate(); 
+    public String logout(HttpSession session, org.springframework.web.servlet.mvc.support.RedirectAttributes redirectAttributes) {
+        session.invalidate(); // Destrói a sessão e limpa a memória do servidor
+        
+        // Envia a mensagem amigável de sucesso para a tela de login
+        redirectAttributes.addFlashAttribute("sucesso", "Você saiu do portal com sucesso. Até logo! 👋");
+        
         return "redirect:/login";
     }
-
     // =========================================================================
     // TOPICO 2: GERENCIAMENTO DE CADASTRO DE NOVOS ESTUDANTES
     // =========================================================================
