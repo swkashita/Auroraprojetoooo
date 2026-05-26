@@ -4,11 +4,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aurora - Material Extra</title>
-    <link rel="stylesheet" href="TelaMaterialExtra.css">
+    <link class="css-link" rel="stylesheet" href="/TelaDisciplinas.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Pílulas superiores de filtragem padronizadas */
+        .categorias-extras {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+        .cat-button {
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            background: #eaddff;
+            color: #6d39cf;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        .cat-button:hover {
+            background: #d0bcff;
+        }
+
+        /* Grid de cards pequenos para seguir o visual de disciplinas/exercícios */
+        .materials-grid-pequeno {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            width: 100%;
+        }
+        .material-card-pequeno {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            border: 1px solid #eaeaea;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .material-card-pequeno:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(109, 57, 207, 0.1);
+        }
+        .icon-box-material {
+            background: #f0ebff;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .info-box-material {
+            flex-grow: 1;
+        }
+        .info-box-material h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111;
+            margin: 0;
+            line-height: 1.4;
+        }
+        .info-box-material span {
+            font-size: 12px;
+            color: #6d39cf;
+            font-weight: 500;
+        }
+        .btn-abrir-material {
+            color: #6d39cf;
+            font-size: 16px;
+            padding: 5px;
+            transition: transform 0.2s;
+        }
+        .btn-abrir-material:hover {
+            transform: scale(1.2);
+        }
+
+        /* Ajustes das caixas laterais da direita */
+        .profile-card-mini, .calendar-mini {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid #eaeaea;
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-container">
+        
         <aside class="sidebar-main">
             <div class="logo-section">
                 <div class="icon-wrapper">
@@ -22,17 +116,17 @@
                 <a href="/provas" class="nav-item"><i class="fas fa-file-alt"></i> Provas anteriores</a>
                 <a href="/material" class="nav-item active"><i class="fas fa-plus-circle"></i> Material extra</a>
                 <a href="/perfil" class="nav-item"><i class="fas fa-user"></i> Perfil</a>
+                
                 <div class="spacer"></div>
                 
-                   <div class="sidebar-footer-actions">
-                <a href="/login" class="footer-item">
-                    <i class="fas fa-sign-out-alt"></i> Sair
-                </a>
-
-                <a href="/login-admin" class="admin-gear-btn">
-                    <i class="fas fa-cog"></i>
-                </a>
-            </div>
+                <div class="sidebar-footer-actions">
+                    <a href="/login" class="footer-item">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </a>
+                    <a href="/login-admin" class="admin-gear-btn">
+                        <i class="fas fa-cog"></i>
+                    </a>
+                </div>
             </nav>
         </aside>
 
@@ -47,60 +141,67 @@
                 <h1 class="title-page">Material Extra</h1>
                 
                 <div class="categorias-extras">
-    <a href="/material" class="cat-button" th:style="${categoriaAtiva == null} ? 'background: #6d39cf; color: white;' : ''">Todos</a>
-    
-    <a href="/material?cat=Resumo" class="cat-button" th:style="${categoriaAtiva == 'Resumo'} ? 'background: #6d39cf; color: white;' : ''">Resumos em PDF</a>
-    
-    <a href="/material?cat=Mapa Mental" class="cat-button" th:style="${categoriaAtiva == 'Mapa Mental'} ? 'background: #6d39cf; color: white;' : ''">Mapas Mentais</a>
-    
-    <a href="/material?cat=Outros" class="cat-button" th:style="${categoriaAtiva == 'Outros'} ? 'background: #6d39cf; color: white;' : ''">Outros</a>
-</div>
-
-                <h3 class="section-subtitle" style="margin-top: 30px; margin-bottom: 15px; color: #333;">Adicionados recentemente</h3>
-                
-                <div class="materials-grid" style="display: flex; flex-wrap: wrap; gap: 20px;">
+                    <a href="/material" class="cat-button" 
+                       th:style="${categoriaAtiva == null} ? 'background: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%); color: white;' : ''">Todos</a>
                     
-                    <div th:each="mat : ${materiais}" class="material-card" style="background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); display: flex; align-items: center; gap: 15px; min-width: 250px;">
-                        <div class="material-icon-wrapper" style="background: #f0ebff; width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-file-pdf" style="color: #6d39cf; font-size: 20px;"></i>
+                    <a href="/material?cat=Resumo" class="cat-button" 
+                       th:style="${categoriaAtiva == 'Resumo'} ? 'background: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%); color: white;' : ''">Resumos em PDF</a>
+                    
+                    <a href="/material?cat=Mapa Mental" class="cat-button" 
+                       th:style="${categoriaAtiva == 'Mapa Mental'} ? 'background: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%); color: white;' : ''">Mapas Mentais</a>
+                    
+                    <a href="/material?cat=Outros" class="cat-button" 
+                       th:style="${categoriaAtiva == 'Outros'} ? 'background: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%); color: white;' : ''">Outros</a>
+                </div>
+
+                <h3 style="margin-top: 30px; margin-bottom: 20px; color: #111; font-size: 16px; font-weight: 600;">Adicionados recentemente</h3>
+                
+                <div class="materials-grid-pequeno">
+                    
+                    <div th:each="mat : ${materiais}" class="material-card-pequeno">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div class="icon-box-material">
+                                <i class="fas fa-file-pdf" style="color: #6d39cf; font-size: 18px;"></i>
+                            </div>
+                            <div class="info-box-material">
+                                <h4 th:text="${mat.titulo}">Título do Material</h4>
+                                <span>Ver conteúdo</span>
+                            </div>
                         </div>
-                        <div class="material-info" style="display: flex; flex-direction: column; gap: 4px;">
-                            <h4 th:text="${mat.titulo}" style="font-size: 15px; font-weight: 600; color: #222; margin: 0;">Título do Material</h4>
-                            
-                            <a th:href="${mat.urlLink}" target="_blank" style="font-size: 13px; color: #6d39cf; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
-                                Acessar Material <i class="fas fa-external-link-alt" style="font-size: 11px;"></i>
-                            </a>
-                        </div>
+                        <a th:href="${mat.urlLink}" target="_blank" class="btn-abrir-material" title="Acessar Material">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
                     </div>
 
-                    <div th:if="${#lists.isEmpty(materiais)}" style="color: #888; font-size: 14px; padding: 10px 0;">
-                        Nenhum material extra disponível no momento.
-                    </div>
+                </div>
 
+                <div th:if="${#lists.isEmpty(materiais)}" style="color: #777; font-size: 14px; text-align: center; padding: 60px 20px; background: white; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); border: 1px solid #eaeaea; width: 100%;">
+                    <i class="fas fa-folder-open" style="font-size: 40px; color: #ccc; display: block; margin-bottom: 15px;"></i>
+                    <h3 style="color: #222; margin-bottom: 5px; font-size: 16px;">Nenhum material extra</h3>
+                    <p style="color: #777; font-size: 13px; margin: 0;">Nenhum arquivo correspondente foi adicionado para esta categoria ainda.</p>
                 </div>
             </section>
         </main>
 
-        
-        <aside class="right-sidebar-padrao" style="width: 300px; padding: 20px;">
-            <div class="profile-card-mini" style="text-align: center; background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
-                <h3 style="margin-top: 10px; margin-bottom: 15px;" th:text="${usuario.nome}"></h3>
-                <span class="badge" style="background: #f0f0f0; padding: 5px 10px; border-radius: 15px; font-size: 0.8rem;">Estudante</span>
+        <aside class="right-sidebar-padrao" style="width: 300px; padding: 20px; display: flex; flex-direction: column; gap: 20px;">
+            <div class="profile-card-mini" style="text-align: center;">
+                <h3 style="margin-top: 10px; margin-bottom: 15px;" th:text="${usuario != null ? usuario.nome : 'Estudante'}">Estudante</h3>
+                <span class="badge" style="background: #f0f0eb; color: #6d39cf; padding: 5px 12px; border-radius: 15px; font-size: 12px; font-weight: 600;">Estudante</span>
             </div>
             
-            <div class="calendar-mini" style="margin-top: 20px; background: white; border-radius: 20px; padding: 20px;">
-                <h4 style="margin-bottom: 10px;">Calendário</h4>
-                <p style="font-size: 0.85rem; border-bottom: 1px solid #eee; padding: 5px 0;"><ul class="admin-list">
-        <li th:each="ev : ${eventos}">
-            <i class="fas fa-calendar-check"></i>
-            <strong th:text="${ev.data}">00/00</strong> - 
-            <span th:text="${ev.descricao}">Descrição</span>
-        </li>
-        
-        <li style="margin-right: 8px;" th:if="${#lists.isEmpty(eventos)}">
-            <i style="margin-top: 10px;" class="fas fa-info-circle"></i> Nenhuma prova agendada.
-        </li>
-    </ul></p>
+            <div class="calendar-mini">
+                <h4 style="margin: 0 0 15px 0; font-size: 14px; color: #555;">Calendário</h4>
+                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
+                    <li th:each="ev : ${eventos}" style="font-size: 13px; display: flex; align-items: center; gap: 8px; color: #333;">
+                        <i class="fas fa-calendar-check" style="color: #6d39cf;"></i>
+                        <strong th:text="${ev.data}" style="color: #111;">00/00</strong> - 
+                        <span th:text="${ev.descricao}">Descrição</span>
+                    </li>
+                    
+                    <li th:if="${#lists.isEmpty(eventos)}" style="font-size: 13px; color: #777;">
+                        <i class="fas fa-info-circle"></i> Nenhuma prova agendada.
+                    </li>
+                </ul>
             </div>
         </aside>
     </div>

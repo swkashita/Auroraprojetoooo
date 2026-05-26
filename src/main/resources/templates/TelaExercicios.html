@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* CSS adicional para organizar as pílulas de filtros e os cards de listas */
+        /* Estilização das pílulas superiores */
         .exercicios-filtros {
             display: flex;
             flex-wrap: wrap;
@@ -24,6 +24,8 @@
             font-weight: 500;
             background: #eaddff;
             color: #6d39cf;
+            cursor: pointer;
+            border: none;
             transition: all 0.3s ease;
         }
         .filter-pill:hover {
@@ -33,13 +35,15 @@
             background: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%);
             color: white;
         }
-        .exercicios-grid {
+
+        /* Grid de tópicos/matérias */
+        .exercicios-grid-pequeno {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
             width: 100%;
         }
-        .exercicio-card {
+        .exercicio-card-pequeno {
             background: white;
             padding: 20px;
             border-radius: 20px;
@@ -48,12 +52,14 @@
             align-items: center;
             gap: 15px;
             border: 1px solid #eaeaea;
-            transition: transform 0.2s ease;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        .exercicio-card:hover {
+        .exercicio-card-pequeno:hover {
             transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(109, 57, 207, 0.1);
         }
-        .icon-box {
+        .icon-box-exercicio {
             background: #f0ebff;
             width: 48px;
             height: 48px;
@@ -63,10 +69,58 @@
             justify-content: center;
             flex-shrink: 0;
         }
-        .info-box {
+        .info-box-exercicio h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111;
+            margin: 0;
+            line-height: 1.4;
+        }
+        .info-box-exercicio span {
+            font-size: 12px;
+            color: #6d39cf;
+            font-weight: 500;
+        }
+
+        /* Estilo para a lista final de links de exercícios */
+        .lista-links-exercicios {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 15px;
+            width: 100%;
+        }
+        .link-exercicio-item {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            border: 1px solid #eaeaea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .btn-abrir-link {
+            background: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        .btn-abrir-link:hover {
+            transform: scale(1.03);
+        }
+        .btn-voltar {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #6d39cf;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -85,7 +139,6 @@
                 <a href="/provas" class="nav-item"><i class="fas fa-file-alt"></i> Provas anteriores</a>
                 <a href="/material" class="nav-item"><i class="fas fa-plus-circle"></i> Material extra</a>
                 <a href="/perfil" class="nav-item"><i class="fas fa-user"></i> Perfil</a>
-                
                 <div class="spacer"></div>
 
                 <div class="sidebar-footer-actions">
@@ -107,60 +160,143 @@
             </header>
 
             <section class="content-body">
-                <h1 class="title-page">Exercícios</h1>
                 
-                <div class="exercicios-filtros">
-                    <a href="/exercicios" class="filter-pill" th:classappend="${topicoAtivo == null} ? 'active' : ''">Todos os Exercícios</a>
-                    
-                    <a href="/exercicios?topico=Matemática - Básica" class="filter-pill" th:classappend="${topicoAtivo == 'Matemática - Básica'} ? 'active' : ''">Matemática - Básica</a>
-                    <a href="/exercicios?topico=Matemática - Frações e Números Decimais" class="filter-pill" th:classappend="${topicoAtivo == 'Matemática - Frações e Números Decimais'} ? 'active' : ''">Frações e Decimais</a>
-                    <a href="/exercicios?topico=Matemática - Estatística" class="filter-pill" th:classappend="${topicoAtivo == 'Matemática - Estatística'} ? 'active' : ''">Estatística</a>
-                    <a href="/exercicios?topico=Matemática - Geometria Plana" class="filter-pill" th:classappend="${topicoAtivo == 'Matemática - Geometria Plana'} ? 'active' : ''">Geometria Plana</a>
-                    <a href="/exercicios?topico=Matemática - Geometria Espacial" class="filter-pill" th:classappend="${topicoAtivo == 'Matemática - Geometria Espacial'} ? 'active' : ''">Geometria Espacial</a>
-                    <a href="/exercicios?topico=Matemática - Funções" class="filter-pill" th:classappend="${topicoAtivo == 'Matemática - Funções'} ? 'active' : ''">Funções</a>
-                    <a href="/exercicios?topico=Matemática - Analíse Combinatória e Probabilidade" class="filter-pill" th:classappend="${topicoAtivo == 'Matemática - Analíse Combinatória e Probabilidade'} ? 'active' : ''">Combinatória e Probabilidade</a>
-                    <a href="/exercicios?topico=Matemática - Matrizes" class="filter-pill" th:classappend="${topicoAtivo == 'Matemática - Matrizes'} ? 'active' : ''">Matrizes</a>
-                    
-                    <a href="/exercicios?topico=Português - Gêneros Textuais" class="filter-pill" th:classappend="${topicoAtivo == 'Português - Gêneros Textuais'} ? 'active' : ''">Gêneros Textuais</a>
-                    <a href="/exercicios?topico=Português - Morfologia" class="filter-pill" th:classappend="${topicoAtivo == 'Português - Morfologia'} ? 'active' : ''">Morfologia</a>
-                    <a href="/exercicios?topico=Português - Classes Gramaticais" class="filter-pill" th:classappend="${topicoAtivo == 'Português - Classes Gramaticais'} ? 'active' : ''">Classes Gramaticais</a>
-                    <a href="/exercicios?topico=Português - Sintaxe" class="filter-pill" th:classappend="${topicoAtivo == 'Português - Sintaxe'} ? 'active' : ''">Sintaxe</a>
-                    <a href="/exercicios?topico=Português - Linguagem" class="filter-pill" th:classappend="${topicoAtivo == 'Português - Linguagem'} ? 'active' : ''">Linguagem</a>
-                    <a href="/exercicios?topico=Português - Interpretação de Texto" class="filter-pill" th:classappend="${topicoAtivo == 'Português - Interpretação de Texto'} ? 'active' : ''">Interpretação de Texto</a>
-                    <a href="/exercicios?topico=Português - Escolas Literárias" class="filter-pill" th:classappend="${topicoAtivo == 'Português - Escolas Literárias'} ? 'active' : ''">Escolas Literárias</a>
-                    <a href="/exercicios?topico=Português - Redação" class="filter-pill" th:classappend="${topicoAtivo == 'Português - Redação'} ? 'active' : ''">Redação</a>
-                </div>
+                <h1 class="title-page" th:text="${topicoAtivo != null} ? ${topicoAtivo} : 'Exercícios'">Exercícios</h1>
+                
+                <div th:if="${topicoAtivo != null}">
+                    <a href="/exercicios" class="btn-voltar">
+                        <i class="fas fa-arrow-left"></i> Voltar para os tópicos
+                    </a>
 
-                <div class="exercicios-grid">
-                    <th:block th:if="${exercicios != null}">
-                        <div th:each="ex : ${exercicios}" class="exercicio-card">
-                            <div class="icon-box">
-                                <i class="fas fa-file-signature" style="color: #6d39cf; font-size: 20px;"></i>
+                    <div class="lista-links-exercicios" th:if="${not #lists.isEmpty(exercicios)}">
+                        <div th:each="ex : ${exercicios}" class="link-exercicio-item">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div class="icon-box-exercicio"><i class="fas fa-file-signature" style="color: #6d39cf; font-size: 18px;"></i></div>
+                                <div>
+                                    <h4 th:text="${ex.titulo}" style="margin: 0; font-size: 15px; font-weight: 600; color: #111;">Nome da Lista</h4>
+                                    <span style="font-size: 12px; color: #777;">Pronto para praticar</span>
+                                </div>
                             </div>
-                            <div class="info-box">
-                                <h4 th:text="${ex.titulo}" style="font-size: 15px; font-weight: 600; color: #111; margin: 0;">Título da Lista</h4>
-                                <span th:text="${ex.nivel}" style="font-size: 12px; color: #777;">Tópico cadastrado</span>
-                                <a th:href="${ex.urlLink}" target="_blank" style="font-size: 13px; color: #6d39cf; font-weight: 600; text-decoration: none; margin-top: 5px; display: inline-flex; align-items: center; gap: 5px;">
-                                    Abrir Exercício <i class="fas fa-external-link-alt" style="font-size: 11px;"></i>
-                                </a>
-                            </div>
+                            <a th:href="${ex.urlLink}" target="_blank" class="btn-abrir-link">
+                                Abrir Exercício <i class="fas fa-external-link-alt" style="font-size: 11px; margin-left: 5px;"></i>
+                            </a>
                         </div>
-                    </th:block>
+                    </div>
 
-                    <div th:if="${exercicios == null or #lists.isEmpty(exercicios)}" style="grid-column: 1/-1; color: #777; font-size: 14px; text-align: center; padding: 50px 0; background: white; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
-                        <i class="fas fa-folder-open" style="font-size: 35px; color: #ccc; display: block; margin-bottom: 12px;"></i>
-                        Nenhuma lista de exercícios disponível para este assunto no momento.
+                    <div th:if="${#lists.isEmpty(exercicios)}" style="color: #777; font-size: 14px; text-align: center; padding: 60px 20px; background: white; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); border: 1px solid #eaeaea;">
+                        <i class="fas fa-folder-open" style="font-size: 40px; color: #ccc; display: block; margin-bottom: 15px;"></i>
+                        <h3 style="color: #222; margin-bottom: 5px; font-size: 16px;">Nenhum exercício disponível</h3>
+                        <p style="color: #777; font-size: 13px; margin: 0;">O administrador ainda não adicionou questionários ou PDFs para este assunto.</p>
                     </div>
                 </div>
+
+                <div th:if="${topicoAtivo == null}">
+                    <div class="exercicios-filtros">
+                        <button class="filter-pill active" onclick="filtrarMateria('todos', this)">Todos os Exercícios</button>
+                        <button class="filter-pill" onclick="filtrarMateria('mat', this)">Matemática</button>
+                        <button class="filter-pill" onclick="filtrarMateria('port', this)">Português</button>
+                    </div>
+
+                    <div class="exercicios-grid-pequeno">
+                     
+                        <a href="/exercicios?topico=Matemática - Básica" class="exercicio-card-pequeno" data-materia="mat">
+                            <div class="icon-box-exercicio"><i class="fas fa-calculator" style="color: #6d39cf; font-size: 18px;"></i></div>
+                            <div class="info-box-exercicio"><h4>Matemática Básica</h4><span>Ver Listas</span></div>
+                        </a>
+                        <a href="/exercicios?topico=Matemática - Frações e Números Decimais" class="exercicio-card-pequeno" data-materia="mat">
+                            <div class="icon-box-exercicio"><i class="fas fa-pie-chart" style="color: #6d39cf; font-size: 18px;"></i></div>
+                            <div class="info-box-exercicio"><h4>Frações e Decimais</h4><span>Ver Listas</span></div>
+                        </a>
+                        <a href="/exercicios?topico=Matemática - Estatística" class="exercicio-card-pequeno" data-materia="mat">
+                            <div class="icon-box-exercicio"><i class="fas fa-chart-bar" style="color: #6d39cf; font-size: 18px;"></i></div>
+                            <div class="info-box-exercicio"><h4>Estatística</h4><span>Ver Listas</span></div>
+                        </a>
+                        <a href="/exercicios?topico=Matemática - Geometria Plana" class="exercicio-card-pequeno" data-materia="mat">
+                            <div class="icon-box-exercicio"><i class="fas fa-shapes" style="color: #6d39cf; font-size: 18px;"></i></div>
+                            <div class="info-box-exercicio"><h4>Geometria Plana</h4><span>Ver Listas</span></div>
+                        </a>
+                        <a href="/exercicios?topico=Matemática - Geometria Espacial" class="exercicio-card-pequeno" data-materia="mat">
+                            <div class="icon-box-exercicio"><i class="fas fa-cube" style="color: #6d39cf; font-size: 18px;"></i></div>
+                            <div class="info-box-exercicio"><h4>Geometria Espacial</h4><span>Ver Listas</span></div>
+                        </a>
+                        <a href="/exercicios?topico=Matemática - Funções" class="exercicio-card-pequeno" data-materia="mat">
+                            <div class="icon-box-exercicio"><i class="fas fa-project-diagram" style="color: #6d39cf; font-size: 18px;"></i></div>
+                            <div class="info-box-exercicio"><h4>Funções</h4><span>Ver Listas</span></div>
+                        </a>
+                        <a href="/exercicios?topico=Matemática - Analíse Combinatória e Probabilidade" class="exercicio-card-pequeno" data-materia="mat">
+                            <div class="icon-box-exercicio"><i class="fas fa-dice" style="color: #6d39cf; font-size: 18px;"></i></div>
+                            <div class="info-box-exercicio"><h4>Combinatória e Probabilidade</h4><span>Ver Listas</span></div>
+                        </a>
+                        <a href="/exercicios?topico=Matemática - Matrizes" class="exercicio-card-pequeno" data-materia="mat">
+                            <div class="icon-box-exercicio"><i class="fas fa-th" style="color: #6d39cf; font-size: 18px;"></i></div>
+                            <div class="info-box-exercicio"><h4>Matrizes</h4><span>Ver Listas</span></div>
+                        </a>
+
+                        <a href="/exercicios?topico=Português - Gêneros Textuais" class="exercicio-card-pequeno" data-materia="port">
+                            <div class="icon-box-exercicio"><i class="fas fa-book" style="color: #6d39cf; font-size: 18px;"></i></div>
+                            <div class="info-box-exercicio"><h4>Gêneros Textuais</h4><span>Ver Listas</span></div>
+                        </a>
+                        <a href="/exercicios?topico=Português - Morfologia" class="exercicio-card-pequeno" data-materia="port">
+                            <div class="icon-box-exercicio"><i class="fas fa-dna" style="color: #6d39cf; font-size: 18px;"></i></div>
+                            <div class="info-box-exercicio"><h4>Morfologia</h4><span>Ver Listas</span></div>
+                        </a>
+                        <a href="/exercicios?topico=Português - Classes Gramaticais" class="exercicio-card-pequeno" data-materia="port">
+                            <div class="icon-box-exercicio"><i class="fas fa-spell-check" style="color: #6d39cf; font-size: 18px;"></i></div>
+                            <div class="info-box-exercicio"><h4>Classes Gramaticais</h4><span>Ver Listas</span></div>
+                        </a>
+                        <a href="/exercicios?topico=Português - Sintaxe" class="exercicio-card-pequeno" data-materia="port">
+                            <div class="icon-box-exercicio"><i class="fas fa-font" style="color: #6d39cf; font-size: 18px;"></i></div>
+                            <div class="info-box-exercicio"><h4>Sintaxe</h4><span>Ver Listas</span></div>
+                        </a>
+                        <a href="/exercicios?topico=Português - Linguagem" class="exercicio-card-pequeno" data-materia="port">
+                            <div class="icon-box-exercicio"><i class="fas fa-comments" style="color: #6d39cf; font-size: 18px;"></i></div>
+                            <div class="info-box-exercicio"><h4>Linguagem</h4><span>Ver Listas</span></div>
+                        </a>
+                        <a href="/exercicios?topico=Português - Interpretação de Texto" class="exercicio-card-pequeno" data-materia="port">
+                            <div class="icon-box-exercicio"><i class="fas fa-file-alt" style="color: #6d39cf; font-size: 18px;"></i></div>
+                            <div class="info-box-exercicio"><h4>Interpretação de Texto</h4><span>Ver Listas</span></div>
+                        </a>
+                        <a href="/exercicios?topico=Português - Escolas Literárias" class="exercicio-card-pequeno" data-materia="port">
+                            <div class="icon-box-exercicio"><i class="fas fa-theater-masks" style="color: #6d39cf; font-size: 18px;"></i></div>
+                            <div class="info-box-exercicio"><h4>Escolas Literárias</h4><span>Ver Listas</span></div>
+                        </a>
+                        <a href="/exercicios?topico=Português - Redação" class="exercicio-card-pequeno" data-materia="port">
+                            <div class="icon-box-exercicio"><i class="fas fa-pen-nib" style="color: #6d39cf; font-size: 18px;"></i></div>
+                            <div class="info-box-exercicio"><h4>Redação</h4><span>Ver Listas</span></div>
+                        </a>
+                    </div>
+                </div>
+
             </section>
         </main>
 
         <aside class="right-sidebar-padrao" style="width: 300px; padding: 20px;">
-            <div class="profile-card-mini" style="text-align: center; background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
+            <div class="profile-card-mini" style="text-align: center; background: white; border-radius: 20px; padding: 20px;">
                 <h3 style="margin-top: 10px; margin-bottom: 15px;" th:text="${usuario != null ? usuario.nome : 'Estudante'}">Estudante</h3>
-                <span class="badge" style="background: #f0f0f0; padding: 5px 10px; border-radius: 15px; font-size: 12px; font-weight: 500;">Estudante</span>
+                <span class="badge" style="background: #f0f0f0; padding: 5px 10px; border-radius: 15px;">Estudante</span>
             </div>
         </aside>
     </div>
+
+    <script>
+        function filtrarMateria(categoria, botaoClicado) {
+            const botoes = document.querySelectorAll('.filter-pill');
+            botoes.forEach(btn => btn.classList.remove('active'));
+            botaoClicado.classList.add('active');
+            
+            const cards = document.querySelectorAll('.exercicio-card-pequeno');
+            cards.forEach(card => {
+                if (categoria === 'todos') {
+                    card.style.display = 'flex';
+                } else {
+                    if (card.getAttribute('data-materia') === categoria) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        }
+    </script>
 </body>
 </html>
