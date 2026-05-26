@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aurora - Assistindo Aula</title>
-    <link rel="stylesheet" href="/TelaAssistir.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/TelaAssistir.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
@@ -36,34 +37,15 @@
                 <iframe th:src="${aula.urlLink}" allowfullscreen></iframe>
             </div>
             
-          <div class="video-info-box">
+            <div class="video-info-box">
                 <h1 th:text="${aula.titulo}">Título da Aula</h1>
                 <p th:text="${aula.descricao}" style="color: #666; margin-top: 10px; margin-bottom: 25px;">
                     Descrição da aula...
                 </p>
 
-                <form th:action="@{/aulas/concluir/{id}(id=${aula.id})}" method="post" style="margin-top: 20px;">
-                    <button type="submit" style="
-                        background: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%); 
-                        color: white; 
-                        border: none; 
-                        padding: 14px 24px; 
-                        border-radius: 15px; 
-                        font-weight: 700; 
-                        font-size: 14px;
-                        cursor: pointer; 
-                        display: inline-flex; 
-                        align-items: center; 
-                        gap: 10px;
-                        box-shadow: 0 4px 12px rgba(109, 57, 207, 0.15);
-                        transition: transform 0.2s, box-shadow 0.2s;
-                        font-family: inherit;">
-                        <i class="fas fa-check-circle" style="font-size: 16px;"></i> 
-                        Marcar Aula como Concluída
-                    </button>
-                </form>
+              
             </div>
-        <aside class="right-column">
+        </main> <aside class="right-column">
             <h3 style="margin-bottom: 20px; color: #333;">Outras aulas</h3>
             <div class="playlist-items">
                 <div class="playlist-item" th:each="outra : ${aulas}" 
