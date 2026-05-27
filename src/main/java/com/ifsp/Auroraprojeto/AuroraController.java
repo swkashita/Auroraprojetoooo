@@ -133,6 +133,8 @@ public class AuroraController {
     public String perfil(HttpSession session, Model model) {
         if (!usuarioLogado(session)) return "redirect:/login";
         model.addAttribute("usuario", session.getAttribute("usuario"));
+         model.addAttribute("eventos", calendarioRepository.findAll());
+        model.addAttribute("avisos", avisoRepository.findAll());
         return "PerfilAluno";
     }
 
@@ -140,6 +142,7 @@ public class AuroraController {
     public String salvarPerfil(@ModelAttribute Usuario usuarioAtualizado, HttpSession session) {
         if (!usuarioLogado(session)) return "redirect:/login";
         Usuario usuario = (Usuario) session.getAttribute("usuario");
+
         
         usuario.setNome(usuarioAtualizado.getNome());
         usuario.setEmail(usuarioAtualizado.getEmail());
@@ -159,13 +162,33 @@ public class AuroraController {
     @GetMapping("/disciplinas")
     public String disciplinas(HttpSession session, Model model) {
         if (!usuarioLogado(session)) return "redirect:/login";
-        model.addAttribute("usuario", session.getAttribute("usuario"));
+        
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuario);
+
+    // Eventos do calendário
+    model.addAttribute("eventos", calendarioRepository.findAll());
+
+    // Avisos do mural
+    model.addAttribute("avisos", avisoRepository.findAll());
+
+
         return "TelaDisciplinas";
     }
 
     @GetMapping("/exercicios")
     public String exercicios(@RequestParam(value = "topico", required = false) String topico, HttpSession session, Model model) {
         if (!usuarioLogado(session)) return "redirect:/login";
+
+          Usuario usuario = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuario);
+
+    
+    // Eventos do calendário
+    model.addAttribute("eventos", calendarioRepository.findAll());
+
+    // Avisos do mural
+    model.addAttribute("avisos", avisoRepository.findAll());
         
         List<Conteudo> listaExercicios;
 
@@ -190,8 +213,12 @@ public class AuroraController {
     @GetMapping("/provas")
     public String provas(HttpSession session, Model model) {
         if (!usuarioLogado(session)) return "redirect:/login";
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuario);
         
         model.addAttribute("provas", conteudoRepository.findByTipo(TipoConteudo.PROVA));
+        model.addAttribute("avisos", avisoRepository.findAll());
         model.addAttribute("eventos", calendarioRepository.findAll());
         model.addAttribute("usuario", session.getAttribute("usuario"));
         
@@ -201,6 +228,10 @@ public class AuroraController {
     @GetMapping("/material")
     public String material(@RequestParam(value = "cat", required = false) String categoria, HttpSession session, Model model) {
         if (!usuarioLogado(session)) return "redirect:/login";
+
+
+    // Avisos do mural
+         model.addAttribute("avisos", avisoRepository.findAll());
 
         List<Conteudo> materiaisDisponiveis = conteudoRepository.findByTipo(TipoConteudo.MATERIAL);
         
