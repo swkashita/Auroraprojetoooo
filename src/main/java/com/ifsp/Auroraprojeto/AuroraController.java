@@ -333,18 +333,34 @@ public class AuroraController {
         return "AdminAulas";
     }
 
-    // SALVAMENTO DINÂMICO INTELIGENTE
+    // SALVAMENTO DINÂMICO INTELIGENTE MODIFICADO (BLINDAGEM CONTRA NULOS DO BANCO)
     @PostMapping("/salvarconteudo")
-    public String salvarConteudo(@ModelAttribute Conteudo conteudo, HttpSession session) {
+    public String salvarConteudo(@ModelAttribute Conteudo conteudo, @RequestParam(value = "tipoManual", required = false) String tipoManual, HttpSession session) {
         if (!adminLogado(session)) return "redirect:/login-admin";
         
-        if (conteudo.getTipo() == null) {
+        // CORREÇÃO CRÍTICA: Se o th:field perdeu o tipo no HTML, recupera via parâmetro manual
+        if (conteudo.getTipo() == null && tipoManual != null) {
+            try {
+                conteudo.setTipo(TipoConteudo.valueOf(tipoManual));
+            } catch (Exception e) {
+                conteudo.setTipo(TipoConteudo.VIDEO);
+            }
+        } else if (conteudo.getTipo() == null) {
             conteudo.setTipo(TipoConteudo.VIDEO);
+        }
+
+        // CORREÇÃO CRÍTICA 2: Evita erros de restrição de integridade (not-null) se sua entidade exigir dados padrão
+        if (conteudo.getDisciplina() == null) {
+            conteudo.setDisciplina(Disciplina.MATEMATICA);
         }
         
         conteudoRepository.save(conteudo); 
         
-        // Redireciona de volta para o painel principal para ver as Últimas Ações atualizando!
+        // Redirecionamento inteligente baseado no tipo do conteúdo enviado
+        if (TipoConteudo.MATERIAL.equals(conteudo.getTipo())) {
+            return "redirect:/admin/materiais";
+        }
+        
         return "redirect:/admin"; 
     }
 
@@ -410,7 +426,7 @@ public class AuroraController {
         model.addAttribute("conteudo", prova);
         
         carregarPainelLateral(model);
-        return "AdminAulas";
+        return "AdminProvas"; 
     }
 
     // ROTA PARA UPLOAD DE MATERIAIS EXTRAS
@@ -422,8 +438,24 @@ public class AuroraController {
         material.setTipo(TipoConteudo.MATERIAL); 
         model.addAttribute("conteudo", material);
         
+        // Mapeamento corretivo para carregar a listagem de materiais ativos no HTML
+        List<Conteudo> todos = conteudoRepository.findAll();
+        List<Conteudo> apenasMateriais = todos != null ? todos.stream()
+            .filter(c -> c.getTipo() != null && TipoConteudo.MATERIAL.equals(c.getTipo()))
+            .toList() : new ArrayList<>();
+        model.addAttribute("materiais", apenasMateriais);
+        
         carregarPainelLateral(model);
-        return "AdminAulas";
+        return "AdminMateriais"; 
+    }
+
+    // NOVA ROTA: EXCLUSÃO INDIVIDUAL DE MATERIAIS EXTRAS
+    @org.springframework.transaction.annotation.Transactional
+    @GetMapping("/admin/materiais/excluir/{id}")
+    public String excluirMaterial(@PathVariable Long id, HttpSession session) {
+        if (!adminLogado(session)) return "redirect:/login-admin";
+        conteudoRepository.deleteById(id);
+        return "redirect:/admin/materiais";
     }
 
     // =========================================================================
@@ -461,8 +493,6 @@ public class AuroraController {
     // TOPICO 8: CHECAGENS AUXILIARES DE SESSÃO E MÉTODOS PRIVADOS REUTILIZÁVEIS
     // =========================================================================
 
-    // FUNÇÃO PRIVADA QUE ATUALIZA O FEED DE ÚLTIMAS AÇÕES AUTOMATICAMENTE
-   // FUNÇÃO PRIVADA QUE ATUALIZA O FEED DE ÚLTIMAS AÇÕES AUTOMATICAMENTE
     private void carregarPainelLateral(Model model) {
         try {
             List<Conteudo> todos = conteudoRepository.findAll();
@@ -481,14 +511,14 @@ public class AuroraController {
                 .filter(c -> c.getTipo() != null && TipoConteudo.PROVA.equals(c.getTipo()))
                 .count();
 
-            // NOVA CONTAGEM: Conta os exercícios
+            // Conta os exercícios
             long qtdExercicios = todos.stream()
                 .filter(c -> c.getTipo() != null && TipoConteudo.EXERCICIO.equals(c.getTipo()))
                 .count();
             
             model.addAttribute("qtdVideos", qtdVideos);
             model.addAttribute("qtdProvas", qtdProvas);
-            model.addAttribute("qtdExercicios", qtdExercicios); // Enviando para o HTML
+            model.addAttribute("qtdExercicios", qtdExercicios); 
 
             // Lista de últimas ações
             List<Conteudo> ultimasAcoes = todos.stream()

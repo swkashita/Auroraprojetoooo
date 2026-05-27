@@ -126,6 +126,10 @@
             color: #333;
             padding: 12px 0;
             border-bottom: 1px dashed #eaeaea;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
             line-height: 1.4;
         }
 
@@ -133,9 +137,34 @@
             border-bottom: none;
         }
 
-        .admin-list li span {
-            font-size: 11px;
-            color: #888;
+        .stats-badge-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .stat-badge-box {
+            background: #f0ebff;
+            padding: 12px 6px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-badge-box strong {
+            font-size: 18px;
+            color: #6d39cf;
+            display: block;
+        }
+
+        .stat-badge-box span {
+            font-size: 10px;
+            color: #555;
+            font-weight: 500;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     </style>
 </head>
@@ -152,36 +181,36 @@
             </div>
 
             <nav class="nav-menu">
-                <a href="/admin" class="nav-item">
+                <a th:href="@{/admin}" class="nav-item">
                     <i class="fas fa-chart-line"></i> Upload Aulas
                 </a>
-                <a href="/admin/conteudo" class="nav-item">
-                    <i class="fas fa-video"></i> Gerenciar Aulas
-                </a>
-                <a href="/admin/exercicios" class="nav-item">
+                <a th:href="@{/admin/exercicios}" class="nav-item">
                     <i class="fas fa-edit"></i> Upload Exercícios
                 </a>
-                <a href="/admin/provas" class="nav-item active">
+                <a th:href="@{/admin/provas}" class="nav-item active">
                     <i class="fas fa-file-upload"></i> Upload Provas
                 </a>
-                <a href="/admin/materiais" class="nav-item">
+                <a th:href="@{/admin/materiais}" class="nav-item">
                     <i class="fas fa-folder-plus"></i> Materiais Extras
                 </a>
-                <a href="/admin/calendario" class="nav-item">
+                <a th:href="@{/admin/calendario}" class="nav-item">
                     <i class="fas fa-calendar-alt"></i> Gerenciar Calendário
                 </a>
-                <a href="/admin/mural" class="nav-item">
+                <a th:href="@{/admin/mural}" class="nav-item">
                     <i class="fas fa-bullhorn"></i> Mural de Avisos
+                </a>
+                <a th:href="@{/admin/conteudo}" class="nav-item">
+                    <i class="fas fa-video"></i> Gerenciar Tudo
                 </a>
             </nav>
 
             <div class="spacer"></div>
 
             <div class="sidebar-footer-actions">
-                <a href="/inicio" class="footer-item">
+                <a th:href="@{/inicio}" class="footer-item">
                     <i class="fas fa-sign-out-alt"></i> Sair
                 </a>
-                <a href="/admin" class="admin-gear-btn" style="color: #6d39cf;">
+                <a th:href="@{/admin}" class="admin-gear-btn" style="color: #6d39cf;">
                     <i class="fas fa-cog"></i>
                 </a>
             </div>
@@ -204,40 +233,35 @@
                         <i class="fas fa-plus-circle" style="color: #6d39cf; margin-right: 5px;"></i> Disponibilizar Exame em PDF
                     </h3>
 
-                    <form th:action="@{/salvarconteudo}" method="POST" class="admin-form">
+                    <form th:action="@{/salvarconteudo}" th:object="${conteudo}" method="POST" class="admin-form">
                         
-                        <div class="form-group-admin">
-                            <label><i class="fas fa-university"></i> Instituição / Vestibular</label>
-                            <input type="text" name="titulo" placeholder="Ex: ENEM, FUVEST, UNICAMP..." required autocomplete="off">
-                        </div>
-
-                        <div class="form-row-admin">
-                            <div class="form-group-admin">
-                                <label><i class="far fa-calendar-alt"></i> Ano da Prova</label>
-                                <input type="number" name="ano" placeholder="Ex: 2024" required>
-                            </div>
-                            
-                            <div class="form-group-admin">
-                                <label><i class="fas fa-layer-group"></i> Fase</label>
-                                <select name="nivel" required>
-                                    <option value="1ª Fase">1ª Fase</option>
-                                    <option value="2ª Fase">2ª Fase</option>
-                                    <option value="Fase Única">Fase Única</option>
-                                </select>
-                            </div>
-                        </div>
-
+                        <input type="hidden" th:field="*{id}" />
                         <input type="hidden" name="tipo" value="PROVA">
                         <input type="hidden" name="disciplina" value="MATEMATICA"> 
 
                         <div class="form-group-admin">
+                            <label><i class="fas fa-university"></i> Instituição / Vestibular</label>
+                            <input type="text" th:field="*{titulo}" placeholder="Ex: ENEM 2025, FUVEST 2024, Vestibulinho IFSP..." required autocomplete="off">
+                        </div>
+
+                        <div class="form-group-admin">
+                            <label><i class="fas fa-layer-group"></i> Fase do Exame</label>
+                            <select th:field="*{nivel}" required>
+                                <option value="1ª Fase">1ª Fase</option>
+                                <option value="2ª Fase">2ª Fase</option>
+                                <option value="Fase Única">Fase Única</option>
+                                <option value="Simulado">Simulado Preparatório</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group-admin">
                             <label><i class="fas fa-link"></i> Link do PDF (URL)</label>
-                            <input type="text" name="urlLink" placeholder="Cole o link do Google Drive ou site oficial aqui..." required autocomplete="off">
+                            <input type="text" th:field="*{urlLink}" placeholder="Cole o link do Google Drive ou site oficial aqui..." required autocomplete="off">
                         </div>
 
                         <div class="form-group-admin">
                             <label><i class="fas fa-align-left"></i> Descrição / Observações</label>
-                            <textarea name="descricao" rows="3" placeholder="Ex: Caderno Azul - Primeiro Dia"></textarea>
+                            <textarea th:field="*{descricao}" rows="4" placeholder="Ex: Caderno Azul - Primeiro Dia / Aplicação Regular"></textarea>
                         </div>
 
                         <button type="submit" class="btn-submit-admin">
@@ -249,21 +273,39 @@
                 <div class="admin-aside-panel">
                     
                     <div class="admin-card-box" style="text-align: center;">
-                        <div style="font-size: 32px; color: #6d39cf; margin-bottom: 8px;">
-                            <i class="fas fa-history"></i>
+                        <h3 style="margin: 0 0 5px 0; font-size: 15px; color: #111;">Super Admin</h3>
+                        <span class="badge" style="background: #f0f0f0; padding: 4px 10px; border-radius: 15px; font-size: 11px; font-weight: 600; color: #666;">Acesso Total</span>
+                        
+                        <div class="stats-badge-container">
+                            <div class="stat-badge-box">
+                                <strong th:text="${qtdVideos}">0</strong>
+                                <span>Vídeos</span>
+                            </div>
+                            <div class="stat-badge-box">
+                                <strong th:text="${qtdExercicios}">0</strong>
+                                <span>Exercícios</span>
+                            </div>
+                            <div class="stat-badge-box">
+                                <strong th:text="${qtdProvas}">0</strong>
+                                <span>Provas</span>
+                            </div>
                         </div>
-                        <h3 style="margin: 0; font-size: 15px; color: #111;">Recém Adicionadas</h3>
                     </div>
 
                     <div class="admin-card-box">
+                        <h4 style="margin: 0 0 10px 0; font-size: 14px; color: #111; font-weight: 600;">
+                            <i class="fas fa-history" style="color: #6d39cf;"></i> Últimas Ações
+                        </h4>
                         <ul class="admin-list">
-                            <li>
-                                <strong>FUVEST 2024</strong> <br> 
-                                <span>Adicionado hoje</span>
+                            <li th:each="acao : ${ultimasAcoes}">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-check-circle" style="color: #16a34a;"></i>
+                                    <span th:text="${acao.titulo}">Nome do Conteúdo</span>
+                                </div>
+                                <span th:text="${acao.tipo}" style="background: #f3f4f6; color: #4b5563; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">TIPO</span>
                             </li>
-                            <li>
-                                <strong>ENEM 2023</strong> <br> 
-                                <span>Adicionado ontem</span>
+                            <li th:if="${#lists.isEmpty(ultimasAcoes)}" style="color: #aaa; font-style: italic; font-size: 12px; justify-content: center;">
+                                Nenhuma ação recente.
                             </li>
                         </ul>
                     </div>

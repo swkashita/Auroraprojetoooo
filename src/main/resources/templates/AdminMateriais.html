@@ -176,22 +176,56 @@
             font-size: 13px;
         }
 
-        .admin-list-stats {
+        /* Ajuste do Painel Lateral - 3 colunas do Super Admin */
+        .stats-badge-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .stat-badge-box {
+            background: #f0ebff;
+            padding: 12px 6px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-badge-box strong {
+            font-size: 18px;
+            color: #6d39cf;
+            display: block;
+        }
+
+        .stat-badge-box span {
+            font-size: 10px;
+            color: #555;
+            font-weight: 500;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .admin-list {
             list-style: none;
             padding: 0;
             margin: 10px 0 0 0;
         }
 
-        .admin-list-stats li {
+        .admin-list li {
             font-size: 13px;
-            color: #444;
+            color: #333;
+            padding: 10px 0;
+            border-bottom: 1px dashed #eaeaea;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: space-between;
+            gap: 10px;
         }
 
-        .admin-list-stats li i {
-            color: #6d39cf;
+        .admin-list li:last-child {
+            border-bottom: none;
         }
     </style>
 </head>
@@ -262,19 +296,23 @@
                             <i class="fas fa-plus-circle" style="color: #6d39cf; margin-right: 5px;"></i> Novo Material Extra
                         </h3>
 
-                        <form th:action="@{/admin/materiais/salvar}" method="POST" class="admin-form">
+                        <form th:action="@{/salvarconteudo}" th:object="${conteudo}" method="POST" class="admin-form">
                             
+                            <input type="hidden" th:field="*{id}" />
+                            <input type="hidden" th:field="*{tipo}" />
+                            <input type="hidden" th:field="*{disciplina}" value="MATEMATICA">
+
                             <div class="form-row-admin">
                                 <div class="form-group-admin">
                                     <label for="titulo">Nome do Material</label>
-                                    <input type="text" id="titulo" name="titulo" placeholder="Ex: Apostila de Crase" required autocomplete="off">
+                                    <input type="text" th:field="*{titulo}" placeholder="Ex: Caderno de Redação nota 1000" required autocomplete="off">
                                 </div>
 
                                 <div class="form-group-admin">
                                     <label for="nivel">Categoria do Material</label>
-                                    <select name="nivel" id="nivel" required>
-                                        <option value="Resumo">Resumo em PDF</option>
-                                        <option value="Mapa Mental">Mapa Mental</option>
+                                    <select th:field="*{nivel}" required>
+                                        <option value="PDF">PDF</option>
+                                        <option value="Mapa Mental">Mapas Mentais</option>
                                         <option value="Outros">Outros</option>
                                     </select>
                                 </div>
@@ -282,7 +320,7 @@
 
                             <div class="form-group-admin">
                                 <label for="urlLink">Link do Arquivo (Drive / PDF Online)</label>
-                                <input type="url" id="urlLink" name="urlLink" placeholder="https://link-do-material.com/arquivo.pdf" required autocomplete="off">
+                                <input type="text" th:field="*{urlLink}" placeholder="https://link-do-material.com/arquivo.pdf" required autocomplete="off">
                             </div>
 
                             <button type="submit" class="btn-submit-admin">
@@ -299,8 +337,9 @@
                         <div class="material-list">
                             <div th:each="mat : ${materiais}" class="material-item">
                                 <span class="material-meta">
-                                    <i class="fas fa-file-pdf"></i>
+                                    <i th:class="${mat.nivel == 'Mapa Mental'} ? 'fas fa-project-diagram' : (${mat.nivel == 'PDF'} ? 'fas fa-file-pdf' : 'fas fa-file-alt')"></i>
                                     <span th:text="${mat.titulo}">Lista de Exercícios - Álgebra</span>
+                                    <small th:text="'(' + ${mat.nivel} + ')'" style="color: #888; font-size: 11px; font-weight: normal; margin-left: 5px;"></small>
                                 </span>
                                 <a th:href="@{'/admin/materiais/excluir/' + ${mat.id}}" onclick="return confirm('Tem certeza que deseja remover este material extra?')">
                                     <button type="button" class="btn-delete-mini" title="Excluir Material">
@@ -320,21 +359,39 @@
                 <div class="admin-aside-panel">
                     
                     <div class="admin-card-box" style="text-align: center;">
-                        <div style="font-size: 32px; color: #6d39cf; margin-bottom: 8px;">
-                            <i class="fas fa-database"></i>
+                        <h3 style="margin: 0 0 5px 0; font-size: 15px; color: #111;">Super Admin</h3>
+                        <span class="badge" style="background: #f0f0f0; padding: 4px 10px; border-radius: 15px; font-size: 11px; font-weight: 600; color: #666;">Acesso Total</span>
+                        
+                        <div class="stats-badge-container">
+                            <div class="stat-badge-box">
+                                <strong th:text="${qtdVideos}">0</strong>
+                                <span>Vídeos</span>
+                            </div>
+                            <div class="stat-badge-box">
+                                <strong th:text="${qtdExercicios}">0</strong>
+                                <span>Exercícios</span>
+                            </div>
+                            <div class="stat-badge-box">
+                                <strong th:text="${qtdProvas}">0</strong>
+                                <span>Provas</span>
+                            </div>
                         </div>
-                        <h3 style="margin: 0 0 5px 0; font-size: 15px; color: #111;">Armazenamento</h3>
-                        <p style="margin: 0; font-size: 12px; color: #777; line-height: 1.4;">
-                            Dê preferência a links compartilháveis do <strong>Google Drive</strong> para poupar o espaço em disco do servidor principal.
-                        </p>
                     </div>
 
                     <div class="admin-card-box">
-                        <h4 style="margin: 0 0 10px 0; font-size: 14px; color: #111; font-weight: 600;">Estatísticas Gerais</h4>
-                        <ul class="admin-list-stats">
-                            <li>
-                                <i class="fas fa-folder"></i> 
-                                <span><strong th:text="${#lists.size(materiais)}">0</strong> Arquivos totais</span>
+                        <h4 style="margin: 0 0 10px 0; font-size: 14px; color: #111; font-weight: 600;">
+                            <i class="fas fa-history" style="color: #6d39cf;"></i> Últimas Ações
+                        </h4>
+                        <ul class="admin-list">
+                            <li th:each="acao : ${ultimasAcoes}">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-check-circle" style="color: #16a34a;"></i>
+                                    <span th:text="${acao.titulo}">Nome do Conteúdo</span>
+                                </div>
+                                <span th:text="${acao.tipo}" style="background: #f3f4f6; color: #4b5563; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">TIPO</span>
+                            </li>
+                            <li th:if="${#lists.isEmpty(ultimasAcoes)}" style="color: #aaa; font-style: italic; font-size: 12px; justify-content: center;">
+                                Nenhuma ação recente.
                             </li>
                         </ul>
                     </div>
