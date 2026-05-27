@@ -6,10 +6,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aurora Admin - Upload Exercícios</title>
 
-    <link rel="stylesheet" href="/AdminStyle.css">
+    <link rel="stylesheet" href="/TelaDisciplinas.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Estrutura de colunas alinhada com o padrão do projeto admin */
+        .admin-layout-grid {
+            display: flex;
+            gap: 30px;
+            width: 100%;
+            align-items: flex-start;
+        }
 
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        .admin-form-container {
+            flex: 1;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid #eaeaea;
+        }
+
+        .admin-aside-panel {
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .admin-card-box {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid #eaeaea;
+        }
+
+        .form-group-admin {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .form-group-admin label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group-admin input, 
+        .form-group-admin textarea,
+        .form-group-admin select {
+            padding: 12px 15px;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            font-size: 14px;
+            background: #fafafa;
+            color: #333;
+            font-family: inherit;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .form-group-admin input:focus, 
+        .form-group-admin textarea:focus,
+        .form-group-admin select:focus {
+            outline: none;
+            border-color: #6d39cf;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(109, 57, 207, 0.05);
+        }
+
+        .form-row-admin {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .btn-submit-admin {
+            background: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(109, 57, 207, 0.15);
+        }
+
+        .btn-submit-admin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(109, 57, 207, 0.25);
+        }
+
+        /* Listagem compacta de exercícios ativos */
+        .admin-table-list {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .admin-table-list th {
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: #777;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f5f5f5;
+        }
+
+        .admin-table-list td {
+            padding: 12px 0;
+            font-size: 13px;
+            color: #333;
+            border-bottom: 1px dashed #eaeaea;
+            vertical-align: middle;
+        }
+
+        .admin-table-list tr:last-child td {
+            border-bottom: none;
+        }
+
+        .btn-delete-mini {
+            color: #ef4444;
+            background: #fee2e2;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-delete-mini:hover {
+            background: #ef4444;
+            color: white;
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 
 <body>
@@ -17,44 +158,32 @@
     <div class="dashboard-container">
 
         <aside class="sidebar-main">
-
             <div class="logo-section">
                 <div class="icon-wrapper">
-                    <i class="fas fa-user-shield"></i>
+                    <i class="fas fa-graduation-cap"></i>
                 </div>
             </div>
 
             <nav class="nav-menu">
                 <a href="/admin" class="nav-item">
-                    <i class="fas fa-chart-line"></i>
-                    Upload Aulas
+                    <i class="fas fa-chart-line"></i> Upload Aulas
                 </a>
-
                 <a href="/admin/conteudo" class="nav-item">
-                    <i class="fas fa-video"></i>
-                    Gerenciar Aulas
+                    <i class="fas fa-video"></i> Gerenciar Aulas
                 </a>
-
                 <a href="/admin/exercicios" class="nav-item active">
-                    <i class="fas fa-edit"></i>
-                    Upload Exercícios
+                    <i class="fas fa-edit"></i> Upload Exercícios
                 </a>
-
                 <a href="/admin/provas" class="nav-item">
-                    <i class="fas fa-file-upload"></i>
-                    Upload Provas
+                    <i class="fas fa-file-upload"></i> Upload Provas
                 </a>
-
                 <a href="/admin/materiais" class="nav-item">
-                    <i class="fas fa-folder-plus"></i>
-                    Upload Materiais Extras
+                    <i class="fas fa-folder-plus"></i> Materiais Extras
                 </a>
-
                 <a href="/admin/calendario" class="nav-item">
-                    <i class="fas fa-folder-plus"></i>
-                    Gerenciar Calendário
+                    <i class="fas fa-calendar-alt"></i> Gerenciar Calendário
                 </a>
-                <a href="/admin/mural" class="nav-item ">
+                <a href="/admin/mural" class="nav-item">
                     <i class="fas fa-bullhorn"></i> Mural de Avisos
                 </a>
             </nav>
@@ -63,44 +192,45 @@
 
             <div class="sidebar-footer-actions">
                 <a href="/inicio" class="footer-item">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Sair
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </a>
+                <a href="/admin" class="admin-gear-btn" style="color: #6d39cf;">
+                    <i class="fas fa-cog"></i>
                 </a>
             </div>
-
         </aside>
 
         <main class="main-layout">
 
             <header class="header-top">
-                <h1>Painel de Exercícios</h1>
-                <p>Olá, Admin! Monte as listas práticas para os alunos.</p>
+                <div class="search-global">
+                    <input type="text" placeholder="Painel de Controle - Coordenação Aurora" disabled style="background: transparent; border: none; cursor: default;">
+                </div>
             </header>
 
-            <section class="admin-form-section">
+            <h1 class="title-page">Painel de Exercícios</h1>
 
-                <div class="video-info-box">
-
-                    <h3>
-                        <i class="fas fa-plus-circle"></i>
-                        Adicionar Novo Exercício
+            <div class="admin-layout-grid">
+                
+                <div class="admin-form-container">
+                    <h3 style="margin: 0 0 20px 0; font-size: 16px; font-weight: 600; color: #111;">
+                        <i class="fas fa-plus-circle" style="color: #6d39cf; margin-right: 5px;"></i> Adicionar Novo Exercício
                     </h3>
 
-                    <form action="/admin/exercicios/salvar" method="post" class="admin-form">
+                    <form th:action="@{/admin/exercicios/salvar}" method="post" class="admin-form">
 
-                        <div class="form-group">
+                        <div class="form-group-admin">
                             <label for="tituloConteudo">Título da Lista de Exercícios</label>
-                            <input type="text" id="tituloConteudo" name="titulo" placeholder="Ex: Exercícios Práticos de Equações" required>
+                            <input type="text" id="tituloConteudo" name="titulo" placeholder="Ex: Exercícios Práticos de Equações" required autocomplete="off">
                         </div>
 
-                        <div class="form-row">
-
-                            <div class="form-group">
+                        <div class="form-row-admin">
+                            <div class="form-group-admin">
                                 <label>Link do Documento / PDF (Drive/Forms)</label>
-                                <input type="text" name="urlLink" placeholder="https://drive.google.com/... " required>
+                                <input type="text" name="urlLink" placeholder="https://drive.google.com/..." required autocomplete="off">
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group-admin">
                                 <label for="disciplina">Disciplina</label>
                                 <select name="disciplina" id="disciplina" required onchange="atualizarTopicos()">
                                     <option value="">Selecione</option>
@@ -108,74 +238,70 @@
                                     <option value="PORTUGUES">Português</option>
                                 </select>
                             </div>
-
                         </div>
 
-                        <div class="form-row">
-
-                            <div class="form-group">
-                                <label for="nivel">Assunto / Tópico</label>
-                                <select name="nivel" id="nivel" required>
-                                    <option value="">Selecione a disciplina primeiro...</option>
-                                </select>
-                            </div>
-
+                        <div class="form-group-admin">
+                            <label for="nivel">Assunto / Tópico</label>
+                            <select name="nivel" id="nivel" required>
+                                <option value="">Selecione a disciplina primeiro...</option>
+                            </select>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group-admin">
                             <label>Descrição</label>
                             <textarea name="descricao" rows="4" placeholder="Alguma observação importante para os alunos?"></textarea>
                         </div>
 
-                        <button type="submit" class="btn-primary">
+                        <button type="submit" class="btn-submit-admin">
                             Publicar Exercício
                         </button>
 
                     </form>
+                </div>
+
+                <div class="admin-aside-panel">
+                    
+                    <div class="admin-card-box" style="text-align: center;">
+                        <h3 style="margin: 0 0 5px 0; font-size: 15px; color: #111;">Super Admin</h3>
+                        <span class="badge" style="background: #f0f0f0; padding: 4px 10px; border-radius: 15px; font-size: 11px; font-weight: 600; color: #666;">Acesso Total</span>
+                    </div>
+
+                    <div class="admin-card-box" style="max-height: 430px; overflow-y: auto;">
+                        <h4 style="margin: 0 0 10px 0; font-size: 14px; color: #111; font-weight: 600;">
+                            <i class="fas fa-tasks" style="color: #6d39cf; margin-right: 5px;"></i> Exercícios Ativos
+                        </h4>
+                        
+                        <table class="admin-table-list">
+                            <thead>
+                                <tr>
+                                    <th>Título</th>
+                                    <th style="text-align: center; width: 50px;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="ex : ${exercicios}">
+                                    <td th:text="${ex.titulo}">Lista de Exercício</td>
+                                    <td style="text-align: center;">
+                                        <a th:href="@{'/admin/exercicios/excluir/' + ${ex.id}}" onclick="return confirm('Excluir esta lista de exercícios?')">
+                                            <button class="btn-delete-mini" title="Excluir">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(exercicios)}">
+                                    <td colspan="2" style="padding: 20px 0; text-align: center; color: #aaa; font-style: italic;">
+                                        Nenhum exercício enviado.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
                 </div>
 
-            </section>
-
+            </div>
         </main>
-
-        <aside class="right-column">
-
-            <div class="profile-card">
-                <div class="avatar-large">
-                    <img src="https://via.placeholder.com/100" alt="Admin">
-                </div>
-                <h3>Super Admin</h3>
-                <span class="badge">Acesso Total</span>
-            </div>
-
-            <div class="calendar-card" style="margin-top: 20px; max-height: 400px; overflow-y: auto;">
-                <h4>Exercícios Ativos</h4>
-                <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px;">
-                    <thead>
-                        <tr style="text-align: left; border-bottom: 2px solid #eee;">
-                            <th style="padding-bottom: 8px;">Título</th>
-                            <th style="padding-bottom: 8px; text-align: center;">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="ex : ${exercicios}" style="border-bottom: 1px solid #f9f9f9;">
-                            <td th:text="${ex.titulo}" style="padding: 8px 0; color: #333;"></td>
-                            <td style="padding: 8px 0; text-align: center;">
-                                <a th:href="@{'/admin/exercicios/excluir/' + ${ex.id}}" style="color: #ff4d4d; text-decoration: none;">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr th:if="${#lists.isEmpty(exercicios)}">
-                            <td colspan="2" style="padding: 15px 0; text-align: center; color: #aaa;">Nenhum exercício enviado.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-        </aside>
-
     </div>
 
     <script>

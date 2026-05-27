@@ -1,106 +1,277 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aurora Admin - Upload de Provas</title>
-    <link rel="stylesheet" href="/AdminStyle.css">
+
+    <link rel="stylesheet" href="/TelaDisciplinas.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Estrutura de colunas alinhada com o padrão do projeto admin */
+        .admin-layout-grid {
+            display: flex;
+            gap: 30px;
+            width: 100%;
+            align-items: flex-start;
+        }
+
+        .admin-form-container {
+            flex: 1;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid #eaeaea;
+        }
+
+        .admin-aside-panel {
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .admin-card-box {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid #eaeaea;
+        }
+
+        .form-group-admin {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .form-group-admin label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-group-admin label i {
+            color: #6d39cf;
+        }
+
+        .form-group-admin input, 
+        .form-group-admin textarea,
+        .form-group-admin select {
+            padding: 12px 15px;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            font-size: 14px;
+            background: #fafafa;
+            color: #333;
+            font-family: inherit;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .form-group-admin input:focus, 
+        .form-group-admin textarea:focus,
+        .form-group-admin select:focus {
+            outline: none;
+            border-color: #6d39cf;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(109, 57, 207, 0.05);
+        }
+
+        .form-row-admin {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .btn-submit-admin {
+            background: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(109, 57, 207, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-submit-admin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(109, 57, 207, 0.25);
+        }
+
+        /* Histórico de itens recém adicionados */
+        .admin-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+        }
+
+        .admin-list li {
+            font-size: 13px;
+            color: #333;
+            padding: 12px 0;
+            border-bottom: 1px dashed #eaeaea;
+            line-height: 1.4;
+        }
+
+        .admin-list li:last-child {
+            border-bottom: none;
+        }
+
+        .admin-list li span {
+            font-size: 11px;
+            color: #888;
+        }
+    </style>
 </head>
+
 <body>
 
     <div class="dashboard-container">
+
         <aside class="sidebar-main">
             <div class="logo-section">
-                <div class="icon-wrapper"><i class="fas fa-user-shield"></i></div>
+                <div class="icon-wrapper">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
             </div>
+
             <nav class="nav-menu">
-                <a href="/admin" class="nav-item"><i class="fas fa-chart-line"></i> Painel Geral</a>
-                <a href="/admin/conteudo" class="nav-item"><i class="fas fa-video"></i> Gerenciar Aulas</a>
-                <a href="/admin/provas" class="nav-item active"><i class="fas fa-file-upload"></i> Upload Provas</a>
-                <a href="/admin/materiais" class="nav-item"><i class="fas fa-folder-plus"></i> Materiais Extras</a>
-                <a href="/admin/calendario" class="nav-item"> <i class="fas fa-folder-plus"></i>Gerenciar Calendário</a>
-                <a href="/admin/mural" class="nav-item"><i class="fas fa-bullhorn"></i> Mural de Avisos</a>
+                <a href="/admin" class="nav-item">
+                    <i class="fas fa-chart-line"></i> Upload Aulas
+                </a>
+                <a href="/admin/conteudo" class="nav-item">
+                    <i class="fas fa-video"></i> Gerenciar Aulas
+                </a>
+                <a href="/admin/exercicios" class="nav-item">
+                    <i class="fas fa-edit"></i> Upload Exercícios
+                </a>
+                <a href="/admin/provas" class="nav-item active">
+                    <i class="fas fa-file-upload"></i> Upload Provas
+                </a>
+                <a href="/admin/materiais" class="nav-item">
+                    <i class="fas fa-folder-plus"></i> Materiais Extras
+                </a>
+                <a href="/admin/calendario" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i> Gerenciar Calendário
+                </a>
+                <a href="/admin/mural" class="nav-item">
+                    <i class="fas fa-bullhorn"></i> Mural de Avisos
+                </a>
             </nav>
+
             <div class="spacer"></div>
+
             <div class="sidebar-footer-actions">
-                <a href="/inicio" class="footer-item"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                <a href="/inicio" class="footer-item">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </a>
+                <a href="/admin" class="admin-gear-btn" style="color: #6d39cf;">
+                    <i class="fas fa-cog"></i>
+                </a>
             </div>
         </aside>
 
         <main class="main-layout">
+
             <header class="header-top">
-                <h1>Upload de Provas Anteriores</h1>
-                <p>Disponibilize exames em PDF para os alunos praticarem.</p>
+                <div class="search-global">
+                    <input type="text" placeholder="Painel de Controle - Coordenação Aurora" disabled style="background: transparent; border: none; cursor: default;">
+                </div>
             </header>
 
-         <section class="admin-form-section">
-    <div class="video-info-box">
-        <form th:action="@{/salvarconteudo}" method="POST" class="admin-form">
-            
-            <div class="form-group">
-                <label><i class="fas fa-university"></i> Instituição / Vestibular</label>
-                <input type="text" name="titulo" placeholder="Ex: ENEM, FUVEST, UNICAMP..." required>
-            </div>
+            <h1 class="title-page">Upload de Provas Anteriores</h1>
 
-            <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
-                <div class="form-group">
-                    <label><i class="far fa-calendar-alt"></i> Ano da Prova</label>
-                    <input type="number" name="ano" placeholder="Ex: 2024">
+            <div class="admin-layout-grid">
+                
+                <div class="admin-form-container">
+                    <h3 style="margin: 0 0 20px 0; font-size: 16px; font-weight: 600; color: #111;">
+                        <i class="fas fa-plus-circle" style="color: #6d39cf; margin-right: 5px;"></i> Disponibilizar Exame em PDF
+                    </h3>
+
+                    <form th:action="@{/salvarconteudo}" method="POST" class="admin-form">
+                        
+                        <div class="form-group-admin">
+                            <label><i class="fas fa-university"></i> Instituição / Vestibular</label>
+                            <input type="text" name="titulo" placeholder="Ex: ENEM, FUVEST, UNICAMP..." required autocomplete="off">
+                        </div>
+
+                        <div class="form-row-admin">
+                            <div class="form-group-admin">
+                                <label><i class="far fa-calendar-alt"></i> Ano da Prova</label>
+                                <input type="number" name="ano" placeholder="Ex: 2024" required>
+                            </div>
+                            
+                            <div class="form-group-admin">
+                                <label><i class="fas fa-layer-group"></i> Fase</label>
+                                <select name="nivel" required>
+                                    <option value="1ª Fase">1ª Fase</option>
+                                    <option value="2ª Fase">2ª Fase</option>
+                                    <option value="Fase Única">Fase Única</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="tipo" value="PROVA">
+                        <input type="hidden" name="disciplina" value="MATEMATICA"> 
+
+                        <div class="form-group-admin">
+                            <label><i class="fas fa-link"></i> Link do PDF (URL)</label>
+                            <input type="text" name="urlLink" placeholder="Cole o link do Google Drive ou site oficial aqui..." required autocomplete="off">
+                        </div>
+
+                        <div class="form-group-admin">
+                            <label><i class="fas fa-align-left"></i> Descrição / Observações</label>
+                            <textarea name="descricao" rows="3" placeholder="Ex: Caderno Azul - Primeiro Dia"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-submit-admin">
+                            <i class="fas fa-upload"></i> Publicar Prova
+                        </button>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label><i class="fas fa-layer-group"></i> Fase</label>
-                    <select name="nivel" style="padding: 12px; border-radius: 10px; border: 1px solid #eee; background: #fcfcfc;">
-                        <option value="1ª Fase">1ª Fase</option>
-                        <option value="2ª Fase">2ª Fase</option>
-                        <option value="Fase Única">Fase Única</option>
-                    </select>
+
+                <div class="admin-aside-panel">
+                    
+                    <div class="admin-card-box" style="text-align: center;">
+                        <div style="font-size: 32px; color: #6d39cf; margin-bottom: 8px;">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <h3 style="margin: 0; font-size: 15px; color: #111;">Recém Adicionadas</h3>
+                    </div>
+
+                    <div class="admin-card-box">
+                        <ul class="admin-list">
+                            <li>
+                                <strong>FUVEST 2024</strong> <br> 
+                                <span>Adicionado hoje</span>
+                            </li>
+                            <li>
+                                <strong>ENEM 2023</strong> <br> 
+                                <span>Adicionado ontem</span>
+                            </li>
+                        </ul>
+                    </div>
+
                 </div>
+
             </div>
-
-            <input type="hidden" name="tipo" value="PROVA">
-            
-            <input type="hidden" name="disciplina" value="MATEMATICA"> 
-
-            <div class="form-group" style="margin-top: 20px;">
-                <label><i class="fas fa-link"></i> Link do PDF (URL)</label>
-                <input type="text" name="urlLink" placeholder="Cole o link do Google Drive ou site oficial aqui..." required 
-                       style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #eee;">
-            </div>
-
-            <div class="form-group" style="margin-top: 15px;">
-                <label><i class="fas fa-align-left"></i> Descrição / Observações</label>
-                <textarea name="descricao" rows="3" placeholder="Ex: Caderno Azul - Primeiro Dia" 
-                          style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #eee;"></textarea>
-            </div>
-
-            <button type="submit" class="btn-primary" style="margin-top: 25px; width: 100%; cursor: pointer;">
-                <i class="fas fa-upload"></i> Publicar Prova
-            </button>
-        </form>
-    </div>
-</section>
         </main>
-
-        <aside class="right-column">
-            <div class="profile-card">
-                <div class="icon-circle" style="font-size: 40px; color: #9b6bff; margin-bottom: 10px;">
-                    <i class="fas fa-history"></i>
-                </div>
-                <h3>Recém Adicionadas</h3>
-            </div>
-
-            <div class="calendar-card" style="margin-top: 20px;">
-                <ul class="admin-list" style="list-style: none; font-size: 13px;">
-                    <li style="padding: 10px 0; border-bottom: 1px solid #f0f0f0;">
-                        <strong>FUVEST 2024</strong> <br> <span style="color: #888;">Adicionado hoje</span>
-                    </li>
-                    <li style="padding: 10px 0; border-bottom: 1px solid #f0f0f0;">
-                        <strong>ENEM 2023</strong> <br> <span style="color: #888;">Adicionado ontem</span>
-                    </li>
-                </ul>
-            </div>
-        </aside>
     </div>
 
 </body>
