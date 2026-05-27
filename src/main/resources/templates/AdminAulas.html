@@ -144,6 +144,7 @@
             border-bottom: 1px dashed #eaeaea;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 10px;
         }
 
@@ -151,34 +152,35 @@
             border-bottom: none;
         }
 
-        .admin-list li i {
-            color: #16a34a;
-        }
-
         .stats-badge-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            /* MODIFICADO: Ajustado para 3 colunas de tamanhos iguais */
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
             margin-top: 10px;
         }
 
         .stat-badge-box {
             background: #f0ebff;
-            padding: 12px;
+            padding: 12px 6px;
             border-radius: 12px;
             text-align: center;
         }
 
         .stat-badge-box strong {
-            font-size: 20px;
+            font-size: 18px;
             color: #6d39cf;
             display: block;
         }
 
         .stat-badge-box span {
-            font-size: 11px;
+            font-size: 10px;
             color: #555;
             font-weight: 500;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     </style>
 </head>
@@ -252,7 +254,6 @@
                     <form th:action="@{/salvarconteudo}" th:object="${conteudo}" method="post" class="admin-form">
 
                         <input type="hidden" th:field="*{id}" />
-                        
                         <input type="hidden" th:field="*{tipo}" />
 
                         <div class="form-group-admin">
@@ -307,11 +308,15 @@
                         
                         <div class="stats-badge-container">
                             <div class="stat-badge-box">
-                                <strong id="totalVideos">0</strong>
+                                <strong th:text="${qtdVideos}">0</strong>
                                 <span>Vídeos</span>
                             </div>
                             <div class="stat-badge-box">
-                                <strong id="totalProvas">0</strong>
+                                <strong th:text="${qtdExercicios}">0</strong>
+                                <span>Exercícios</span>
+                            </div>
+                            <div class="stat-badge-box">
+                                <strong th:text="${qtdProvas}">0</strong>
                                 <span>Provas</span>
                             </div>
                         </div>
@@ -321,7 +326,18 @@
                         <h4 style="margin: 0 0 10px 0; font-size: 14px; color: #111; font-weight: 600;">
                             <i class="fas fa-history" style="color: #6d39cf;"></i> Últimas Ações
                         </h4>
-                        <ul class="admin-list" id="listaAcoes"></ul>
+                        <ul class="admin-list">
+                            <li th:each="acao : ${ultimasAcoes}">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-check-circle" style="color: #16a34a;"></i>
+                                    <span th:text="${acao.titulo}">Nome do Conteúdo</span>
+                                </div>
+                                <span th:text="${acao.tipo}" style="background: #f3f4f6; color: #4b5563; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">TIPO</span>
+                            </li>
+                            <li th:if="${#lists.isEmpty(ultimasAcoes)}" style="color: #aaa; font-style: italic; font-size: 12px; justify-content: center;">
+                                Nenhuma ação recente.
+                            </li>
+                        </ul>
                     </div>
 
                 </div>
@@ -331,15 +347,6 @@
     </div>
 
     <script>
-        const listaAcoes = document.getElementById("listaAcoes");
-        const totalVideos = document.getElementById("totalVideos");
-        const totalProvas = document.getElementById("totalProvas");
-        const formulario = document.querySelector(".admin-form");
-        const tituloConteudo = document.getElementById("tituloConteudo");
-
-        let conteudos = JSON.parse(localStorage.getItem("conteudosAdmin")) || [];
-        let acoes = JSON.parse(localStorage.getItem("acoesAdmin")) || [];
-
         function atualizarTopicos() {
             const disciplina = document.getElementById("disciplina").value;
             const nivelSelect = document.getElementById("nivel");
@@ -387,32 +394,9 @@
             });
         }
 
-        function atualizarCards() {
-            const videos = conteudos.filter(item => item.tipo === "VIDEO");
-            const provas = conteudos.filter(item => item.tipo === "PROVA");
-
-            totalVideos.textContent = videos.length;
-            totalProvas.textContent = provas.length;
-        }
-
-        function renderizarAcoes() {
-            listaAcoes.innerHTML = "";
-            acoes.forEach(acao => {
-                listaAcoes.innerHTML += `
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        ${acao}
-                    </li>
-                `;
-            });
-        }
-
         if (document.getElementById("disciplina").value !== "") {
             atualizarTopicos();
         }
-
-        atualizarCards();
-        renderizarAcoes();
     </script>
 
 </body>

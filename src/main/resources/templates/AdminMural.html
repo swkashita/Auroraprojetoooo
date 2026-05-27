@@ -1,23 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aurora Admin - Criar Aviso</title>
-
+    <title>Aurora Admin - Mural de Avisos</title>
     <link rel="stylesheet" href="/TelaDisciplinas.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        /* Estrutura de colunas alinhada com o padrão do projeto */
         .admin-layout-grid {
             display: flex;
             gap: 30px;
             width: 100%;
             align-items: flex-start;
         }
-
         .admin-form-container {
             flex: 1;
             background: white;
@@ -26,35 +21,17 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.03);
             border: 1px solid #eaeaea;
         }
-
-        .admin-aside-panel {
-            width: 300px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .admin-card-box {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            border: 1px solid #eaeaea;
-        }
-
         .form-group-admin {
             display: flex;
             flex-direction: column;
             gap: 8px;
             margin-bottom: 18px;
         }
-
         .form-group-admin label {
             font-size: 13px;
             font-weight: 600;
             color: #555;
         }
-
         .form-group-admin input, 
         .form-group-admin textarea {
             padding: 12px 15px;
@@ -63,40 +40,9 @@
             font-size: 14px;
             background: #fafafa;
             color: #333;
-            font-family: inherit;
-            transition: all 0.2s;
             width: 100%;
-            box-sizing: border-box;
+            font-family: inherit;
         }
-
-        .form-group-admin input:focus, 
-        .form-group-admin textarea:focus {
-            outline: none;
-            border-color: #6d39cf;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(109, 57, 207, 0.05);
-        }
-
-        /* Estilização da caixinha de seleção (Checkbox) */
-        .checkbox-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 20px;
-            user-select: none;
-        }
-
-        .checkbox-container input {
-            width: 18px;
-            height: 18px;
-            accent-color: #6d39cf;
-            cursor: pointer;
-        }
-
         .btn-submit-admin {
             background: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%);
             color: white;
@@ -107,133 +53,91 @@
             font-weight: 700;
             cursor: pointer;
             width: 100%;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 12px rgba(109, 57, 207, 0.15);
+            transition: transform 0.2s;
         }
-
         .btn-submit-admin:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(109, 57, 207, 0.25);
         }
-
-        .btn-voltar {
-            display: block;
-            text-align: center;
+        .aviso-card {
+            background: #fdfdfd;
+            border: 1px solid #eaeaea;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .btn-excluir {
+            color: #ef4444;
             text-decoration: none;
-            color: #777;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
-            margin-top: 15px;
-            transition: color 0.2s;
-        }
-
-        .btn-voltar:hover {
-            color: #6d39cf;
         }
     </style>
 </head>
-
 <body>
 
     <div class="dashboard-container">
-
         <aside class="sidebar-main">
             <div class="logo-section">
-                <div class="icon-wrapper">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
+                <div class="icon-wrapper"><i class="fas fa-graduation-cap"></i></div>
             </div>
-
             <nav class="nav-menu">
-                <a th:href="@{/admin}" class="nav-item">
-                    <i class="fas fa-chart-line"></i> Upload Aulas
-                </a>
-                <a th:href="@{/admin/exercicios}" class="nav-item">
-                    <i class="fas fa-edit"></i> Upload Exercícios
-                </a>
-                <a th:href="@{/admin/provas}" class="nav-item">
-                    <i class="fas fa-file-upload"></i> Upload Provas
-                </a>
-                <a th:href="@{/admin/materiais}" class="nav-item">
-                    <i class="fas fa-folder-plus"></i> Materiais Extras
-                </a>
-                <a th:href="@{/admin/calendario}" class="nav-item">
-                    <i class="fas fa-calendar-alt"></i> Gerenciar Calendário
-                </a>
-                <a th:href="@{/admin/mural}" class="nav-item active">
-                    <i class="fas fa-bullhorn"></i> Mural de Avisos
-                </a>
-                <a th:href="@{/admin/conteudo}" class="nav-item">
-                    <i class="fas fa-video"></i> Gerenciar Tudo
-                </a>
+                <a th:href="@{/admin}" class="nav-item"><i class="fas fa-chart-line"></i> Upload Aulas</a>
+                <a th:href="@{/admin/exercicios}" class="nav-item"><i class="fas fa-edit"></i> Upload Exercícios</a>
+                <a th:href="@{/admin/provas}" class="nav-item"><i class="fas fa-file-upload"></i> Upload Provas</a>
+                <a th:href="@{/admin/materiais}" class="nav-item"><i class="fas fa-folder-plus"></i> Materiais Extras</a>
+                <a th:href="@{/admin/calendario}" class="nav-item"><i class="fas fa-calendar-alt"></i> Gerenciar Calendário</a>
+                <a th:href="@{/admin/mural}" class="nav-item active"><i class="fas fa-bullhorn"></i> Mural de Avisos</a>
+                <a th:href="@{/admin/conteudo}" class="nav-item"><i class="fas fa-video"></i> Gerenciar Tudo</a>
             </nav>
-
             <div class="spacer"></div>
-
             <div class="sidebar-footer-actions">
-                <a th:href="@{/inicio}" class="footer-item">
-                    <i class="fas fa-sign-out-alt"></i> Sair
-                </a>
-                <a th:href="@{/admin}" class="admin-gear-btn" style="color: #6d39cf;">
-                    <i class="fas fa-cog"></i>
-                </a>
+                <a th:href="@{/inicio}" class="footer-item"><i class="fas fa-sign-out-alt"></i> Sair</a>
             </div>
         </aside>
 
         <main class="main-layout">
-
             <header class="header-top">
                 <div class="search-global">
-                    <input type="text" placeholder="Painel de Controle - Coordenação Aurora" disabled style="background: transparent; border: none; cursor: default;">
+                    <input type="text" placeholder="Painel de Controle - Mural de Avisos" disabled style="background: transparent; border: none;">
                 </div>
             </header>
 
-            <h1 class="title-page">Mural de Avisos</h1>
+            <h1 class="title-page">Mural de Avisos Dinâmico</h1>
 
             <div class="admin-layout-grid">
-                
                 <div class="admin-form-container">
-                    <h3 style="margin: 0 0 20px 0; font-size: 16px; font-weight: 600; color: #111;">
-                        <i class="fas fa-plus-circle" style="color: #6d39cf; margin-right: 5px;"></i> Publicar Novo Aviso no Mural
-                    </h3>
-
+                    <h3 style="margin-top:0;">Novo Comunicado</h3>
                     <form th:action="@{/admin/mural/salvar}" method="post">
-
                         <div class="form-group-admin">
-                            <label for="tituloAviso">Título do Aviso</label>
-                            <input type="text" id="tituloAviso" name="titulo" placeholder="Ex: Horário do Simulado das Aulas" required autocomplete="off">
+                            <label>Título do Aviso</label>
+                            <input type="text" name="titulo" placeholder="Ex: Horário do Simulado" required autocomplete="off">
                         </div>
-
                         <div class="form-group-admin">
-                            <label for="conteudoAviso">Conteúdo / Mensagem</label>
-                            <textarea id="conteudoAviso" name="conteudo" rows="5" placeholder="Escreva aqui as informações detalhadas que os alunos verão na tela inicial..." required></textarea>
+                            <label>Conteúdo / Mensagem</label>
+                            <textarea name="conteudo" rows="4" placeholder="Digite o aviso completo para os estudantes..." required></textarea>
                         </div>
-
-                        <label class="checkbox-container">
-                            <input type="checkbox" name="importante" value="true">
-                            Destacar como aviso Importante (Tag vermelha)
-                        </label>
-
-                        <button type="submit" class="btn-submit-admin">
-                            Publicar Aviso
-                        </button>
-
-                        <a th:href="@{/admin/mural}" class="btn-voltar">
-                            <i class="fas fa-arrow-left"></i> Cancelar e Voltar
-                        </a>
-
+                        <button type="submit" class="btn-submit-admin">Publicar no Mural</button>
                     </form>
                 </div>
 
-                <div class="admin-aside-panel">
-                    <div class="admin-card-box" style="text-align: center;">
-                        <h3 style="margin: 0 0 5px 0; font-size: 16px; color: #111;">Mural Ativo</h3>
-                        <p style="margin: 0; font-size: 12px; color: #777; line-height: 1.4;">
-                            Todos os avisos publicados aqui aparecem instantaneamente no painel lateral direito de todos os alunos cadastrados no Aurora.
-                        </p>
+                <div class="admin-form-container" style="flex: 1.2;">
+                    <h3 style="margin-top:0;">Avisos Publicados</h3>
+                    <div th:each="aviso : ${avisos}" class="aviso-card">
+                        <div>
+                            <strong th:text="${aviso.titulo}" style="color: #6d39cf; display:block; font-size:16px;">Título</strong>
+                            <p th:text="${aviso.conteudo}" style="margin: 5px 0 0 0; color:#555; font-size:14px;">Conteúdo do aviso...</p>
+                        </div>
+                        <a th:href="@{/admin/mural/excluir/{id}(id=${aviso.id})}" class="btn-excluir" onclick="return confirm('Deseja mesmo remover este aviso?')">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </div>
+                    <div th:if="${#lists.isEmpty(avisos)}" style="text-align:center; color:#aaa; font-style:italic; padding:20px;">
+                        Nenhum aviso publicado no momento.
                     </div>
                 </div>
-
             </div>
         </main>
     </div>

@@ -294,15 +294,18 @@ public class AuroraController {
         return "login-admin";
     }
 
-    // ROTA PRINCIPAL DO ADMIN (NOVO REGISTRO / FORMULÁRIO SEGURO)
+    // ROTA PRINCIPAL DO ADMIN (UPLOAD E DASHBOARD COM ÚLTIMAS AÇÕES)
     @GetMapping("/admin")
     public String admin(HttpSession session, Model model) {
         if (!adminLogado(session)) return "redirect:/login-admin";
         
-        // Garante que o formulário abra limpo e não lance exceções de campos nulos
         if (!model.containsAttribute("conteudo")) {
             model.addAttribute("conteudo", new Conteudo());
         }
+
+        // Carrega os contadores e a lista de últimas ações no painel lateral
+        carregarPainelLateral(model);
+
         return "AdminAulas"; 
     }
 
@@ -326,7 +329,8 @@ public class AuroraController {
         if (conteudo == null) return "redirect:/admin/conteudo";
         
         model.addAttribute("conteudo", conteudo);
-        return "AdminAulas"; // Redireciona para o formulário unificado existente
+        carregarPainelLateral(model); // Mantém o painel lateral ativo na edição
+        return "AdminAulas";
     }
 
     // SALVAMENTO DINÂMICO INTELIGENTE
@@ -334,13 +338,14 @@ public class AuroraController {
     public String salvarConteudo(@ModelAttribute Conteudo conteudo, HttpSession session) {
         if (!adminLogado(session)) return "redirect:/login-admin";
         
-        // Se for uma alteração, mantém o tipo original (Exercício, Prova, etc.)
         if (conteudo.getTipo() == null) {
             conteudo.setTipo(TipoConteudo.VIDEO);
         }
         
         conteudoRepository.save(conteudo); 
-        return "redirect:/admin/conteudo"; 
+        
+        // Redireciona de volta para o painel principal para ver as Últimas Ações atualizando!
+        return "redirect:/admin"; 
     }
 
     // EXCLUSÃO UNIFICADA
@@ -362,9 +367,10 @@ public class AuroraController {
         if (!adminLogado(session)) return "redirect:/login-admin";
         
         Conteudo exercicio = new Conteudo();
-        exercicio.setTipo(TipoConteudo.EXERCICIO); // Já deixa pré-configurado como Exercício
+        exercicio.setTipo(TipoConteudo.EXERCICIO); 
         model.addAttribute("conteudo", exercicio);
         
+        carregarPainelLateral(model);
         return "AdminAulas";
     }
 
@@ -377,7 +383,6 @@ public class AuroraController {
         return "gerenciar_calendario"; 
     }
     
-    // ROTA DE SALVAMENTO DO CALENDÁRIO (RESOLVE O SEU ERRO 404 DO POST)
     @PostMapping("/admin/calendario/salvar")
     public String salvarCalendario(@ModelAttribute Calendario calendario, HttpSession session) {
         if (!adminLogado(session)) return "redirect:/login-admin";
@@ -386,7 +391,6 @@ public class AuroraController {
         return "redirect:/admin/calendario";
     }
 
-    // ROTA PARA REMOVER UM EVENTO DO CALENDÁRIO
     @org.springframework.transaction.annotation.Transactional
     @GetMapping("/admin/calendario/excluir/{id}")
     public String excluirCalendario(@PathVariable Long id, HttpSession session) {
@@ -402,9 +406,10 @@ public class AuroraController {
         if (!adminLogado(session)) return "redirect:/login-admin";
         
         Conteudo prova = new Conteudo();
-        prova.setTipo(TipoConteudo.PROVA); // Já deixa pré-configurado como Prova
+        prova.setTipo(TipoConteudo.PROVA); 
         model.addAttribute("conteudo", prova);
         
+        carregarPainelLateral(model);
         return "AdminAulas";
     }
 
@@ -414,9 +419,10 @@ public class AuroraController {
         if (!adminLogado(session)) return "redirect:/login-admin";
         
         Conteudo material = new Conteudo();
-        material.setTipo(TipoConteudo.MATERIAL); // Já deixa pré-configurado como Material Extra
+        material.setTipo(TipoConteudo.MATERIAL); 
         model.addAttribute("conteudo", material);
         
+        carregarPainelLateral(model);
         return "AdminAulas";
     }
 
@@ -452,14 +458,61 @@ public class AuroraController {
     }
 
     // =========================================================================
-    // TOPICO 8: CHECAGENS AUXILIARES DE SESSÃO (MÉTODOS PRIVADOS)
+    // TOPICO 8: CHECAGENS AUXILIARES DE SESSÃO E MÉTODOS PRIVADOS REUTILIZÁVEIS
     // =========================================================================
+
+    // FUNÇÃO PRIVADA QUE ATUALIZA O FEED DE ÚLTIMAS AÇÕES AUTOMATICAMENTE
+   // FUNÇÃO PRIVADA QUE ATUALIZA O FEED DE ÚLTIMAS AÇÕES AUTOMATICAMENTE
+    private void carregarPainelLateral(Model model) {
+        try {
+            List<Conteudo> todos = conteudoRepository.findAll();
+            
+            if (todos == null) {
+                todos = new ArrayList<>();
+            }
+
+            // Conta os vídeos
+            long qtdVideos = todos.stream()
+                .filter(c -> c.getTipo() != null && TipoConteudo.VIDEO.equals(c.getTipo()))
+                .count();
+                
+            // Conta as provas    
+            long qtdProvas = todos.stream()
+                .filter(c -> c.getTipo() != null && TipoConteudo.PROVA.equals(c.getTipo()))
+                .count();
+
+            // NOVA CONTAGEM: Conta os exercícios
+            long qtdExercicios = todos.stream()
+                .filter(c -> c.getTipo() != null && TipoConteudo.EXERCICIO.equals(c.getTipo()))
+                .count();
+            
+            model.addAttribute("qtdVideos", qtdVideos);
+            model.addAttribute("qtdProvas", qtdProvas);
+            model.addAttribute("qtdExercicios", qtdExercicios); // Enviando para o HTML
+
+            // Lista de últimas ações
+            List<Conteudo> ultimasAcoes = todos.stream()
+                .filter(c -> c.getId() != null)
+                .sorted((c1, c2) -> c2.getId().compareTo(c1.getId()))
+                .limit(4)
+                .toList();
+
+            model.addAttribute("ultimasAcoes", ultimasAcoes);
+            
+        } catch (Exception e) {
+            model.addAttribute("qtdVideos", 0);
+            model.addAttribute("qtdProvas", 0);
+            model.addAttribute("qtdExercicios", 0);
+            model.addAttribute("ultimasAcoes", new ArrayList<Conteudo>());
+        }
+    }
 
     private boolean usuarioLogado(HttpSession session) {
         return session.getAttribute("usuario") != null;
     }
 
     private boolean adminLogado(HttpSession session) {
-        return session.getAttribute("isAdmin") != null;
+        Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
+        return isAdmin != null && isAdmin;
     }
 }
