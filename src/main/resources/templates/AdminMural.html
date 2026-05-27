@@ -65,6 +65,8 @@
             color: #333;
             font-family: inherit;
             transition: all 0.2s;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .form-group-admin input:focus, 
@@ -143,36 +145,36 @@
             </div>
 
             <nav class="nav-menu">
-                <a href="/admin" class="nav-item">
+                <a th:href="@{/admin}" class="nav-item">
                     <i class="fas fa-chart-line"></i> Upload Aulas
                 </a>
-                <a href="/admin/conteudo" class="nav-item">
-                    <i class="fas fa-video"></i> Gerenciar Aulas
-                </a>
-                <a href="/admin/exercicios" class="nav-item">
+                <a th:href="@{/admin/exercicios}" class="nav-item">
                     <i class="fas fa-edit"></i> Upload Exercícios
                 </a>
-                <a href="/admin/provas" class="nav-item">
+                <a th:href="@{/admin/provas}" class="nav-item">
                     <i class="fas fa-file-upload"></i> Upload Provas
                 </a>
-                <a href="/admin/materiais" class="nav-item">
+                <a th:href="@{/admin/materiais}" class="nav-item">
                     <i class="fas fa-folder-plus"></i> Materiais Extras
                 </a>
-                <a href="/admin/calendario" class="nav-item">
+                <a th:href="@{/admin/calendario}" class="nav-item">
                     <i class="fas fa-calendar-alt"></i> Gerenciar Calendário
                 </a>
-                <a href="/admin/mural" class="nav-item active">
+                <a th:href="@{/admin/mural}" class="nav-item active">
                     <i class="fas fa-bullhorn"></i> Mural de Avisos
+                </a>
+                <a th:href="@{/admin/conteudo}" class="nav-item">
+                    <i class="fas fa-video"></i> Gerenciar Tudo
                 </a>
             </nav>
 
             <div class="spacer"></div>
 
             <div class="sidebar-footer-actions">
-                <a href="/inicio" class="footer-item">
+                <a th:href="@{/inicio}" class="footer-item">
                     <i class="fas fa-sign-out-alt"></i> Sair
                 </a>
-                <a href="/admin" class="admin-gear-btn active" style="color: #6d39cf;">
+                <a th:href="@{/admin}" class="admin-gear-btn" style="color: #6d39cf;">
                     <i class="fas fa-cog"></i>
                 </a>
             </div>
@@ -195,7 +197,7 @@
                         <i class="fas fa-plus-circle" style="color: #6d39cf; margin-right: 5px;"></i> Publicar Novo Aviso no Mural
                     </h3>
 
-                    <form action="/admin/mural/salvar" method="post">
+                    <form th:action="@{/admin/mural/salvar}" method="post">
 
                         <div class="form-group-admin">
                             <label for="tituloAviso">Título do Aviso</label>
@@ -216,7 +218,7 @@
                             Publicar Aviso
                         </button>
 
-                        <a href="/admin/mural" class="btn-voltar">
+                        <a th:href="@{/admin/mural}" class="btn-voltar">
                             <i class="fas fa-arrow-left"></i> Cancelar e Voltar
                         </a>
 

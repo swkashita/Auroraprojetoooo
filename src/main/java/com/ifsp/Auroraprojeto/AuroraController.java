@@ -37,20 +37,18 @@ public class AuroraController {
     // TOPICO 1: SERVIÇOS DE AUTENTICAÇÃO (LOGIN / LOGOUT DO ESTUDANTE)
     // =========================================================================
 
-   @GetMapping("/login")
+    @GetMapping("/login")
     public String telaLogin(HttpSession session, Model model, @ModelAttribute("erro") String erroFlash) {
-        // Se o usuário já estiver logado, manda para o início
         if (usuarioLogado(session)) return "redirect:/inicio";
         
-        // Se o erro veio via Flash Attribute (do redirect do PostMapping), ele já injeta no modelo automaticamente.
-        // Mas se por acaso não veio e você quiser tratar parâmetros da URL (?erro=true), fazemos esta checagem:
         if (model.getAttribute("erro") == null && erroFlash != null && !erroFlash.isEmpty()) {
             model.addAttribute("erro", erroFlash);
         }
         
         return "Login";
     }
-  @PostMapping("/login")
+
+    @PostMapping("/login")
     public String login(@RequestParam String email, @RequestParam String senha, HttpSession session, org.springframework.web.servlet.mvc.support.RedirectAttributes redirectAttributes) {
         Usuario usuario = usuarioService.login(email, senha);
         if (usuario != null) {
@@ -58,20 +56,17 @@ public class AuroraController {
             return "redirect:/inicio";
         }
         
-        // Define o Flash Attribute para o redirecionamento
         redirectAttributes.addFlashAttribute("erro", "E-mail ou senha incorretos. Verifique suas credenciais! ⚠️");
-     return "redirect:/login?erro=true";
+        return "redirect:/login?erro=true";
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession session, org.springframework.web.servlet.mvc.support.RedirectAttributes redirectAttributes) {
-        session.invalidate(); // Destrói a sessão e limpa a memória do servidor
-        
-        // Envia a mensagem amigável de sucesso para a tela de login
+        session.invalidate(); 
         redirectAttributes.addFlashAttribute("sucesso", "Você saiu do portal com sucesso. Até logo! 👋");
-        
         return "redirect:/login";
     }
+
     // =========================================================================
     // TOPICO 2: GERENCIAMENTO DE CADASTRO DE NOVOS ESTUDANTES
     // =========================================================================
@@ -91,7 +86,7 @@ public class AuroraController {
         return "redirect:/cadastro?erro=email_existente";
     }
 
-  // =========================================================================
+    // =========================================================================
     // TOPICO 3: PORTAL PRINCIPAL DO ESTUDANTE (DASHBOARD COM FRASES ALEATÓRIAS)
     // =========================================================================
 
@@ -105,7 +100,6 @@ public class AuroraController {
         if (usuario != null) {
             model.addAttribute("cidade", usuario.getCidade());
             
-            // LÓGICA DO PAINEL "MINHA META"
             String cursoAlvo = usuario.getCurso();
             if (cursoAlvo == null || cursoAlvo.trim().isEmpty()) {
                 model.addAttribute("mensagemMeta", "Defina seu curso dos sonhos no menu Perfil! 🎯");
@@ -116,9 +110,8 @@ public class AuroraController {
             model.addAttribute("mensagemMeta", "Estude no seu ritmo! 🎯");
         }
 
-        // --- LISTA DE FRASES VARIADAS PARA O RODAPÉ DO CARD ---
         String[] frasesMotivacionais = {
-            "\"O sucesso é a soma de pequenos esforços repetidos dia após dia.\"",
+            "\"O success é a soma de pequenos esforços repetidos dia após dia.\"",
             "\"A disciplina é a ponte entre metas e realizações.\"",
             "\"Não estude para passar, estude até passar.\"",
             "\"Grandes jornadas começam com o primeiro passo. Mantenha o foco!\"",
@@ -127,16 +120,15 @@ public class AuroraController {
             "\"Acredite que você pode e você já está no meio do caminho.\""
         };
         
-        // Sorteia um índice aleatório da lista
         int indiceAleatorio = new java.util.Random().nextInt(frasesMotivacionais.length);
         model.addAttribute("fraseDoDia", frasesMotivacionais[indiceAleatorio]);
-        // -----------------------------------------------------
 
         model.addAttribute("eventos", calendarioRepository.findAll());
         model.addAttribute("avisos", avisoRepository.findAll());
 
         return "TelaInicio";
     }
+
     @GetMapping("/perfil")
     public String perfil(HttpSession session, Model model) {
         if (!usuarioLogado(session)) return "redirect:/login";
@@ -302,35 +294,30 @@ public class AuroraController {
         return "login-admin";
     }
 
+    // ROTA PRINCIPAL DO ADMIN (NOVO REGISTRO / FORMULÁRIO SEGURO)
     @GetMapping("/admin")
-    public String admin(HttpSession session) {
+    public String admin(HttpSession session, Model model) {
         if (!adminLogado(session)) return "redirect:/login-admin";
-        return "admin-dashboard";
+        
+        // Garante que o formulário abra limpo e não lance exceções de campos nulos
+        if (!model.containsAttribute("conteudo")) {
+            model.addAttribute("conteudo", new Conteudo());
+        }
+        return "AdminAulas"; 
     }
 
-    // NOVA CENTRAL DE GERENCIAMENTO UNIFICADA
+    // CENTRAL DE GERENCIAMENTO UNIFICADA (LISTAR TUDO)
     @GetMapping("/admin/conteudo")
     public String gerenciarTudo(HttpSession session, Model model) {
         if (!adminLogado(session)) return "redirect:/login-admin";
         
-        // Puxa absolutamente todo o conteúdo do banco de dados
         List<Conteudo> todosConteudos = conteudoRepository.findAll();
-        
-        // Injeta a lista com o nome exato esperado pelo Thymeleaf
         model.addAttribute("conteudos", todosConteudos != null ? todosConteudos : new ArrayList<>());
         
-        return "gerenciartudo"; // Nome do arquivo HTML (gerenciartudo.html)
+        return "gerenciartudo"; 
     }
 
-    // ROTA DE EXCLUSÃO UNIFICADA DA CENTRAL
-    @GetMapping("/admin/excluir/{id}")
-    public String excluirConteudo(@PathVariable Long id, HttpSession session) {
-        if (!adminLogado(session)) return "redirect:/login-admin";
-        conteudoRepository.deleteById(id);
-        return "redirect:/admin/conteudo";
-    }
-
-    // ROTA PARA CARREGAR A TELA DE EDIÇÃO (LEVA PARA O FORMULÁRIO COM OS DADOS DO ITEM)
+    // ROTA PARA ACESSAR O MODO EDIÇÃO REPROVEITANDO O AdminAulas.html
     @GetMapping("/admin/editar/{id}")
     public String editarConteudoForm(@PathVariable Long id, HttpSession session, Model model) {
         if (!adminLogado(session)) return "redirect:/login-admin";
@@ -339,96 +326,100 @@ public class AuroraController {
         if (conteudo == null) return "redirect:/admin/conteudo";
         
         model.addAttribute("conteudo", conteudo);
-        // Redireciona para uma tela de formulário de edição (ex: upload-conteudo configurada para update)
-        return "upload-conteudo"; 
+        return "AdminAulas"; // Redireciona para o formulário unificado existente
     }
 
-    @GetMapping("/admin/upload")
-    public String telaUpload(HttpSession session) {
-        if (!adminLogado(session)) return "redirect:/login-admin";
-        return "upload-conteudo";
-    }
-
+    // SALVAMENTO DINÂMICO INTELIGENTE
     @PostMapping("/salvarconteudo")
     public String salvarConteudo(@ModelAttribute Conteudo conteudo, HttpSession session) {
         if (!adminLogado(session)) return "redirect:/login-admin";
-        conteudo.setTipo(TipoConteudo.VIDEO);
+        
+        // Se for uma alteração, mantém o tipo original (Exercício, Prova, etc.)
+        if (conteudo.getTipo() == null) {
+            conteudo.setTipo(TipoConteudo.VIDEO);
+        }
+        
         conteudoRepository.save(conteudo); 
+        return "redirect:/admin/conteudo"; 
+    }
+
+    // EXCLUSÃO UNIFICADA
+    @org.springframework.transaction.annotation.Transactional
+    @GetMapping("/admin/excluir/{id}")
+    public String excluirConteudo(@PathVariable Long id, HttpSession session) {
+        if (!adminLogado(session)) return "redirect:/login-admin";
+        conteudoRepository.deleteById(id);
         return "redirect:/admin/conteudo";
     }
 
-    @GetMapping("/admin/provas") 
-    public String telaUploadProvas(HttpSession session) {
+    // =========================================================================
+    // ROTAS ADICIONAIS DO ADMIN PARA CADASTRAR OUTROS TIPOS DE CONTEÚDO
+    // =========================================================================
+
+    // ROTA PARA UPLOAD DE EXERCÍCIOS
+    @GetMapping("/admin/exercicios")
+    public String adminExercicios(HttpSession session, Model model) {
         if (!adminLogado(session)) return "redirect:/login-admin";
-        return "upload-provas"; 
+        
+        Conteudo exercicio = new Conteudo();
+        exercicio.setTipo(TipoConteudo.EXERCICIO); // Já deixa pré-configurado como Exercício
+        model.addAttribute("conteudo", exercicio);
+        
+        return "AdminAulas";
     }
 
-    @GetMapping("/admin/materiais")
-    public String gerenciarMaterialsAdmin(HttpSession session, Model model) {
-        if (!adminLogado(session)) return "redirect:/login-admin";
-        List<Conteudo> materiais = conteudoRepository.findByTipo(TipoConteudo.MATERIAL);
-        model.addAttribute("materiais", materiais != null ? materiais : new ArrayList<>());
-        return "MaterialExtraAdmin"; 
-    }
-
-    @PostMapping("/admin/materiais/salvar")
-    public String adminSalvarMaterial(@ModelAttribute Conteudo conteudo, HttpSession session) {
-        if (!adminLogado(session)) return "redirect:/login-admin";
-        conteudo.setTipo(TipoConteudo.MATERIAL); 
-        conteudoRepository.save(conteudo);
-        return "redirect:/admin/materiais?sucesso=true";
-    }
-
-    @GetMapping("/admin/materiais/excluir/{id}")
-    public String adminExcluirMaterial(@PathVariable Long id, HttpSession session) {
-        if (!adminLogado(session)) return "redirect:/login-admin";
-        conteudoRepository.deleteById(id);
-        return "redirect:/admin/materiais";
-    }
-
+    // ROTA PARA EXIBIR O CALENDÁRIO COM A LISTA DE DATAS CADASTRADAS
     @GetMapping("/admin/calendario")
-    public String gerenciarCalendario(HttpSession session, Model model){
+    public String adminCalendario(HttpSession session, Model model) {
         if (!adminLogado(session)) return "redirect:/login-admin";
+        
         model.addAttribute("eventos", calendarioRepository.findAll());
-        return "gerenciar_calendario";
-    }
-
-    @PostMapping("/admin/calendario/salvar")
-    public String salvarEvento(@ModelAttribute Calendario calendario, HttpSession session) {
-        if (!adminLogado(session)) return "redirect:/login-admin";
-        calendarioRepository.save(calendario);
-        return "redirect:/admin/calendario?sucesso=true";
+        return "gerenciar_calendario"; 
     }
     
-    @GetMapping("/admin/calendario/excluir/{id}")
-    public String excluirEvento(@PathVariable Long id, HttpSession session) {
+    // ROTA DE SALVAMENTO DO CALENDÁRIO (RESOLVE O SEU ERRO 404 DO POST)
+    @PostMapping("/admin/calendario/salvar")
+    public String salvarCalendario(@ModelAttribute Calendario calendario, HttpSession session) {
         if (!adminLogado(session)) return "redirect:/login-admin";
-        calendarioRepository.deleteById(id);
+        
+        calendarioRepository.save(calendario);
         return "redirect:/admin/calendario";
     }
 
-    @GetMapping("/admin/exercicios")
-    public String gerenciarExerciciosAdmin(HttpSession session, Model model) {
+    // ROTA PARA REMOVER UM EVENTO DO CALENDÁRIO
+    @org.springframework.transaction.annotation.Transactional
+    @GetMapping("/admin/calendario/excluir/{id}")
+    public String excluirCalendario(@PathVariable Long id, HttpSession session) {
         if (!adminLogado(session)) return "redirect:/login-admin";
-        List<Conteudo> exercicios = conteudoRepository.findByTipo(TipoConteudo.EXERCICIO);
-        model.addAttribute("exercicios", exercicios != null ? exercicios : new ArrayList<>());
-        return "AdminExercicios"; 
+        
+        calendarioRepository.deleteById(id);
+        return "redirect:/admin/calendario";
+    }
+    
+    // ROTA PARA UPLOAD DE PROVAS
+    @GetMapping("/admin/provas")
+    public String adminProvas(HttpSession session, Model model) {
+        if (!adminLogado(session)) return "redirect:/login-admin";
+        
+        Conteudo prova = new Conteudo();
+        prova.setTipo(TipoConteudo.PROVA); // Já deixa pré-configurado como Prova
+        model.addAttribute("conteudo", prova);
+        
+        return "AdminAulas";
     }
 
-    @PostMapping("/admin/exercicios/salvar")
-    public String adminSalvarExercicio(@ModelAttribute Conteudo conteudo, HttpSession session) {
+    // ROTA PARA UPLOAD DE MATERIAIS EXTRAS
+    @GetMapping("/admin/materiais")
+    public String adminMateriais(HttpSession session, Model model) {
         if (!adminLogado(session)) return "redirect:/login-admin";
-        conteudo.setTipo(TipoConteudo.EXERCICIO); 
-        conteudoRepository.save(conteudo);
-        return "redirect:/admin/exercicios?sucesso=true";
+        
+        Conteudo material = new Conteudo();
+        material.setTipo(TipoConteudo.MATERIAL); // Já deixa pré-configurado como Material Extra
+        model.addAttribute("conteudo", material);
+        
+        return "AdminAulas";
     }
 
-    @GetMapping("/admin/exercicios/excluir/{id}")
-    public String adminExcluirExercicio(@PathVariable Long id, HttpSession session) {
-        if (!adminLogado(session)) return "redirect:/login-admin";
-        conteudoRepository.deleteById(id);
-        return "redirect:/admin/exercicios";
-    }
     // =========================================================================
     // TOPICO 7: PUBLICAÇÃO E MANUTENÇÃO DO MURAL DE AVISOS DINÂMICO
     // =========================================================================

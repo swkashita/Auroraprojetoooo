@@ -133,7 +133,7 @@
 
     <div class="dashboard-container">
 
-        <aside class="sidebar-main">
+       <aside class="sidebar-main">
             <div class="logo-section">
                 <div class="icon-wrapper">
                     <i class="fas fa-graduation-cap"></i>
@@ -143,9 +143,6 @@
             <nav class="nav-menu">
                 <a th:href="@{/admin}" class="nav-item">
                     <i class="fas fa-chart-line"></i> Upload Aulas
-                </a>
-                <a th:href="@{/admin/conteudo}" class="nav-item active">
-                    <i class="fas fa-layer-group"></i> Gerenciar Tudo
                 </a>
                 <a th:href="@{/admin/exercicios}" class="nav-item">
                     <i class="fas fa-edit"></i> Upload Exercícios
@@ -162,6 +159,9 @@
                 <a th:href="@{/admin/mural}" class="nav-item">
                     <i class="fas fa-bullhorn"></i> Mural de Avisos
                 </a>
+                <a th:href="@{/admin/conteudo}" class="nav-item active">
+                    <i class="fas fa-video"></i> Gerenciar Tudo
+                </a>
             </nav>
 
             <div class="spacer"></div>
@@ -175,7 +175,6 @@
                 </a>
             </div>
         </aside>
-
         <main class="main-layout">
             <header class="header-top">
                 <div class="search-global">

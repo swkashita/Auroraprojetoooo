@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Admin - Editar Conteúdo</title>
+
+    <link rel="stylesheet" href="/TelaDisciplinas.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .admin-layout-grid {
+            display: flex;
+            gap: 30px;
+            width: 100%;
+            align-items: flex-start;
+        }
+
+        .admin-form-container {
+            flex: 1;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid #eaeaea;
+        }
+
+        .admin-aside-panel {
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .admin-card-box {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid #eaeaea;
+        }
+
+        .form-group-admin {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .form-group-admin label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group-admin input, 
+        .form-group-admin select {
+            padding: 12px 15px;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            font-size: 14px;
+            background: #fafafa;
+            color: #333;
+            font-family: inherit;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .form-group-admin input:focus, 
+        .form-group-admin select:focus {
+            outline: none;
+            border-color: #6d39cf;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(109, 57, 207, 0.05);
+        }
+
+        .form-row-admin {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .action-form-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .btn-submit-admin {
+            background: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            flex: 2;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(109, 57, 207, 0.15);
+            text-align: center;
+        }
+
+        .btn-submit-admin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(109, 57, 207, 0.25);
+        }
+
+        .btn-cancel-admin {
+            background: #f4f4f5;
+            color: #71717a;
+            border: 1px solid #e4e4e7;
+            padding: 14px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .btn-cancel-admin:hover {
+            background: #e4e4e7;
+            color: #3f3f46;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+
+        <aside class="sidebar-main">
+            <div class="logo-section">
+                <div class="icon-wrapper"><i class="fas fa-graduation-cap"></i></div>
+            </div>
+            <nav class="nav-menu">
+                <a th:href="@{/admin}" class="nav-item"><i class="fas fa-chart-line"></i> Upload Aulas</a>
+                <a th:href="@{/admin/conteudo}" class="nav-item active"><i class="fas fa-layer-group"></i> Gerenciar Tudo</a>
+                <a th:href="@{/admin/exercicios}" class="nav-item"><i class="fas fa-edit"></i> Upload Exercícios</a>
+                <a th:href="@{/admin/provas}" class="nav-item"><i class="fas fa-file-upload"></i> Upload Provas</a>
+                <a th:href="@{/admin/materiais}" class="nav-item"><i class="fas fa-folder-plus"></i> Materiais Extras</a>
+                <a th:href="@{/admin/calendario}" class="nav-item"><i class="fas fa-calendar-alt"></i> Gerenciar Calendário</a>
+                <a th:href="@{/admin/mural}" class="nav-item"><i class="fas fa-bullhorn"></i> Mural de Avisos</a>
+            </nav>
+            <div class="spacer"></div>
+            <div class="sidebar-footer-actions">
+                <a th:href="@{/inicio}" class="footer-item"><i class="fas fa-sign-out-alt"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-layout">
+            <header class="header-top">
+                <div class="search-global">
+                    <input type="text" placeholder="Painel de Edição - Modo Administrador" disabled style="background: transparent; border: none; cursor: default;">
+                </div>
+            </header>
+
+            <h1 class="title-page" th:text="${conteudo.id != null} ? 'Modificar Registro Existente' : 'Cadastrar Novo Conteúdo'">Editar Conteúdo</h1>
+
+            <div class="admin-layout-grid">
+                
+                <div class="admin-form-container">
+                    <h3 style="margin: 0 0 25px 0; font-size: 16px; font-weight: 600; color: #111;">
+                        <i class="fas fa-sliders-h" style="color: #6d39cf; margin-right: 5px;"></i> Dados do Conteúdo
+                    </h3>
+
+                    <form th:action="@{/salvarconteudo}" th:object="${conteudo}" method="POST">
+                        
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="form-group-admin">
+                            <label for="titulo">Título do Item</label>
+                            <input type="text" id="titulo" th:field="*{titulo}" placeholder="Digite o título principal..." required autocomplete="off">
+                        </div>
+
+                        <div class="form-group-admin">
+                            <label for="urlLink">Link do Recurso (Drive / YouTube / PDF)</label>
+                            <input type="url" id="urlLink" th:field="*{urlLink}" placeholder="https://..." required autocomplete="off">
+                        </div>
+
+                        <div class="form-row-admin">
+                            <div class="form-group-admin">
+                                <label for="tipo">Tipo do Recurso</label>
+                                <select id="tipo" th:field="*{tipo}" required>
+                                    <option value="VIDEO">Vídeo-Aula</option>
+                                    <option value="EXERCICIO">Exercício</option>
+                                    <option value="PROVA">Prova Anterior</option>
+                                    <option value="MATERIAL">Material Extra</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group-admin">
+                                <label for="disciplina">Disciplina</label>
+                                <select id="disciplina" th:field="*{disciplina}">
+                                    <option value="">Geral / Sem Disciplina</option>
+                                    <option value="MATEMATICA">Matemática</option>
+                                    <option value="PORTUGUES">Português</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group-admin">
+                            <label for="nivel">Filtro / Marcador (Ex: Crase, Álgebra, Mapa Mental, 2024)</label>
+                            <input type="text" id="nivel" th:field="*{nivel}" placeholder="Texto usado para os filtros do aluno..." autocomplete="off">
+                        </div>
+
+                        <div class="action-form-buttons">
+                            <a th:href="@{/admin/conteudo}" class="btn-cancel-admin">Voltar sem salvar</a>
+                            <button type="submit" class="btn-submit-admin" th:text="${conteudo.id != null} ? 'Atualizar Informações' : 'Gravar Conteúdo'">Atualizar Informações</button>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="admin-aside-panel">
+                    <div class="admin-card-box">
+                        <h4 style="margin: 0 0 10px 0; font-size: 14px; color: #111; font-weight: 600;"><i class="fas fa-info-circle" style="color: #6d39cf;"></i> Salvamento Integrado</h4>
+                        <p style="margin: 0; font-size: 12px; color: #777; line-height: 1.4;">
+                            Graças ao campo oculto de ID, o sistema sabe se você está a modificar uma aula, exercício ou material extra existente. Ao clicar em atualizar, os dados antigos serão substituídos e os alunos verão a versão corrigida de imediato.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

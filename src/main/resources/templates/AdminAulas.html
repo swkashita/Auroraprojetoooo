@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aurora Admin - Upload Aulas</title>
+    <title>Aurora Admin - Gerenciar Aula</title>
 
     <link rel="stylesheet" href="/TelaDisciplinas.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -84,6 +84,12 @@
             gap: 15px;
         }
 
+        .admin-btn-group {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+        }
+
         .btn-submit-admin {
             background: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%);
             color: white;
@@ -93,7 +99,7 @@
             font-size: 14px;
             font-weight: 700;
             cursor: pointer;
-            width: 100%;
+            flex: 2;
             transition: transform 0.2s, box-shadow 0.2s;
             box-shadow: 0 4px 12px rgba(109, 57, 207, 0.15);
         }
@@ -101,6 +107,26 @@
         .btn-submit-admin:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 18px rgba(109, 57, 207, 0.25);
+        }
+
+        .btn-cancel-admin {
+            background: #f4f4f5;
+            color: #71717a;
+            border: 1px solid #e4e4e7;
+            padding: 14px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .btn-cancel-admin:hover {
+            background: #e4e4e7;
+            color: #3f3f46;
         }
 
         /* Listagem de Ações / Histórico do Painel */
@@ -169,36 +195,36 @@
             </div>
 
             <nav class="nav-menu">
-                <a href="/admin" class="nav-item active">
+                <a th:href="@{/admin}" class="nav-item" th:classappend="${conteudo.tipo == null || conteudo.tipo.name() == 'VIDEO'} ? 'active'">
                     <i class="fas fa-chart-line"></i> Upload Aulas
                 </a>
-                <a href="/admin/conteudo" class="nav-item">
-                    <i class="fas fa-video"></i> Gerenciar Aulas
-                </a>
-                <a href="/admin/exercicios" class="nav-item">
+                <a th:href="@{/admin/exercicios}" class="nav-item" th:classappend="${conteudo.tipo != null && conteudo.tipo.name() == 'EXERCICIO'} ? 'active'">
                     <i class="fas fa-edit"></i> Upload Exercícios
                 </a>
-                <a href="/admin/provas" class="nav-item">
+                <a th:href="@{/admin/provas}" class="nav-item" th:classappend="${conteudo.tipo != null && conteudo.tipo.name() == 'PROVA'} ? 'active'">
                     <i class="fas fa-file-upload"></i> Upload Provas
                 </a>
-                <a href="/admin/materiais" class="nav-item">
+                <a th:href="@{/admin/materiais}" class="nav-item" th:classappend="${conteudo.tipo != null && conteudo.tipo.name() == 'MATERIAL'} ? 'active'">
                     <i class="fas fa-folder-plus"></i> Materiais Extras
                 </a>
-                <a href="/admin/calendario" class="nav-item">
+                <a th:href="@{/admin/calendario}" class="nav-item">
                     <i class="fas fa-calendar-alt"></i> Gerenciar Calendário
                 </a>
-                <a href="/admin/mural" class="nav-item">
+                <a th:href="@{/admin/mural}" class="nav-item">
                     <i class="fas fa-bullhorn"></i> Mural de Avisos
+                </a>
+                <a th:href="@{/admin/conteudo}" class="nav-item">
+                    <i class="fas fa-video"></i> Gerenciar Tudo
                 </a>
             </nav>
 
             <div class="spacer"></div>
 
             <div class="sidebar-footer-actions">
-                <a href="/inicio" class="footer-item">
+                <a th:href="@{/inicio}" class="footer-item">
                     <i class="fas fa-sign-out-alt"></i> Sair
                 </a>
-                <a href="/admin" class="admin-gear-btn" style="color: #6d39cf;">
+                <a th:href="@{/admin}" class="admin-gear-btn" style="color: #6d39cf;">
                     <i class="fas fa-cog"></i>
                 </a>
             </div>
@@ -212,31 +238,37 @@
                 </div>
             </header>
 
-            <h1 class="title-page">Painel de Aulas</h1>
+            <h1 class="title-page" th:text="${conteudo.id != null} ? 'Editar Conteúdo' : 'Upload de ' + ${conteudo.tipo != null ? conteudo.tipo : 'Aulas'}">Painel de Aulas</h1>
 
             <div class="admin-layout-grid">
                 
                 <div class="admin-form-container">
                     <h3 style="margin: 0 0 20px 0; font-size: 16px; font-weight: 600; color: #111;">
-                        <i class="fas fa-plus-circle" style="color: #6d39cf; margin-right: 5px;"></i> Adicionar Nova Aula
+                        <i class="fas fa-edit" th:if="${conteudo.id != null}" style="color: #6d39cf; margin-right: 5px;"></i>
+                        <i class="fas fa-plus-circle" th:if="${conteudo.id == null}" style="color: #6d39cf; margin-right: 5px;"></i>
+                        <span th:text="${conteudo.id != null} ? 'Modificar Registro Existente' : 'Adicionar Novo(a) ' + ${conteudo.tipo != null ? conteudo.tipo : 'Aula'}">Adicionar Nova Aula</span>
                     </h3>
 
-                    <form action="/salvarconteudo" method="post" class="admin-form">
+                    <form th:action="@{/salvarconteudo}" th:object="${conteudo}" method="post" class="admin-form">
+
+                        <input type="hidden" th:field="*{id}" />
+                        
+                        <input type="hidden" th:field="*{tipo}" />
 
                         <div class="form-group-admin">
-                            <label for="tituloConteudo">Título da Aula</label>
-                            <input type="text" id="tituloConteudo" name="titulo" placeholder="Ex: Interpretação de Texto" required autocomplete="off">
+                            <label for="tituloConteudo">Título do Conteúdo</label>
+                            <input type="text" id="tituloConteudo" th:field="*{titulo}" placeholder="Ex: Interpretação de Texto ou Simulado Geral" required autocomplete="off">
                         </div>
 
                         <div class="form-row-admin">
                             <div class="form-group-admin">
-                                <label>Link do YouTube / Drive</label>
-                                <input type="text" name="urlLink" placeholder="https://youtube.com/embed/..." required autocomplete="off">
+                                <label>Link do Recurso (YouTube / Drive)</label>
+                                <input type="text" th:field="*{urlLink}" placeholder="https://..." required autocomplete="off">
                             </div>
 
                             <div class="form-group-admin">
                                 <label for="disciplina">Disciplina</label>
-                                <select name="disciplina" id="disciplina" required onchange="atualizarTopicos()">
+                                <select th:field="*{disciplina}" id="disciplina" required onchange="atualizarTopicos()">
                                     <option value="">Selecione</option>
                                     <option value="MATEMATICA">Matemática</option>
                                     <option value="PORTUGUES">Português</option>
@@ -246,19 +278,23 @@
 
                         <div class="form-group-admin">
                             <label for="nivel">Assunto / Tópico</label>
-                            <select name="nivel" id="nivel" required>
+                            <input type="hidden" id="valorNivelSalvo" th:value="*{nivel}" />
+                            <select th:field="*{nivel}" id="nivel" required>
                                 <option value="">Selecione a disciplina primeiro...</option>
                             </select>
                         </div>
 
                         <div class="form-group-admin">
-                            <label>Descrição</label>
-                            <textarea name="descricao" rows="4" placeholder="O que o aluno aprenderá nesta aula?"></textarea>
+                            <label>Descrição Opcional</label>
+                            <textarea th:field="*{descricao}" rows="4" placeholder="O que o aluno encontrará aqui?"></textarea>
                         </div>
 
-                        <button type="submit" class="btn-submit-admin">
-                            Publicar Conteúdo
-                        </button>
+                        <div class="admin-btn-group">
+                            <a th:if="${conteudo.id != null}" th:href="@{/admin/conteudo}" class="btn-cancel-admin">Cancelar</a>
+                            <button type="submit" class="btn-submit-admin" th:text="${conteudo.id != null} ? 'Salvar Alterações' : 'Publicar Conteúdo'">
+                                Publicar Conteúdo
+                            </button>
+                        </div>
 
                     </form>
                 </div>
@@ -307,6 +343,7 @@
         function atualizarTopicos() {
             const disciplina = document.getElementById("disciplina").value;
             const nivelSelect = document.getElementById("nivel");
+            const valorNivelSalvo = document.getElementById("valorNivelSalvo").value;
             
             nivelSelect.innerHTML = '<option value="">Selecione o assunto...</option>';
             
@@ -343,6 +380,9 @@
                 const option = document.createElement("option");
                 option.value = topico;
                 option.text = topico;
+                if (topico === valorNivelSalvo) {
+                    option.selected = true;
+                }
                 nivelSelect.appendChild(option);
             });
         }
@@ -367,28 +407,9 @@
             });
         }
 
-        function adicionarAcao(texto) {
-            acoes.unshift(texto);
-            if (acoes.length > 5) {
-                acoes.pop();
-            }
-            localStorage.setItem("acoesAdmin", JSON.stringify(acoes));
-            renderizarAcoes();
+        if (document.getElementById("disciplina").value !== "") {
+            atualizarTopicos();
         }
-
-        formulario.addEventListener("submit", function (event) {
-            const titulo = tituloConteudo.value;
-            const tipo = "VIDEO"; 
-
-            conteudos.push({
-                titulo: titulo,
-                tipo: tipo
-            });
-
-            localStorage.setItem("conteudosAdmin", JSON.stringify(conteudos));
-            adicionarAcao(`${tipo} publicado: ${titulo}`);
-            atualizarCards();
-        });
 
         atualizarCards();
         renderizarAcoes();
