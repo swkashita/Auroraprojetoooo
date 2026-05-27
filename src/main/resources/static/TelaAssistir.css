@@ -1,11 +1,23 @@
+/* Importação da fonte Poppins para alinhar com o restante do sistema */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 :root {
     --purple-grad: linear-gradient(180deg, #9b6bff 0%, #6d39cf 100%);
     --bg-light: #f8f9fe;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    font-family: 'Poppins', sans-serif; 
+}
 
-body { background-color: var(--bg-light); height: 100vh; overflow: hidden; }
+body { 
+    background-color: var(--bg-light); 
+    height: 100vh; 
+    overflow: hidden; 
+}
 
 /* CONTAINER PRINCIPAL (GRID DE 3 COLUNAS) */
 .dashboard-container { 
@@ -16,7 +28,7 @@ body { background-color: var(--bg-light); height: 100vh; overflow: hidden; }
     padding: 15px;
 }
 
-/* --- SIDEBAR --- */
+/* --- SIDEBAR ROXA (PADRONIZADA) --- */
 .sidebar-main {
     width: 260px;
     min-width: 260px;
@@ -30,32 +42,91 @@ body { background-color: var(--bg-light); height: 100vh; overflow: hidden; }
 
 .logo-section .icon-wrapper {
     background: rgba(255, 255, 255, 0.2);
-    width: 80px; height: 80px; border-radius: 20px;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 50px; color: white; font-size: 40px;
+    width: 80px; 
+    height: 80px; 
+    border-radius: 20px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    margin: 0 auto 50px; 
+    color: white; 
+    font-size: 40px;
 }
 
-.nav-menu { display: flex; flex-direction: column; height: 100%; }
+.nav-menu { 
+    display: flex; 
+    flex-direction: column; 
+    height: 100%; 
+}
 
 .nav-item {
     color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
     padding: 15px 20px;
-    display: flex; align-items: center;
+    display: flex; 
+    align-items: center;
     font-size: 15px;
     transition: 0.3s;
 }
 
 .nav-item.active {
     background: rgba(255, 255, 255, 0.2);
-    color: white; border-radius: 12px; font-weight: 600;
+    color: white; 
+    border-radius: 12px; 
+    font-weight: 600;
 }
 
-.nav-item i { margin-right: 15px; width: 20px; text-align: center; }
-.spacer { flex-grow: 1; }
+.nav-item i { 
+    margin-right: 15px; 
+    width: 20px; 
+    text-align: center; 
+}
+
+.spacer { 
+    flex-grow: 1; 
+}
+
+/* ESSENCIAL: Ações do Rodapé da Sidebar adicionadas para a padronização */
+.sidebar-footer-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10px 10px 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 20px;
+}
+
+.footer-item {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+.footer-item:hover { 
+    color: white; 
+}
+
+.admin-gear-btn {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.7);
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.admin-gear-btn:hover {
+    color: white;
+    transform: rotate(45deg);
+}
 
 /* --- CONTEÚDO CENTRAL --- */
-.main-layout { overflow-y: auto; padding-right: 5px; }
+.main-layout { 
+    overflow-y: auto; 
+    padding-right: 5px; 
+}
 
 .video-wrapper {
     width: 100%;
@@ -68,9 +139,8 @@ body { background-color: var(--bg-light); height: 100vh; overflow: hidden; }
 
 .video-wrapper iframe {
     width: 100%;
-    aspect-ratio: 16 / 9; /* Mantém o formato de cinema */
+    height: 100%;
     border: none;
-    border-radius: 15px;
 }
 
 .video-info-box {
@@ -100,4 +170,10 @@ body { background-color: var(--bg-light); height: 100vh; overflow: hidden; }
 .active-item {
     background: #f0ebff;
     border-left: 4px solid #9b6bff;
+}
+
+/* Sobrescreve o alinhamento do cabeçalho especificamente na tela de assistir */
+.main-layout .header-top {
+    justify-content: flex-start !important;
+    padding-left: 5px; /* Alinha perfeitamente com a borda do player de vídeo */
 }
