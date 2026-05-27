@@ -283,7 +283,7 @@ public class AuroraController {
     }
 
     // =========================================================================
-    // TOPICO 6: PORTAL DO ADMINISTRADOR (UPLOAD DE COMPROMISSOS, PDFs E AULAS)
+    // TOPICO 6: PORTAL DO ADMINISTRADOR (CENTRAL GERENCIAR TUDO)
     // =========================================================================
 
     @GetMapping("/login-admin")
@@ -308,11 +308,39 @@ public class AuroraController {
         return "admin-dashboard";
     }
 
+    // NOVA CENTRAL DE GERENCIAMENTO UNIFICADA
     @GetMapping("/admin/conteudo")
-    public String gerenciarAulas(HttpSession session, Model model) {
+    public String gerenciarTudo(HttpSession session, Model model) {
         if (!adminLogado(session)) return "redirect:/login-admin";
-        model.addAttribute("aulas", conteudoRepository.findAll());
-        return "gerenciar-aulas";
+        
+        // Puxa absolutamente todo o conteúdo do banco de dados
+        List<Conteudo> todosConteudos = conteudoRepository.findAll();
+        
+        // Injeta a lista com o nome exato esperado pelo Thymeleaf
+        model.addAttribute("conteudos", todosConteudos != null ? todosConteudos : new ArrayList<>());
+        
+        return "gerenciartudo"; // Nome do arquivo HTML (gerenciartudo.html)
+    }
+
+    // ROTA DE EXCLUSÃO UNIFICADA DA CENTRAL
+    @GetMapping("/admin/excluir/{id}")
+    public String excluirConteudo(@PathVariable Long id, HttpSession session) {
+        if (!adminLogado(session)) return "redirect:/login-admin";
+        conteudoRepository.deleteById(id);
+        return "redirect:/admin/conteudo";
+    }
+
+    // ROTA PARA CARREGAR A TELA DE EDIÇÃO (LEVA PARA O FORMULÁRIO COM OS DADOS DO ITEM)
+    @GetMapping("/admin/editar/{id}")
+    public String editarConteudoForm(@PathVariable Long id, HttpSession session, Model model) {
+        if (!adminLogado(session)) return "redirect:/login-admin";
+        
+        Conteudo conteudo = conteudoRepository.findById(id).orElse(null);
+        if (conteudo == null) return "redirect:/admin/conteudo";
+        
+        model.addAttribute("conteudo", conteudo);
+        // Redireciona para uma tela de formulário de edição (ex: upload-conteudo configurada para update)
+        return "upload-conteudo"; 
     }
 
     @GetMapping("/admin/upload")
@@ -326,13 +354,6 @@ public class AuroraController {
         if (!adminLogado(session)) return "redirect:/login-admin";
         conteudo.setTipo(TipoConteudo.VIDEO);
         conteudoRepository.save(conteudo); 
-        return "redirect:/admin/conteudo";
-    }
-
-    @GetMapping("/admin/excluir/{id}")
-    public String excluirConteudo(@PathVariable Long id, HttpSession session) {
-        if (!adminLogado(session)) return "redirect:/login-admin";
-        conteudoRepository.deleteById(id);
         return "redirect:/admin/conteudo";
     }
 
@@ -408,7 +429,6 @@ public class AuroraController {
         conteudoRepository.deleteById(id);
         return "redirect:/admin/exercicios";
     }
-
     // =========================================================================
     // TOPICO 7: PUBLICAÇÃO E MANUTENÇÃO DO MURAL DE AVISOS DINÂMICO
     // =========================================================================
