@@ -109,6 +109,17 @@
             color: #777;
             width: 100%;
         }
+
+         .btn-voltar {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #6d39cf;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -148,6 +159,10 @@
 
             <section class="content-body">
                 <h1 class="title-page" th:text="${tituloTopico != null ? tituloTopico : 'Aulas Disponíveis'}">Aulas Disponíveis</h1>
+
+                <a href="/disciplinas" class="btn-voltar">
+                        <i class="fas fa-arrow-left"></i> Voltar para os tópicos
+                    </a>
                 
                 <div class="no-lessons-alert" th:if="${#lists.isEmpty(aulas)}">
                     <i class="fas fa-info-circle" style="font-size: 24px; color: #6d39cf; margin-bottom: 10px;"></i>
