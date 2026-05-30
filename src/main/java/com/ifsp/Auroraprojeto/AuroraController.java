@@ -352,18 +352,33 @@ public class AuroraController {
     }
 
     // ROTA PARA ACESSAR O MODO EDIÇÃO REPROVEITANDO O AdminAulas.html
-    @GetMapping("/admin/editar/{id}")
-    public String editarConteudoForm(@PathVariable Long id, HttpSession session, Model model) {
-        if (!adminLogado(session)) return "redirect:/login-admin";
-        
-        Conteudo conteudo = conteudoRepository.findById(id).orElse(null);
-        if (conteudo == null) return "redirect:/admin/conteudo";
-        
-        model.addAttribute("conteudo", conteudo);
-        carregarPainelLateral(model); // Mantém o painel lateral ativo na edição
+   @GetMapping("/admin/editar/{id}")
+public String editarConteudoForm(@PathVariable Long id, HttpSession session, Model model) {
+    if (!adminLogado(session)) {
+        return "redirect:/login-admin";
+    }
+
+    Conteudo conteudo = conteudoRepository.findById(id).orElseThrow();
+
+    model.addAttribute("conteudo", conteudo);
+
+    // Carrega os contadores e últimas ações do painel lateral
+    carregarPainelLateral(model);
+
+    if (conteudo.getTipo() == TipoConteudo.PROVA) {
+        return "AdminProvas";
+    }
+
+    if (conteudo.getTipo() == TipoConteudo.EXERCICIO) {
         return "AdminAulas";
     }
 
+    if (conteudo.getTipo() == TipoConteudo.MATERIAL) {
+        return "AdminMateriais";
+    }
+
+    return "AdminAulas";
+}
     // SALVAMENTO DINÂMICO INTELIGENTE MODIFICADO (BLINDAGEM CONTRA NULOS DO BANCO)
     @PostMapping("/salvarconteudo")
     public String salvarConteudo(@ModelAttribute Conteudo conteudo, @RequestParam(value = "tipoManual", required = false) String tipoManual, HttpSession session) {
@@ -381,9 +396,11 @@ public class AuroraController {
         }
 
         // CORREÇÃO CRÍTICA 2: Evita erros de restrição de integridade (not-null) se sua entidade exigir dados padrão
-        if (conteudo.getDisciplina() == null) {
-            conteudo.setDisciplina(Disciplina.MATEMATICA);
-        }
+       if (conteudo.getTipo() == TipoConteudo.VIDEO &&
+    conteudo.getDisciplina() == null) {
+
+    conteudo.setDisciplina(Disciplina.MATEMATICA);
+}
         
         conteudoRepository.save(conteudo); 
 
