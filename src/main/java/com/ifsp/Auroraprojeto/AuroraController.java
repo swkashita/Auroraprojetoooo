@@ -242,7 +242,7 @@ public class AuroraController {
             model.addAttribute("categoriaAtiva", categoria);
         }
 
-        model.addAttribute("materials", materiaisDisponiveis != null ? materiaisDisponiveis : new ArrayList<>());
+        model.addAttribute("materiais", materiaisDisponiveis != null ? materiaisDisponiveis : new ArrayList<>());
         model.addAttribute("eventos", calendarioRepository.findAll());
         model.addAttribute("usuario", session.getAttribute("usuario"));
         
@@ -386,6 +386,14 @@ public class AuroraController {
         }
         
         conteudoRepository.save(conteudo); 
+
+        if (TipoConteudo.PROVA.equals(conteudo.getTipo())) {
+            return "redirect:/admin/provas";
+        }
+
+       if (TipoConteudo.EXERCICIO.equals(conteudo.getTipo())) {
+            return "redirect:/admin/exercicios";
+        }
         
         // Redirecionamento inteligente baseado no tipo do conteúdo enviado
         if (TipoConteudo.MATERIAL.equals(conteudo.getTipo())) {
