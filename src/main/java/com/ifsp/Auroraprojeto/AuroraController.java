@@ -63,7 +63,7 @@ public class AuroraController {
     @GetMapping("/logout")
     public String logout(HttpSession session, org.springframework.web.servlet.mvc.support.RedirectAttributes redirectAttributes) {
         session.invalidate(); 
-        redirectAttributes.addFlashAttribute("sucesso", "Você saiu do portal com sucesso. Até logo! 👋");
+        redirectAttributes.addFlashAttribute("sucesso", "Cadastro realizado com sucesso!");
         return "redirect:/login";
     }
 
