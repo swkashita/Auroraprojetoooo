@@ -179,56 +179,64 @@ body {
 }
 
 /* ==========================================================================
-   REGRAS DE RESPONSIVIDADE CORRIGIDAS (PARA TELAS DE CELULAR)
+   CORREÇÃO DEFINITIVA DE RESPONSIVIDADE (CELULARES E TABLETS)
    ========================================================================== */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     html, body {
-        overflow-y: auto !important; /* Libera totalmente o scroll vertical */
-        height: auto !important;     /* Remove a trava de altura fixa da tela */
+        overflow-y: auto !important; /* Libera a rolagem para baixo de verdade */
+        overflow-x: hidden !important; /* Evita que a tela dance para os lados */
+        height: auto !important;
     }
 
     .dashboard-container {
-        display: flex !important;          /* Troca de Grid para Flexbox no mobile */
-        flex-direction: column !important; /* Força os elementos a ficarem um embaixo do outro */
-        height: auto !important;           /* Permite que o container cresça verticalmente */
-        padding: 10px;
-        gap: 15px;
+        display: flex !important;          /* Esquece o Grid de colunas lado a lado */
+        flex-direction: column !important; /* Joga tudo para uma linha vertical */
+        height: auto !important;
+        padding: 10px !important;
+        gap: 15px !important;
     }
 
-    /* Oculta a barra lateral roxa no celular para o vídeo ir direto para o topo */
+    /* ESCONDE A SIDEBAR NO MOBILE: Ela está quebrando seu layout.
+       Depois, se quiser, pode criar um menu sanduíche, mas para assistir à aula ela precisa sumir daqui */
     .sidebar-main {
         display: none !important;
     }
 
-    /* Força o layout do vídeo a ocupar a largura total do celular */
+    /* Expande a área do vídeo e conteúdo para ocupar a largura total da tela do celular */
     .main-layout {
         width: 100% !important;
+        max-width: 100% !important;
         height: auto !important;
         overflow: visible !important;
         padding-right: 0 !important;
+        display: block !important;
     }
 
-    /* Garante o redimensionamento perfeito do vídeo no formato 16:9 */
+    /* O wrapper do vídeo agora fica responsivo e não some */
     .video-wrapper {
         width: 100% !important;
-        aspect-ratio: 16/9 !important;
-        border-radius: 12px;
+        max-width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 16/9 !important; /* Mantém o formato de cinema na horizontal */
+        border-radius: 12px !important;
     }
 
-    /* Ajusta a caixa de informações do vídeo */
+    /* Ajusta a caixa branca de informações da aula abaixo do vídeo */
     .video-info-box {
-        padding: 15px;
-        border-radius: 15px;
-        margin-top: 15px;
+        padding: 15px !important;
+        border-radius: 15px !important;
+        margin-top: 15px !important;
+        width: 100% !important;
     }
 
-    /* Coloca a playlist de matérias/aulas logo abaixo do vídeo */
+    /* Joga a lista da Nicoly/Conteúdos Relacionados para debaixo do vídeo */
     .right-column {
         width: 100% !important;
+        max-width: 100% !important;
         height: auto !important;
-        max-height: none !important; /* Permite rolar a página inteira naturalmente */
-        overflow-y: visible !important;
-        border-radius: 20px;
-        padding: 15px;
+        max-height: none !important;
+        overflow: visible !important;
+        padding: 15px !important;
+        border-radius: 20px !important;
     }
 }
