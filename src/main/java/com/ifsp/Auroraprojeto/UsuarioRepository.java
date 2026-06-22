@@ -9,5 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
     // buscar usuário pelo email
     Optional<Usuario> findByEmail(String email);
+    boolean existsByEmail(String email);
 
 }

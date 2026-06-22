@@ -109,10 +109,41 @@
 
         <main class="main-layout">
             <header class="header-top">
-                <div class="search-global">
-                    <input type="text" placeholder="Pesquisar prova ou ano">
-                </div>
-            </header>
+    <div class="search-global">
+        <input type="text" id="campo-pesquisa-provas" placeholder="Pesquisar prova ou ano" oninput="filtrarProvas()">
+    </div>
+</header>
+
+<script>
+function filtrarProvas() {
+    // Pega o input e divide o texto digitado por espaços, gerando um array de termos
+    const input = document.getElementById('campo-pesquisa-provas');
+    const termos = input.value.toLowerCase().trim().split(/\s+/);
+    
+    // Seleciona todos os cards de provas
+    const cards = document.querySelectorAll('.prova-card-pequeno');
+
+    cards.forEach(card => {
+        const tituloElemento = card.querySelector('.info-box-prova h4');
+        const descricaoElemento = card.querySelector('.info-box-prova span');
+
+        if (tituloElemento && descricaoElemento) {
+            // Junta o título e a descrição em um texto só para facilitar a busca
+            const textoCompletoCard = (tituloElemento.textContent + " " + descricaoElemento.textContent).toLowerCase();
+
+            // Verifica se CADA uma das palavras digitadas está presente no texto do card
+            const corresponde = termos.every(termo => textoCompletoCard.includes(termo));
+
+            // Se o campo estiver vazio ou se corresponder a todos os termos, mostra o card
+            if (input.value.trim() === "" || corresponde) {
+                card.style.display = ""; 
+            } else {
+                card.style.display = "none"; 
+            }
+        }
+    });
+}
+</script>
 
             <section class="content-body">
                 <h1 class="title-page">Provas Anteriores</h1>

@@ -11,11 +11,19 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public boolean cadastrar(Usuario usuario){
+    public Usuario buscarPorEmail(String email) {
 
-        Optional<Usuario> usuarioExistente = usuarioRepository.findByEmail(usuario.getEmail());
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
 
-        if(usuarioExistente.isPresent()){
+        return usuario.orElse(null);
+    }
+
+    public boolean cadastrar(Usuario usuario) {
+
+        Optional<Usuario> usuarioExistente =
+                usuarioRepository.findByEmail(usuario.getEmail());
+
+        if (usuarioExistente.isPresent()) {
             return false;
         }
 
@@ -24,20 +32,20 @@ public class UsuarioService {
         return true;
     }
 
-    public Usuario login(String email, String senha){
+    public Usuario login(String email, String senha) {
 
-        Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
+        Optional<Usuario> usuario =
+                usuarioRepository.findByEmail(email);
 
-        if(usuario.isPresent() && usuario.get().getSenha().equals(senha)){
+        if (usuario.isPresent()
+                && usuario.get().getSenha().equals(senha)) {
             return usuario.get();
         }
 
         return null;
     }
 
-    public void salvar(Usuario usuario){
-
+    public void salvar(Usuario usuario) {
         usuarioRepository.save(usuario);
-
     }
 }

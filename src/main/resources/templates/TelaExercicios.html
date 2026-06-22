@@ -155,7 +155,7 @@
         <main class="main-layout">
             <header class="header-top">
                 <div class="search-global">
-                    <input type="text" placeholder="Pesquisar">
+                    <input type="text" id="campo-pesquisa-global" placeholder="Pesquisar exercícios ou tópicos" oninput="executarBuscaGlobal()">
                 </div>
             </header>
 
@@ -272,177 +272,92 @@
 
        <aside class="right-sidebar-padrao" style="width: 300px; padding: 20px; display: flex; flex-direction: column; gap: 20px;">
 
-    <!-- PERFIL -->
-    <div class="profile-card-mini"
-         style="text-align: center;
-                background: white;
-                border-radius: 20px;
-                padding: 25px 20px;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-                border: 1px solid #eaeaea;">
+            <div class="profile-card-mini" style="text-align: center; background: white; border-radius: 20px; padding: 25px 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #eaeaea;">
+                <h3 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 700; color: #111;" th:text="${usuario != null ? usuario.nome : 'Estudante'}">Estudante</h3>
+                <span class="badge" style="background: #f0ebff; color: #6d39cf; padding: 7px 15px; border-radius: 20px; font-size: 12px; font-weight: 600;">Estudante</span>
+            </div>
 
-        <h3 style="margin: 0 0 12px 0;
-                   font-size: 18px;
-                   font-weight: 700;
-                   color: #111;"
-            th:text="${usuario != null ? usuario.nome : 'Estudante'}">
-            Estudante
-        </h3>
+            <div style="background: white; border-radius: 20px; padding: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #eaeaea;">
+                <h4 style="margin: 0 0 15px 0; font-size: 14px; color: #555; font-weight: 700;">
+                    Mural de Avisos <i class="fas fa-bullhorn" style="color: #6d39cf; margin-left: 5px;"></i>
+                </h4>
+                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 15px;">
+                    <li th:each="aviso : ${avisos}" style="padding-bottom: 12px; border-bottom: 1px dashed #f0f0f0;">
+                        <span th:if="${aviso.importante}" style="background: #fff0f0; color: #e04f5f; padding: 2px 6px; border-radius: 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; display: inline-block; margin-bottom: 4px;">Importante</span>
+                        <h5 th:text="${aviso.titulo}" style="margin: 0; font-size: 13px; font-weight: 600; color: #222;">Aviso</h5>
+                        <p th:text="${aviso.conteudo}" style="margin: 4px 0 0 0; font-size: 12px; color: #666; line-height: 1.4;">Conteúdo do aviso</p>
+                    </li>
+                    <li th:if="${#lists.isEmpty(avisos)}" style="font-size: 13px; color: #777;"><i class="fas fa-info-circle"></i> Nenhum aviso importante hoje.</li>
+                </ul>
+            </div>
 
-        <span class="badge"
-              style="background: #f0ebff;
-                     color: #6d39cf;
-                     padding: 7px 15px;
-                     border-radius: 20px;
-                     font-size: 12px;
-                     font-weight: 600;">
-            Estudante
-        </span>
-    </div>
-
-   
-
-    <!-- MURAL -->
-    <div style="background: white;
-                border-radius: 20px;
-                padding: 22px;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-                border: 1px solid #eaeaea;">
-
-        <h4 style="margin: 0 0 15px 0;
-                   font-size: 14px;
-                   color: #555;
-                   font-weight: 700;">
-            Mural de Avisos
-            <i class="fas fa-bullhorn"
-               style="color: #6d39cf; margin-left: 5px;"></i>
-        </h4>
-
-        <ul style="list-style: none;
-                   padding: 0;
-                   margin: 0;
-                   display: flex;
-                   flex-direction: column;
-                   gap: 15px;">
-
-            <li th:each="aviso : ${avisos}"
-                style="padding-bottom: 12px;
-                       border-bottom: 1px dashed #f0f0f0;">
-
-                <span th:if="${aviso.importante}"
-                      style="background: #fff0f0;
-                             color: #e04f5f;
-                             padding: 2px 6px;
-                             border-radius: 6px;
-                             font-size: 10px;
-                             font-weight: 700;
-                             text-transform: uppercase;
-                             display: inline-block;
-                             margin-bottom: 4px;">
-                    Importante
-                </span>
-
-                <h5 th:text="${aviso.titulo}"
-                    style="margin: 0;
-                           font-size: 13px;
-                           font-weight: 600;
-                           color: #222;">
-                    Aviso
-                </h5>
-
-                <p th:text="${aviso.conteudo}"
-                   style="margin: 4px 0 0 0;
-                          font-size: 12px;
-                          color: #666;
-                          line-height: 1.4;">
-                    Conteúdo do aviso
-                </p>
-            </li>
-
-            <li th:if="${#lists.isEmpty(avisos)}"
-                style="font-size: 13px;
-                       color: #777;">
-                <i class="fas fa-info-circle"></i>
-                Nenhum aviso importante hoje.
-            </li>
-
-        </ul>
-    </div>
-
-    <!-- CALENDÁRIO -->
-    <div style="background: white;
-                border-radius: 20px;
-                padding: 22px;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-                border: 1px solid #eaeaea;">
-
-        <h4 style="margin: 0 0 15px 0;
-                   font-size: 14px;
-                   color: #555;
-                   font-weight: 700;">
-            Calendário
-        </h4>
-
-        <ul style="list-style: none;
-                   padding: 0;
-                   margin: 0;
-                   display: flex;
-                   flex-direction: column;
-                   gap: 12px;">
-
-            <li th:each="ev : ${eventos}"
-                style="font-size: 13px;
-                       display: flex;
-                       align-items: center;
-                       gap: 8px;
-                       color: #333;">
-
-                <i class="fas fa-calendar-check"
-                   style="color: #6d39cf;"></i>
-
-                <strong th:text="${ev.data}"
-                        style="color: #111;">
-                    00/00
-                </strong>
-
-                -
-
-                <span th:text="${ev.descricao}">
-                    Evento
-                </span>
-            </li>
-
-            <li th:if="${#lists.isEmpty(eventos)}"
-                style="font-size: 13px;
-                       color: #777;">
-                <i class="fas fa-info-circle"></i>
-                Nenhuma prova agendada.
-            </li>
-
-        </ul>
-    </div>
-
-</aside>
+            <div style="background: white; border-radius: 20px; padding: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #eaeaea;">
+                <h4 style="margin: 0 0 15px 0; font-size: 14px; color: #555; font-weight: 700;">Calendário</h4>
+                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
+                    <li th:each="ev : ${eventos}" style="font-size: 13px; display: flex; align-items: center; gap: 8px; color: #333;">
+                        <i class="fas fa-calendar-check" style="color: #6d39cf;"></i>
+                        <strong th:text="${ev.data}" style="color: #111;">00/00</strong> - <span th:text="${ev.descricao}">Evento</span>
+                    </li>
+                    <li th:if="${#lists.isEmpty(eventos)}" style="font-size: 13px; color: #777;"><i class="fas fa-info-circle"></i> Nenhuma prova agendada.</li>
+                </ul>
+            </div>
+        </aside>
     </div>
 
     <script>
+        // Variável global para rastrear a matéria atualmente selecionada por pílula
+        let materiaAtual = 'todos';
+
         function filtrarMateria(categoria, botaoClicado) {
+            materiaAtual = categoria;
+            
+            // Gerencia os estados visuais ativos das pílulas
             const botoes = document.querySelectorAll('.filter-pill');
             botoes.forEach(btn => btn.classList.remove('active'));
             botaoClicado.classList.add('active');
             
-            const cards = document.querySelectorAll('.exercicio-card-pequeno');
-            cards.forEach(card => {
-                if (categoria === 'todos') {
-                    card.style.display = 'flex';
-                } else {
-                    if (card.getAttribute('data-materia') === categoria) {
+            // Roda a verificação combinando a pílula com o que estiver na barra de busca
+            executarBuscaGlobal();
+        }
+
+        function executarBuscaGlobal() {
+            const campoBusca = document.getElementById('campo-pesquisa-global');
+            const termos = campoBusca.value.toLowerCase().trim().split(/\s+/);
+            const estaPesquisaVazia = campoBusca.value.trim() === "";
+
+            // 1. Tratamento caso esteja na tela de listagem de TÓPICOS
+            const cardsTopicos = document.querySelectorAll('.exercicio-card-pequeno');
+            if(cardsTopicos.length > 0) {
+                cardsTopicos.forEach(card => {
+                    const materiaCard = card.getAttribute('data-materia');
+                    const tituloCard = card.querySelector('.info-box-exercicio h4').textContent.toLowerCase();
+                    
+                    // Valida se o item atende tanto à pílula ativa quanto aos termos de busca
+                    const atendePilula = (materiaAtual === 'todos' || materiaCard === materiaAtual);
+                    const atendeBusca = (estaPesquisaVazia || termos.every(termo => tituloCard.includes(termo)));
+
+                    if (atendePilula && atendeBusca) {
                         card.style.display = 'flex';
                     } else {
                         card.style.display = 'none';
                     }
-                }
-            });
+                });
+            }
+
+            // 2. Tratamento caso esteja na tela interna de links de LISTAS finais
+            const itensListas = document.querySelectorAll('.link-exercicio-item');
+            if(itensListas.length > 0) {
+                itensListas.forEach(item => {
+                    const tituloLista = item.querySelector('h4').textContent.toLowerCase();
+                    const atendeBuscaListas = (estaPesquisaVazia || termos.every(termo => tituloLista.includes(termo)));
+
+                    if (atendeBuscaListas) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
         }
     </script>
 </body>

@@ -17,14 +17,14 @@
 
                 <form th:action="@{/login}" method="post">
 
-                    <div th:if="${param.erro != null}" style="background-color: #fff0f0; border: 1px solid #ffcccc; color: #e04f5f; padding: 12px 15px; border-radius: 12px; font-size: 13px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-family: 'Poppins', sans-serif;">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <span>E-mail ou senha incorretos. Verifique suas credenciais! ⚠️</span>
-                    </div>
+                    <div th:if="${erro}" style="background-color: #fff0f0; border: 1px solid #ffcccc; color: #e04f5f; padding: 12px 15px; border-radius: 12px; font-size: 13px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-family: 'Poppins', sans-serif;">
+    <i class="fas fa-exclamation-circle"></i>
+    <span th:text="${erro}"></span>
+</div>
 
                     <div th:if="${param.sucesso != null}" style="background-color: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; padding: 12px 15px; border-radius: 12px; font-size: 13px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-family: 'Poppins', sans-serif;">
                         <i class="fas fa-check-circle"></i>
-                        <span>Você saiu do portal com sucesso. Até logo! 👋</span>
+                        <span>Cadastro realizado com seucesso! 👋</span>
                     </div>
 
                     <div class="input-group">

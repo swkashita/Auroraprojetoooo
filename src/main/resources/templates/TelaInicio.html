@@ -141,11 +141,45 @@
 
         <main class="main-layout">
 
-            <header class="header-top">
-                <div class="search-global">
-                    <input type="text" placeholder="Pesquisar">
-                </div>
-            </header>
+           <header class="header-top">
+    <div class="search-global">
+        <input type="text" id="campo-pesquisa" placeholder="Pesquisar" onkeypress="verificarBusca(event)">
+    </div>
+</header>
+
+<script>
+function verificarBusca(event) {
+  // Verifica se o usuário apertou a tecla Enter
+  if (event.key === 'Enter') {
+    const input = document.getElementById('campo-pesquisa');
+    // Pega o texto digitado, remove espaços extras e transforma em minúsculo
+    const termo = input.value.toLowerCase().trim();
+
+    // Mapeamento das palavras que o usuário pode digitar e as páginas correspondentes
+    // Ajuste o nome dos arquivos (.html) de acordo com os seus arquivos reais
+    const paginas = {
+      "inicio": "/inicio",
+      "início": "/inicio",
+      "disciplinas": "/disciplinas",
+      "disciplina": "/disciplinas",
+      "exercicios": "/exercicios",
+      "exercícios": "/exercicios",
+      "provas anteriores": "/provas",
+      "provas": "/provas",
+      "material extra": "/material",
+      "material": "/material",
+      "perfil": "/perfil"
+    };
+
+    // Se o que o usuário digitou existir na lista acima, redireciona
+    if (paginas[termo]) {
+      window.location.href = paginas[termo];
+    } else {
+      alert("Página não encontrada! Tente pesquisar por 'Disciplinas', 'Exercícios' ou 'Perfil'.");
+    }
+  }
+}
+</script>
 
             <div class="dashboard-content-inicio">
                 

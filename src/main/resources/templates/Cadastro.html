@@ -16,9 +16,10 @@
 
                 <form th:action="@{/cadastro}" th:object="${usuario}" method="post">
                 
-                    <div th:if="${param.erro == 'email_existente'}" style="color: #ff4d4d; margin-bottom: 15px; font-weight: bold;">
-                        Este e-mail já está em uso!
-                    </div>
+                   <div th:if="${param.erro != null}" 
+     style="background-color: #fff0f0; border: 1px solid #ffcccc; color: #e04f5f; padding: 12px 15px; border-radius: 12px; font-size: 13px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-family: 'Poppins', sans-serif;">
+    E-mail já cadastrado. Por favor, utilize outro e-mail!
+</div>
 
                     <div class="input-group">
                         <label>Nome</label>

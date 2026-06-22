@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -38,32 +39,43 @@ public class AuroraController {
     // =========================================================================
 
     @GetMapping("/login")
-    public String telaLogin(HttpSession session, Model model, @ModelAttribute("erro") String erroFlash) {
+    public String telaLogin(HttpSession session) {
         if (usuarioLogado(session)) return "redirect:/inicio";
-        
-        if (model.getAttribute("erro") == null && erroFlash != null && !erroFlash.isEmpty()) {
-            model.addAttribute("erro", erroFlash);
-        }
-        
         return "Login";
     }
 
-    @PostMapping("/login")
-    public String login(@RequestParam String email, @RequestParam String senha, HttpSession session, org.springframework.web.servlet.mvc.support.RedirectAttributes redirectAttributes) {
-        Usuario usuario = usuarioService.login(email, senha);
-        if (usuario != null) {
-            session.setAttribute("usuario", usuario); 
-            return "redirect:/inicio";
-        }
-        
-        redirectAttributes.addFlashAttribute("erro", "E-mail ou senha incorretos. Verifique suas credenciais! ⚠️");
-        return "redirect:/login?erro=true";
+   @PostMapping("/login")
+public String login(@RequestParam String email,
+                    @RequestParam String senha,
+                    HttpSession session,
+                    RedirectAttributes redirectAttributes) {
+
+    Usuario usuario = usuarioService.buscarPorEmail(email);
+
+    if (usuario == null) {
+        redirectAttributes.addFlashAttribute(
+            "erro",
+            "Este e-mail não está cadastrado."
+        );
+        return "redirect:/login";
     }
+
+    if (!usuario.getSenha().equals(senha)) {
+        redirectAttributes.addFlashAttribute(
+            "erro",
+            "Senha incorreta."
+        );
+        return "redirect:/login";
+    }
+
+    session.setAttribute("usuario", usuario);
+    return "redirect:/inicio";
+}
 
     @GetMapping("/logout")
     public String logout(HttpSession session, org.springframework.web.servlet.mvc.support.RedirectAttributes redirectAttributes) {
         session.invalidate(); 
-        redirectAttributes.addFlashAttribute("sucesso", "Cadastro realizado com sucesso!");
+        redirectAttributes.addFlashAttribute("sucesso", "Você saiu do portal com sucesso. Até logo! ");
         return "redirect:/login";
     }
 

@@ -7,7 +7,7 @@
 body, html {
     height: 100%;
     width: 100%;
-    background-color: #e6d8ff; /* Cor exata das imagens para evitar contraste */
+    background-color: #e6d8ff;
     overflow: hidden;
 }
 
@@ -65,6 +65,35 @@ body, html {
     padding: 8px 0;
     font-size: 1rem;
 }
+
+/* ========================================= */
+/* CAMPO DE SENHA COM ÍCONE */
+/* ========================================= */
+
+.senha-container {
+    position: relative;
+}
+
+.senha-container input {
+    padding-right: 35px;
+}
+
+.senha-container i {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.senha-container i:hover {
+    color: white;
+}
+
+/* ========================================= */
 
 .btn-cadastrar {
     width: 100%;
@@ -141,27 +170,44 @@ body, html {
     right: -60px;
 }
 
-/* RESPONSIVIDADE */
-@media (max-width: 900px) {
-    .container { flex-direction: column; overflow-y: auto; }
-    .form-side { width: 100%; padding: 60px 20px; order: 2; }
-    .logo-side { width: 100%; height: 400px; order: 1; }
-    .brand-text { font-size: 5rem; }
-}
 .link-footer {
     margin-top: 15px;
     text-align: center;
     font-family: 'Poppins', sans-serif;
-    color: #ffffff; /* Texto branco */
+    color: #ffffff;
     font-size: 14px;
 }
 
 .link-footer a {
-    color: #CCCCFF; /* Cor lilás do seu design no Figma */
+    color: #CCCCFF;
     text-decoration: none;
     font-weight: 600;
 }
 
 .link-footer a:hover {
-    text-decoration: underline; /* Dá um efeito ao passar o mouse */
+    text-decoration: underline;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;
+        overflow-y: auto;
+    }
+
+    .form-side {
+        width: 100%;
+        padding: 60px 20px;
+        order: 2;
+    }
+
+    .logo-side {
+        width: 100%;
+        height: 400px;
+        order: 1;
+    }
+
+    .brand-text {
+        font-size: 5rem;
+    }
 }
