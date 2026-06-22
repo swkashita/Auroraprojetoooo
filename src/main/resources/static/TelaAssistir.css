@@ -247,4 +247,13 @@ body {
         padding: 15px !important;
         border-radius: 20px !important;
     }
+
+    /* -------------------------------------------------------------
+       REMOVE A VISUALIZAÇÃO DA CAIXA DE PERFIL  NO MOBILE
+       ------------------------------------------------------------- */
+    .right-column > div:first-child,
+    .right-column > header:first-child,
+    .right-column > .profile-box { 
+        display: none !important; 
+    }
 }
