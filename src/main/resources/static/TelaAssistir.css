@@ -179,55 +179,56 @@ body {
 }
 
 /* ==========================================================================
-   REGRAS DE RESPONSIVIDADE (PARA TELAS DE ATÉ 1024px - TABLETS E CELULARES)
+   REGRAS DE RESPONSIVIDADE CORRIGIDAS (PARA TELAS DE CELULAR)
    ========================================================================== */
-@media (max-width: 1024px) {
-    body {
-        overflow: auto; /* Libera o scroll vertical geral no celular */
-        height: auto;
+@media (max-width: 768px) {
+    html, body {
+        overflow-y: auto !important; /* Libera totalmente o scroll vertical */
+        height: auto !important;     /* Remove a trava de altura fixa da tela */
     }
 
     .dashboard-container {
-        grid-template-columns: 1fr; /* Transforma as 3 colunas em 1 única coluna empilhada */
-        height: auto;
+        display: flex !important;          /* Troca de Grid para Flexbox no mobile */
+        flex-direction: column !important; /* Força os elementos a ficarem um embaixo do outro */
+        height: auto !important;           /* Permite que o container cresça verticalmente */
         padding: 10px;
         gap: 15px;
     }
 
-    /* Oculta a sidebar principal no mobile ou deixa ela fluida. 
-       Geralmente, em telas de vídeo, é melhor ocultar ou mover para o final */
+    /* Oculta a barra lateral roxa no celular para o vídeo ir direto para o topo */
     .sidebar-main {
-        width: 100%;
-        min-width: 100%;
-        height: auto;
-        padding: 20px;
-        border-radius: 20px;
-    }
-    
-    .logo-section .icon-wrapper {
-        margin: 0 auto 20px;
-        width: 60px;
-        height: 60px;
-        font-size: 30px;
+        display: none !important;
     }
 
+    /* Força o layout do vídeo a ocupar a largura total do celular */
     .main-layout {
-        overflow-y: visible; /* O scroll agora é controlado pelo body */
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        padding-right: 0 !important;
     }
 
+    /* Garante o redimensionamento perfeito do vídeo no formato 16:9 */
     .video-wrapper {
-        border-radius: 15px; /* Bordas um pouco menores no celular para aproveitar espaço */
+        width: 100% !important;
+        aspect-ratio: 16/9 !important;
+        border-radius: 12px;
     }
 
+    /* Ajusta a caixa de informações do vídeo */
     .video-info-box {
         padding: 15px;
         border-radius: 15px;
+        margin-top: 15px;
     }
 
+    /* Coloca a playlist de matérias/aulas logo abaixo do vídeo */
     .right-column {
-        height: auto;
-        max-height: 400px; /* Limita o tamanho da playlist para não ficar infinita */
-        overflow-y: auto;  /* Permite rolar apenas dentro da playlist se necessário */
+        width: 100% !important;
+        height: auto !important;
+        max-height: none !important; /* Permite rolar a página inteira naturalmente */
+        overflow-y: visible !important;
         border-radius: 20px;
+        padding: 15px;
     }
 }
