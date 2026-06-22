@@ -86,7 +86,7 @@ body {
     flex-grow: 1; 
 }
 
-/* ESSENCIAL: Ações do Rodapé da Sidebar adicionadas para a padronização */
+/* ESSENCIAL: Ações do Rodapé da Sidebar */
 .sidebar-footer-actions {
     display: flex;
     justify-content: space-between;
@@ -175,5 +175,59 @@ body {
 /* Sobrescreve o alinhamento do cabeçalho especificamente na tela de assistir */
 .main-layout .header-top {
     justify-content: flex-start !important;
-    padding-left: 5px; /* Alinha perfeitamente com a borda do player de vídeo */
+    padding-left: 5px; 
+}
+
+/* ==========================================================================
+   REGRAS DE RESPONSIVIDADE (PARA TELAS DE ATÉ 1024px - TABLETS E CELULARES)
+   ========================================================================== */
+@media (max-width: 1024px) {
+    body {
+        overflow: auto; /* Libera o scroll vertical geral no celular */
+        height: auto;
+    }
+
+    .dashboard-container {
+        grid-template-columns: 1fr; /* Transforma as 3 colunas em 1 única coluna empilhada */
+        height: auto;
+        padding: 10px;
+        gap: 15px;
+    }
+
+    /* Oculta a sidebar principal no mobile ou deixa ela fluida. 
+       Geralmente, em telas de vídeo, é melhor ocultar ou mover para o final */
+    .sidebar-main {
+        width: 100%;
+        min-width: 100%;
+        height: auto;
+        padding: 20px;
+        border-radius: 20px;
+    }
+    
+    .logo-section .icon-wrapper {
+        margin: 0 auto 20px;
+        width: 60px;
+        height: 60px;
+        font-size: 30px;
+    }
+
+    .main-layout {
+        overflow-y: visible; /* O scroll agora é controlado pelo body */
+    }
+
+    .video-wrapper {
+        border-radius: 15px; /* Bordas um pouco menores no celular para aproveitar espaço */
+    }
+
+    .video-info-box {
+        padding: 15px;
+        border-radius: 15px;
+    }
+
+    .right-column {
+        height: auto;
+        max-height: 400px; /* Limita o tamanho da playlist para não ficar infinita */
+        overflow-y: auto;  /* Permite rolar apenas dentro da playlist se necessário */
+        border-radius: 20px;
+    }
 }
