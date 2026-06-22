@@ -179,49 +179,57 @@ body {
 }
 
 /* ==========================================================================
-   CORREÇÃO DEFINITIVA DE RESPONSIVIDADE (CELULARES E TABLETS)
+   FORÇAR RESOLUÇÃO PARA CELULARES E TABLETS (ATÉ 1200PX)
    ========================================================================== */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
     html, body {
-        overflow-y: auto !important; /* Libera a rolagem para baixo de verdade */
-        overflow-x: hidden !important; /* Evita que a tela dance para os lados */
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
         height: auto !important;
     }
 
+    /* Destrói o Grid de 3 colunas e obriga a virar uma linha vertical única */
     .dashboard-container {
-        display: flex !important;          /* Esquece o Grid de colunas lado a lado */
-        flex-direction: column !important; /* Joga tudo para uma linha vertical */
+        display: flex !important;
+        flex-direction: column !important;
         height: auto !important;
         padding: 10px !important;
         gap: 15px !important;
     }
 
-    /* ESCONDE A SIDEBAR NO MOBILE: Ela está quebrando seu layout.
-       Depois, se quiser, pode criar um menu sanduíche, mas para assistir à aula ela precisa sumir daqui */
+    /* ESCONDE A SIDEBAR ROXA NO CELULAR */
     .sidebar-main {
         display: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        min-width: 0 !important;
+        padding: 0 !important;
     }
 
-    /* Expande a área do vídeo e conteúdo para ocupar a largura total da tela do celular */
+    /* Faz a área do vídeo ocupar a tela inteira de ponta a ponta */
     .main-layout {
         width: 100% !important;
         max-width: 100% !important;
         height: auto !important;
         overflow: visible !important;
-        padding-right: 0 !important;
+        padding: 0 !important;
         display: block !important;
     }
 
-    /* O wrapper do vídeo agora fica responsivo e não some */
+    /* Força o tamanho correto do player de vídeo */
     .video-wrapper {
         width: 100% !important;
         max-width: 100% !important;
         height: auto !important;
-        aspect-ratio: 16/9 !important; /* Mantém o formato de cinema na horizontal */
+        aspect-ratio: 16/9 !important;
         border-radius: 12px !important;
     }
 
-    /* Ajusta a caixa branca de informações da aula abaixo do vídeo */
+    .video-wrapper iframe {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
     .video-info-box {
         padding: 15px !important;
         border-radius: 15px !important;
@@ -229,7 +237,7 @@ body {
         width: 100% !important;
     }
 
-    /* Joga a lista da Nicoly/Conteúdos Relacionados para debaixo do vídeo */
+    /* Lista vai para baixo do vídeo ocupando a largura total */
     .right-column {
         width: 100% !important;
         max-width: 100% !important;
